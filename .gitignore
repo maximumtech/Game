@@ -1,4 +1,6 @@
 $ cat .gitignore
 
-/Game/bin/
+/Game/bin/**
 /.metadata/
+/Game/.project
+/.settings/
