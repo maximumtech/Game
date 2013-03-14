@@ -7,5 +7,5 @@ tmp/**/*
 *.swp
 *~.nib
 local.properties
-.settings/
+.settings
 *.launch
