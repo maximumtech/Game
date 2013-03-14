@@ -1,6 +1,11 @@
-$ cat .gitignore
-
-/Game/bin/**
-/.metadata/**
-/Game/.project
-/.settings/**
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+*.launch
