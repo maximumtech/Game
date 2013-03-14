@@ -1,7 +1,7 @@
-.metadata
-bin/**
-tmp/**
-tmp/**/*
+*.class
+*.DS_Store
+/.metadata/
+/bin/*
 *.tmp
 *.bak
 *.swp
