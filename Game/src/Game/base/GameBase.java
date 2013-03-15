@@ -8,7 +8,7 @@ import java.util.Random;
 
 /**
  *
- * @author Max
+ * @author maximumtech
  */
 public class GameBase {
     
