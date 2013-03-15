@@ -21,13 +21,13 @@ public class RenderStack implements BlockRenderBase {
     
     public void render(int x, int y) {
         for (Image img : stack) {
-            img.draw(x, y);
+            ImageHandler.drawImage2D(img, x, y);
         }
     }
     
     public void render(int x, int y, int width, int height) {
         for (Image img : stack) {
-            img.draw(x, y, width, height);
+            ImageHandler.drawImage2D(img, x, y, width, height);
         }
     }
 }

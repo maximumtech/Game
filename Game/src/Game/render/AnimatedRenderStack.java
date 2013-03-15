@@ -30,7 +30,7 @@ public class AnimatedRenderStack implements BlockRenderBase {
     }
     
     public void render(int x, int y) {
-        stack.get(next).draw(x, y);
+        ImageHandler.drawImage2D(stack.get(next),x, y);
         if(prevTime <= System.currentTimeMillis() - delayStack.get(next)) {
             prevTime = System.currentTimeMillis();
             next++;
@@ -39,7 +39,7 @@ public class AnimatedRenderStack implements BlockRenderBase {
     }
     
     public void render(int x, int y, int width, int height) {
-        stack.get(next).draw(x, y, width, height);
+        ImageHandler.drawImage2D(stack.get(next), x, y, width, height);
         if (prevTime <= System.currentTimeMillis() - delayStack.get(next)) {
             prevTime = System.currentTimeMillis();
             next++;
