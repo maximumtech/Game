@@ -1,11 +1,1 @@
-*.class
-*.DS_Store
-/.metadata/
-/bin/*
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.settings
-*.launch
+/Game/build/

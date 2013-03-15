@@ -1,3 +1,3 @@
 Step 1. Pull from github.
-Step 2. Set eclipse workspace to repo location.
-Step 3. Load up eclipse & fun.
+Step 2. Load repo in netbeans.
+Step 3. Load up netbeans & fun.
