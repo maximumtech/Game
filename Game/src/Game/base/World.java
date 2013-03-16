@@ -8,6 +8,6 @@ package Game.base;
  *
  * @author maximumtech
  */
-public class WorldBase {
+public class World {
     
 }

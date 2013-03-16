@@ -7,7 +7,7 @@ import java.util.ArrayList;
  *
  * @author maximumtech
  */
-public class RenderStack implements BlockRenderBase {
+public class RenderStack implements RenderStackBase {
     private ArrayList<Image> stack = new ArrayList<>();
     
     public RenderStack() {

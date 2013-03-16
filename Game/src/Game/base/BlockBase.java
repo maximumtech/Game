@@ -1,17 +1,18 @@
 package Game.base;
 
-import org.newdawn.slick.Image;
+import Game.render.RenderStackBase;
 
 /**
  *
  * @author maximumtech
  */
-public abstract class BlockBase {
+public class BlockBase {
     
     public short blockID;
     public short metadata;
     public String name;
-    private Image image;
+    private RenderStackBase image;
+    public static int blockSize = 16;
     
     public BlockBase(short id) {
         this.blockID = id;
@@ -22,14 +23,28 @@ public abstract class BlockBase {
         this.metadata = meta;
     }
     
-    public void setImage(Image img) {
+    public void setImage(RenderStackBase img) {
         this.image = img;
     }
     
-    public Image getImage() {
+    public RenderStackBase getImage() {
         return image;
     }
     
+    public void render(int x, int y) {
+        getImage().render(x, y, blockSize, blockSize);
+    }
     
+    public boolean canCollide(World world, int x, int y) {
+        return true;
+    }
+    
+    public boolean isSolid(World world, int x, int y) {
+        return true;
+    }
+    
+    public CollisonBox getCollisonBox(World world, int x, int y) {
+        return new CollisonBox(x, y, x+blockSize, y+blockSize);
+    }
     
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
  *
  * @author maximumtech
  */
-public class AnimatedRenderStack implements BlockRenderBase {
+public class AnimatedRenderStack implements RenderStackBase {
     private ArrayList<Image> stack = new ArrayList<>();
     private ArrayList<Long> delayStack = new ArrayList<>();
     private int next = 0;
