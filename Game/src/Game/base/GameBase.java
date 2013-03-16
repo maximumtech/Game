@@ -50,12 +50,13 @@ public class GameBase {
             Display.update();
             Display.sync(30);
         }
+        closeRequested = true;
         System.out.println("Closing");
         Display.destroy();
     }
     
     private void render() {
-        TickHandler.instance.run();
+        
     }
     
     protected void runTick() {
@@ -63,12 +64,13 @@ public class GameBase {
     }
     
     private static boolean closing = false;
+    public static boolean closeRequested = false;
     
     public static void setClosing() {
         closing = true;
     }
     
-    public static boolean closeRequested() {
+    private static boolean closeRequested() {
         try {
             boolean temp = Display.isCloseRequested() || closing;
             return temp;

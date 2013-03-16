@@ -1,34 +1,28 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Game.base;
 
 /**
  *
  * @author maximumtech
  */
-public class TickHandler {
-    
-    public static TickHandler instance;
-    private long lastTick;
+public class TickHandler extends Thread {
+
     private long msPerTick = 50;
+    public static Thread thread;
     
     public TickHandler() {
-        instance = this;
-        lastTick = System.currentTimeMillis();
+        super("tick");
+        this.start();
+        TickHandler.thread = this;
     }
-    
+
     public void run() {
-        long time = System.currentTimeMillis();
-        if(time >= lastTick + msPerTick) {
-            lastTick = time;
-            tick();
+        while (!GameBase.closeRequested) {
+            GameBase.instance.runTick();
+            try {
+                Thread.sleep(msPerTick);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-    
-    private void tick() {
-        GameBase.instance.runTick();
-    }
-    
 }

@@ -21,7 +21,7 @@ public abstract class Entity {
     }
     
     public Entity(World world, int x, int y) {
-        this.world = world;
+        this(world);
         this.x = x;
         this.y = y;
     }
