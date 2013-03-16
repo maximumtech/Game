@@ -1,6 +1,7 @@
 package Game.interaction;
 
 import org.lwjgl.input.Mouse;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,6 +14,11 @@ public class MouseHandler {
     boolean wasRightDown = false;
     long leftms = 0L;
     long rightms = 0L;
+    private ArrayList<IMouseHandler> handlers = new ArrayList<>();
+    
+    public void registerHandler(IMouseHandler handler) {
+        handlers.add(handler);
+    }
 
     public void onUpdate() {
         if (Mouse.isButtonDown(0)) {
@@ -44,20 +50,38 @@ public class MouseHandler {
     }
 
     public void clickLeftDown(int x, int y) {
+        for(IMouseHandler handler : handlers) {
+            handler.clickLeftDown(x, y);
+        }
     }
 
     public void clickLeftHeld(int x, int y, long msDown) {
+        for (IMouseHandler handler : handlers) {
+            handler.clickLeftHeld(x, y, msDown);
+        }
     }
 
     public void clickLeftUp(int x, int y, long msDown) {
+        for (IMouseHandler handler : handlers) {
+            handler.clickLeftUp(x, y, msDown);
+        }
     }
 
     public void clickRightDown(int x, int y) {
+        for (IMouseHandler handler : handlers) {
+            handler.clickRightDown(x, y);
+        }
     }
 
     public void clickRightHeld(int x, int y, long msDown) {
+        for (IMouseHandler handler : handlers) {
+            handler.clickRightHeld(x, y, msDown);
+        }
     }
 
     public void clickRightUp(int x, int y, long msDown) {
+        for (IMouseHandler handler : handlers) {
+            handler.clickRightUp(x, y, msDown);
+        }
     }
 }

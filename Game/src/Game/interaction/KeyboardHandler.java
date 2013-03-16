@@ -1,5 +1,6 @@
 package Game.interaction;
 
+import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -11,6 +12,11 @@ public class KeyboardHandler {
     public static KeyboardHandler instance = new KeyboardHandler();
     private boolean[] states = new boolean[256];
     private long[] millis = new long[states.length];
+    private ArrayList<IKeyboardHandler> handlers = new ArrayList<>();
+
+    public void registerHandler(IKeyboardHandler handler) {
+        handlers.add(handler);
+    }
     
     public KeyboardHandler() {
         for (int i = 0; i < states.length; i++) {
@@ -37,12 +43,21 @@ public class KeyboardHandler {
     }
     
     public void keyDown(String key) {
+        for(IKeyboardHandler handler : handlers) {
+            handler.keyDown(key);
+        }
     }
     
     public void keyHeld(String key, long ms) {
+        for (IKeyboardHandler handler : handlers) {
+            handler.keyHeld(key, ms);
+        }
     }
     
     public void keyUp(String key, long ms) {
+        for (IKeyboardHandler handler : handlers) {
+            handler.keyUp(key, ms);
+        }
     }
     
 }
