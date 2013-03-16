@@ -1,5 +1,7 @@
 package Game.base;
 
+import Game.interaction.KeyboardHandler;
+import Game.interaction.MouseHandler;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -14,6 +16,7 @@ public class GameBase {
     
     public static GameBase instance;
     public Random rand;
+    public World world;
     
     public static void main(String[] args) {
         new GameBase(args);
@@ -60,7 +63,9 @@ public class GameBase {
     }
     
     protected void runTick() {
-        
+        MouseHandler.instance.onUpdate();
+        KeyboardHandler.instance.onUpdate();
+        if(world!=null) world.onUpdate();
     }
     
     private static boolean closing = false;

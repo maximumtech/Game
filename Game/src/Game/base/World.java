@@ -76,6 +76,9 @@ public class World {
     }
     
     public void render() {
+    }
+    
+    public void onUpdate() {
         
     }
 }
