@@ -20,6 +20,7 @@ public class GameBase {
     }
 
     public GameBase(String[] args) {
+        instance = this;
         try {
             Display.setDisplayMode(new DisplayMode(800, 600));
             Display.setTitle("Game");
@@ -38,9 +39,10 @@ public class GameBase {
         GL11.glLoadIdentity();
         GL11.glOrtho(0, 800, 600, 0, 1, -1);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
-        System.out.println("Initialized");
-        System.out.println("Starting Render Loop");
-        instance = this;
+        System.out.println("OpenGL Started, Tick Handling Initializing");
+        new TickHandler();
+        System.out.println("Tick Handler Initialized, Starting Render Loop");
+        lastms = System.currentTimeMillis();
         while (!closeRequested()) {
             if (Display.wasResized()) {
                 GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
@@ -53,8 +55,21 @@ public class GameBase {
         Display.destroy();
     }
     
+    long lastms;
+    
     private void render() {
-        
+        TickHandler.instance.run();
+    }
+    
+    int tps = 0;
+    
+    protected void runTick() {
+        tps++;
+        if(System.currentTimeMillis() >= lastms+1000) {
+            System.out.println(tps);
+            tps = 0;
+            lastms = System.currentTimeMillis();
+        }
     }
     
     private static boolean closing = false;

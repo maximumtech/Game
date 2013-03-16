@@ -43,8 +43,16 @@ public class BlockBase {
         return true;
     }
     
+    public boolean isOpaque(World world, int x, int y) {
+        return true;
+    }
+    
     public CollisonBox getCollisonBox(World world, int x, int y) {
         return new CollisonBox(x, y, x+blockSize, y+blockSize);
+    }
+    
+    public void onUpdate(World world, int x, int y) {
+        
     }
     
 }

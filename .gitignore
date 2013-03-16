@@ -3,3 +3,4 @@ private.xml
 .netbeans_update_resources
 *.class
 built-jar.properties
+/Game/build/
