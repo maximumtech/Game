@@ -1,3 +1,11 @@
-Step 1. Pull from github.
+Step 1. Clone from github.
 Step 2. Load repo in netbeans.
-Step 3. Load up netbeans & fun.
+Step 3. Go to Tools->Ant Libraries.
+Step 4. Click Add Library, name it LWJGL.
+Step 5. Add slick.jar, lwjgl.jar, lwjgl_util.jar, and jinput.jar to the Classpath tab. (They can be found in the cloned repo)
+Step 6. Add lwjgl_javadoc.jar to the Javadoc tab.
+Step 7. Click OK.
+Step 8. Right click libraries on the left side of the screen.
+Step 9. Click add library, select LWJGL.
+Step 10. ???
+Step 11. Profit.
