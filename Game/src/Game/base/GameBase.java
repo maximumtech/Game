@@ -37,7 +37,7 @@ public class GameBase {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
-        GL11.glOrtho(0, 800, 600, 0, 1, -1);
+        GL11.glOrtho(0, 800, 0, 600, 1, -1);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         System.out.println("OpenGL Started, Tick Handling Initializing");
         new TickHandler();
@@ -59,7 +59,7 @@ public class GameBase {
     }
     
     protected void runTick() {
-
+        
     }
     
     private static boolean closing = false;

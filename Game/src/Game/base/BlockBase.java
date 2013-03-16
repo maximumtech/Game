@@ -9,18 +9,13 @@ import Game.render.RenderStackBase;
 public class BlockBase {
     
     public short blockID;
-    public short metadata;
     public String name;
     private RenderStackBase image;
-    public static int blockSize = 16;
+    public static BlockBase[] blocksList = new BlockBase[Short.MAX_VALUE];
     
     public BlockBase(short id) {
         this.blockID = id;
-    }
-    
-    public BlockBase(short id, short meta) {
-        this.blockID = id;
-        this.metadata = meta;
+        blocksList[id] = this;
     }
     
     public void setImage(RenderStackBase img) {
@@ -31,8 +26,8 @@ public class BlockBase {
         return image;
     }
     
-    public void render(int x, int y) {
-        getImage().render(x, y, blockSize, blockSize);
+    public void render(World world, int x, int y) {
+        getImage().render(x, y, world.blockSize, world.blockSize);
     }
     
     public boolean canCollide(World world, int x, int y) {
@@ -48,11 +43,15 @@ public class BlockBase {
     }
     
     public CollisonBox getCollisonBox(World world, int x, int y) {
-        return new CollisonBox(x, y, x+blockSize, y+blockSize);
+        return new CollisonBox(x, y, x+world.blockSize, y+world.blockSize);
     }
     
     public void onUpdate(World world, int x, int y) {
         
     }
     
+    
+    static {
+        //declare blocks
+    }
 }
