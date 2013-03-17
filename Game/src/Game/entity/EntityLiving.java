@@ -96,12 +96,8 @@ public abstract class EntityLiving extends Entity {
                 }
                 fallT = 0;
             }
-            if (motionX > 0) {
-                motionX = Math.max(0, (int) (motionX / 16D) - 3);
-            }
-            if (motionY > 0) {
-                motionY = Math.max(0, (int) (motionY / 16D) - 3);
-            }
+            motionX = 0;
+            motionY = 0;
         }
     }
 
