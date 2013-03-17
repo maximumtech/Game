@@ -15,6 +15,7 @@ public class World {
     private short[] metas;
     private String[] data;
     
+    
     public World(int width, int height, int seaLevel, int blockSize) {
         this.blockSize = blockSize;
         this.width = width;
@@ -33,6 +34,14 @@ public class World {
             data[i] = null;
         }
         generate();
+    }
+    
+    public boolean isAirBlock(int x, int y) {
+        return getBlockID(x, y)==0;
+    }
+    
+    public int getCoordinateFromPixel(int pix) {
+        return pix / blockSize;
     }
     
     public short getBlockID(int x, int y) {
