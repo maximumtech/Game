@@ -8,7 +8,7 @@ import Game.entity.EntityLiving;
  * @author maximumtech
  */
 public class RenderLiving extends RenderEntity {
-    private Image still;
+    private static Image still;
     //TODO: add animation f/ player
     
     public RenderLiving(EntityLiving entity) {
