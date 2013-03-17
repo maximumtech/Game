@@ -86,7 +86,7 @@ public abstract class EntityLiving extends Entity {
         if (canMove()) {
             setPosition(getX() + motionX, getY() + motionY);
             boolean onGround = isOnGround();
-            if (!onGround && motionY < 0) {
+            if (!onGround) {
                 fallT++;
                 motionY -= Math.min(fallT + GameBase.blockSize, GameBase.blockSize * 5);
                 wasOnGround = true;
@@ -94,6 +94,7 @@ public abstract class EntityLiving extends Entity {
                 if (wasOnGround) {
                     fall(fallT);
                 }
+                fallT = 0;
             }
             if (motionX > 0) {
                 motionX = Math.max(0, (int) (motionX / 16D) - 3);

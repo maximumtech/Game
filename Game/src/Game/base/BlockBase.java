@@ -7,56 +7,55 @@ import Game.render.RenderStackBase;
  * @author maximumtech
  */
 public class BlockBase {
-    
+
     public short blockID;
     public String name;
     private RenderStackBase image;
     public static BlockBase[] blocksList = new BlockBase[Short.MAX_VALUE];
-    
+
     public BlockBase(short id) {
         this.blockID = id;
         blocksList[id] = this;
     }
-    
+
     public void setImage(RenderStackBase img) {
         this.image = img;
     }
-    
+
     public RenderStackBase getImage() {
         return image;
     }
-    
+
     public void render(World world, int x, int y) {
-        getImage().render(x, y, world.blockSize, world.blockSize);
+        getImage().render(x, y, GameBase.blockSize, GameBase.blockSize);
     }
-    
+
     public boolean canCollide(World world, int x, int y) {
         return true;
     }
-    
+
     public boolean isSolid(World world, int x, int y) {
         return true;
     }
-    
+
     public boolean isOpaque(World world, int x, int y) {
         return true;
     }
-    
+
     public CollisonBox getCollisonBox(World world, int x, int y) {
-        return new CollisonBox(x, y, x+world.blockSize, y+world.blockSize);
+        return new CollisonBox(x, y, x + GameBase.blockSize, y + GameBase.blockSize);
     }
-    
+
     public void updateNeighbors(World world, int x, int y) {
         world.updateBlock(x + 1, y);
         world.updateBlock(x - 1, y);
         world.updateBlock(x, y + 1);
         world.updateBlock(x, y - 1);
     }
-    
+
     public void onUpdate(World world, int x, int y) {
-        
     }
-    
+
     static {
         //declare blocks
     }
