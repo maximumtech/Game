@@ -17,6 +17,7 @@ public class GameBase {
     public static GameBase instance;
     public Random rand;
     public World world;
+    public static int blockSize = 16;
     
     public static void main(String[] args) {
         new GameBase(args);

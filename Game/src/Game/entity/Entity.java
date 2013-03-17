@@ -3,6 +3,7 @@ package Game.entity;
 import Game.base.World;
 import Game.base.CollisonBox;
 import Game.base.BlockBase;
+import Game.base.GameBase;
 
 /**
  *
@@ -14,10 +15,8 @@ public abstract class Entity {
     public World world;
     private int x = 0;
     private int y = 0;
-    protected int prevX = 0;
-    protected int prevY = 0;
-    private int sizeX = 0;
-    private int sizeY = 0;
+    public static int sizeX = 0;
+    public static int sizeY = 0;
 
     public Entity(World world) {
         this.world = world;
@@ -27,6 +26,10 @@ public abstract class Entity {
         this(world);
         this.x = x;
         this.y = y;
+    }
+    
+    public void render() {
+        
     }
 
     public int getX() {
@@ -38,17 +41,17 @@ public abstract class Entity {
     }
 
     public int getBlockX() {
-        return x / world.blockSize;
+        return x / GameBase.blockSize;
     }
 
     public int getBlockY() {
-        return y / world.blockSize;
+        return y / GameBase.blockSize;
     }
 
     public boolean isColliding(int x, int y) {
         CollisonBox box = getCollisonBox(x, y);
-        for (int xx = box.minX / world.blockSize - 1; xx < box.maxX / world.blockSize + 1; xx++) {
-            for (int yy = box.minY / world.blockSize - 1; yy < box.maxY / world.blockSize + 1; yy++) {
+        for (int xx = box.minX / GameBase.blockSize - 1; xx < box.maxX / GameBase.blockSize + 1; xx++) {
+            for (int yy = box.minY / GameBase.blockSize - 1; yy < box.maxY / GameBase.blockSize + 1; yy++) {
                 CollisonBox box2 = world.getBlock(xx, yy).getCollisonBox(world, xx, yy);
                 if (box.intersects(box2)) {
                     return true;
@@ -60,8 +63,6 @@ public abstract class Entity {
 
     public void setPosition(int x, int y) {
         if (!isColliding(x, y)) {
-            this.prevX = x;
-            this.prevY = y;
             this.x = x;
             this.y = y;
         }

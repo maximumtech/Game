@@ -1,5 +1,6 @@
 package Game.entity;
 
+import Game.base.GameBase;
 import Game.base.World;
 import Game.misc.DamageSource;
 
@@ -16,6 +17,10 @@ public abstract class EntityLiving extends Entity {
 
     public EntityLiving(World world) {
         this(world, 0, 0);
+    }
+    
+    public void render() {
+        
     }
 
     public EntityLiving(World world, int x, int y) {
@@ -75,12 +80,15 @@ public abstract class EntityLiving extends Entity {
     private boolean wasOnGround = true;
 
     public void onLivingUpdate() {
+        if(!isColliding(getX(), getY())) {
+            motionY+= GameBase.blockSize / 8;
+        }
         if (canMove()) {
             setPosition(getX() + motionX, getY() + motionY);
             boolean onGround = isOnGround();
             if (!onGround && motionY < 0) {
                 fallT++;
-                motionY -= Math.min(fallT + world.blockSize, world.blockSize * 5);
+                motionY -= Math.min(fallT + GameBase.blockSize, GameBase.blockSize * 5);
                 wasOnGround = true;
             } else {
                 if (wasOnGround) {
@@ -98,7 +106,7 @@ public abstract class EntityLiving extends Entity {
 
     public void jump() {
         if (isOnGround()) {
-            motionY = world.blockSize * 6; // 6 blocks of initial force
+            motionY = GameBase.blockSize * 6; // 6 blocks of initial force
         }
     }
 
