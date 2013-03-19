@@ -4,5 +4,4 @@ private.xml
 *.class
 built-jar.properties
 /Game/build/
-nbproject/private
 private.properties
