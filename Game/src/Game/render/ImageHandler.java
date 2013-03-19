@@ -1,6 +1,7 @@
 package Game.render;
 
 import org.newdawn.slick.Image;
+import java.util.HashMap;
 
 /**
  *
@@ -8,11 +9,17 @@ import org.newdawn.slick.Image;
  */
 public class ImageHandler {
     
-    public static Image logo = getImage("logo");
+    private static HashMap<String, Image> img = new HashMap<>();
     
-    private static Image getImage(String key) {
+    public static Image getImage(String key) {
         try {
-            return new Image("res/" + key + ".png");
+            if(img.containsKey(key)) {
+                return img.get(key);
+            }else{
+                Image i = new Image("res/" + key + ".png");
+                img.put(key, i);
+                return i;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return null;

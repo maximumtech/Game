@@ -22,4 +22,8 @@ public abstract class Screen {
         }
     }
     
+    public void action(ScreenComponent comp) {
+        
+    }
+    
 }

@@ -4,14 +4,10 @@ package Game.render;
  *
  * @author maximumtech
  */
-public abstract class ScreenComponent {
+public interface ScreenComponent {
     
-    public void render() {
-        
-    }
+    public void render();
     
-    public void onUpdate() {
-        
-    }
+    public void onUpdate();
     
 }
