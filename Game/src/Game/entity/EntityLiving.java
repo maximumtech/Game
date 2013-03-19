@@ -88,10 +88,10 @@ public abstract class EntityLiving extends Entity {
             boolean onGround = isOnGround();
             if (!onGround) {
                 fallT++;
-                motionY -= Math.min(fallT + GameBase.blockSize, GameBase.blockSize * 5);
-                wasOnGround = true;
-            } else {
-                if (wasOnGround) {
+                    motionY -= Math.min(fallT + GameBase.blockSize, GameBase.blockSize * 5);
+                    wasOnGround = true;
+                } else {
+                    if (wasOnGround) {
                     fall(fallT);
                 }
                 fallT = 0;

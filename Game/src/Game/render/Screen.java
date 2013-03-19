@@ -22,7 +22,7 @@ public abstract class Screen {
         }
     }
     
-    public void action(ScreenComponent comp) {
+    public void action(ScreenComponent comp, int eventid) {
         
     }
     
