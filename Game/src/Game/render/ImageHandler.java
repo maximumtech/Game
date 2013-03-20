@@ -20,7 +20,7 @@ public class ImageHandler {
             if (img.containsKey(key)) {
                 return img.get(key);
             } else {
-                Image i = new Image("res/" + key + ".png");
+                Image i = new Image(System.getProperty("user.dir") + "/res/" + key + ".png");
                 img.put(key, i);
                 return i;
             }
@@ -36,7 +36,7 @@ public class ImageHandler {
                 return stk.get(key);
             } else {
                 ArrayList<Image> imgs = new ArrayList<>();
-                File dir = new File("res/" + key + "/");
+                File dir = new File(System.getProperty("user.dir") + "/res/" + key + "/");
                 RenderStackBase rs = null;
                 for (File file : dir.listFiles()) {
                     if (file.getName().endsWith(".png")) {
@@ -47,14 +47,14 @@ public class ImageHandler {
                         while (scanner.hasNext()) {
                             lines.add(scanner.nextLine());
                         }
-                        for(String line : lines) {
-                            if(line.startsWith("type:")) {
+                        for (String line : lines) {
+                            if (line.startsWith("type:")) {
                                 String type = line.substring(5);
-                                if(type.equals("overlay")) {
+                                if (type.equals("overlay")) {
                                     rs = new RenderStack();
-                                }else if(type.equals("animation")) {
+                                } else if (type.equals("animation")) {
                                     //animation
-                                }else{
+                                } else {
                                     //??
                                 }
                             }
@@ -64,7 +64,7 @@ public class ImageHandler {
                 if (rs == null) {
                     rs = new RenderStack();
                 }
-                for(Image img : imgs) {
+                for (Image img : imgs) {
                     rs.add(img);
                 }
                 stk.put(key, rs);

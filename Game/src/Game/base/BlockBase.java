@@ -1,5 +1,8 @@
 package Game.base;
 
+import Game.content.*;
+import Game.render.ImageHandler;
+
 /**
  *
  * @author maximumtech
@@ -7,6 +10,7 @@ package Game.base;
 public class BlockBase extends ItemBase {
 
     public static BlockBase[] blocksList = new BlockBase[Short.MAX_VALUE];
+    public static final BlockBase stone = (BlockBase)new BlockStone((short)1).setImage(ImageHandler.getRenderStack("blockStone")).setName("Stone");
 
     public BlockBase(short id) {
         super(id, ItemType.BLOCK);
@@ -51,9 +55,5 @@ public class BlockBase extends ItemBase {
         //check lighting
         //check if on screen
         return true;
-    }
-
-    static {
-        //declare blocks
     }
 }

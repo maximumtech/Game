@@ -7,18 +7,20 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import java.util.Random;
+import Game.render.Screen;
+import Game.render.ScreenWorld;
 
 /**
  *
  * @author maximumtech
  */
 public class GameBase {
-    
+
     public static GameBase instance;
     public Random rand;
-    public World world;
+    public Screen renderScreen;
     public static int blockSize = 16;
-    
+
     public static void main(String[] args) {
         new GameBase(args);
     }
@@ -46,6 +48,7 @@ public class GameBase {
         System.out.println("OpenGL Started, Tick Handling Initializing");
         new TickHandler();
         System.out.println("Tick Handler Initialized, Starting Render Loop");
+        renderScreen = new ScreenWorld(new World(20, 20, 10, 16));
         while (!closeRequested()) {
             if (Display.wasResized()) {
                 GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
@@ -58,24 +61,27 @@ public class GameBase {
         System.out.println("Closing");
         Display.destroy();
     }
-    
+
     private void render() {
-        
+        if (renderScreen != null) {
+            renderScreen.render();
+        }
     }
-    
+
     protected void runTick() {
         MouseHandler.instance.onUpdate();
         KeyboardHandler.instance.onUpdate();
-        if(world!=null) world.onUpdate();
+        if (renderScreen != null) {
+            renderScreen.onUpdate();
+        }
     }
-    
     private static boolean closing = false;
     public static boolean closeRequested = false;
-    
+
     public static void setClosing() {
         closing = true;
     }
-    
+
     private static boolean closeRequested() {
         try {
             boolean temp = Display.isCloseRequested() || closing;

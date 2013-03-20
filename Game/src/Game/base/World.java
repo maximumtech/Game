@@ -2,13 +2,17 @@ package Game.base;
 
 import Game.entity.EntityPlayer;
 import Game.entity.Entity;
+import Game.generation.WorldGenBase;
+import Game.generation.WorldGenTerrain;
 import java.util.ArrayList;
+import org.lwjgl.opengl.Display;
 
 /**
  *
  * @author maximumtech
  */
 public class World {
+
     private int width;
     private int height;
     private int seaLevel;
@@ -20,8 +24,7 @@ public class World {
     private String[] backtiledata;
     public EntityPlayer mainPlayer;
     public ArrayList<Entity> entityList;
-    
-    
+
     public World(int width, int height, int seaLevel, int blockSize) {
         GameBase.blockSize = blockSize;
         this.width = width;
@@ -54,100 +57,148 @@ public class World {
         generate();
     }
     
+    public void setMainPlayer(EntityPlayer player) {
+        this.mainPlayer = player;
+        spawnEntity(player);
+    }
+
     public int getWidth() {
-        return width;
+        return width - 1;
     }
-    
+
     public int getHeight() {
-        return height;
+        return height + 1;
     }
-    
+
     public int getSeaLevel() {
         return seaLevel;
     }
-    
+
     public void spawnEntity(Entity ent) {
         entityList.add(ent);
     }
-    
+
     public boolean isAirBlock(int x, int y) {
-        return getBlockID(x, y)==0;
+        return getBlockID(x, y) == 0;
     }
-    
+
     public int getCoordinateFromPixel(int pix) {
         return pix / GameBase.blockSize;
     }
-    
+
+    public int getRenderHeight() {
+        return (Display.getHeight() / GameBase.blockSize) + 2;
+    }
+
+    public int getRenderWidth() {
+        return (Display.getWidth() / GameBase.blockSize) + 2;
+    }
+
     public short getBlockID(int x, int y) {
-        return ids[(x * width) + y];
+        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+            return 0;
+        }
+        return ids[(x * getWidth()) + y];
     }
-    
+
     public short getBlockMeta(int x, int y) {
-        return metas[(x * width) + y];
+        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+            return 0;
+        }
+        return metas[(x * getWidth()) + y];
     }
-    
+
     public String getBlockData(int x, int y) {
-        return data[(x * width) + y];
+        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+            return "";
+        }
+        return data[(x * getWidth()) + y];
     }
-    
+
     public BlockBase getBlock(int x, int y) {
-        return BlockBase.blocksList[ids[(x * width) + y]];
+        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+            return null;
+        }
+        return BlockBase.blocksList[ids[(x * getWidth()) + y]];
     }
-    
+
     public short getBacktileID(int x, int y) {
-        return backtileids[(x * width) + y];
+        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+            return 0;
+        }
+        return backtileids[(x * getWidth()) + y];
     }
-    
+
     public short getBacktileMeta(int x, int y) {
-        return backtilemetas[(x * width) + y];
+        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+            return 0;
+        }
+        return backtilemetas[(x * getWidth()) + y];
     }
-    
+
     public String getBacktileData(int x, int y) {
-        return backtiledata[(x * width) + y];
+        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+            return "";
+        }
+        return backtiledata[(x * getWidth()) + y];
     }
-    
-    
+
+    public BackTileBase getBacktile(int x, int y) {
+        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+            return null;
+        }
+        return BackTileBase.backtileList[backtileids[(x * getWidth()) + y]];
+    }
+
     public void updateBlock(int x, int y) {
-        getBlock(x, y).onUpdate(this, x, y);
+        BlockBase block = getBlock(x, y);
+        if (block != null) {
+            block.onUpdate(this, x, y);
+        }
     }
-    
+
     public void updateBlockAndNeighbors(int x, int y) {
         updateBlock(x, y);
         updateNeighbors(x, y);
     }
-    
+
     public void updateNeighbors(int x, int y) {
         updateBlock(x + 1, y);
         updateBlock(x - 1, y);
         updateBlock(x, y + 1);
         updateBlock(x, y - 1);
     }
-    
+
     public void setBlock(int x, int y, short id, short meta, String data) {
         ids[(x * width) + y] = id;
         metas[(x * width) + y] = meta;
         this.data[(x * width) + y] = data;
         updateBlockAndNeighbors(x, y);
     }
-    
+
     public void setBlock(int x, int y, short id, short meta) {
         setBlock(x, y, id, meta, "");
     }
-    
+
     public void setBlock(int x, int y, short id) {
-        setBlock(x, y, id, (short)0);
+        setBlock(x, y, id, (short) 0);
     }
-    
+
+    public void setBlock(int x, int y, BlockBase block) {
+        setBlock(x, y, block.getBlockID());
+    }
+    private WorldGenBase terrainGen = new WorldGenTerrain(this);
+
     public void generate() {
-        
+        terrainGen.generate();
     }
-    
+
     public void render() {
-        for(Entity entity : entityList) {
+        for (Entity entity : entityList) {
             entity.render();
         }
     }
-    
+
     public void onUpdate() {
         for (Entity entity : entityList) {
             entity.onUpdate();
