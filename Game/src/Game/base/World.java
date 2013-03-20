@@ -71,12 +71,23 @@ public class World {
         getBlock(x, y).onUpdate(this, x, y);
     }
     
+    public void updateBlockAndNeighbors(int x, int y) {
+        updateBlock(x, y);
+        updateNeighbors(x, y);
+    }
+    
+    public void updateNeighbors(int x, int y) {
+        updateBlock(x + 1, y);
+        updateBlock(x - 1, y);
+        updateBlock(x, y + 1);
+        updateBlock(x, y - 1);
+    }
+    
     public void setBlock(int x, int y, short id, short meta, String data) {
         ids[(x * width) + y] = id;
         metas[(x * width) + y] = meta;
         this.data[(x * width) + y] = data;
-        updateBlock(x, y);
-        getBlock(x, y).updateNeighbors(this, x, y);
+        updateBlockAndNeighbors(x, y);
     }
     
     public void setBlock(int x, int y, short id, short meta) {

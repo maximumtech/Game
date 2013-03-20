@@ -45,12 +45,8 @@ public class BlockBase {
     public CollisonBox getCollisonBox(World world, int x, int y) {
         return new CollisonBox(x, y, x + GameBase.blockSize, y + GameBase.blockSize);
     }
-
-    public void updateNeighbors(World world, int x, int y) {
-        world.updateBlock(x + 1, y);
-        world.updateBlock(x - 1, y);
-        world.updateBlock(x, y + 1);
-        world.updateBlock(x, y - 1);
+    
+    public void onNeighborUpdate(World world, int x, int y) {
     }
 
     public void onUpdate(World world, int x, int y) {
