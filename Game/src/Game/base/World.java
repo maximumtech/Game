@@ -13,9 +13,11 @@ public class World {
     private int height;
     private int seaLevel;
     private short[] ids;
-    private short[] backtileids;
     private short[] metas;
     private String[] data;
+    private short[] backtileids;
+    private short[] backtilemetas;
+    private String[] backtiledata;
     public EntityPlayer mainPlayer;
     public ArrayList<Entity> entityList;
     
@@ -35,11 +37,19 @@ public class World {
         }
         data = new String[width * height];
         for (int i = 0; i < data.length; i++) {
-            data[i] = null;
+            data[i] = "";
         }
         backtileids = new short[width * height];
         for (int i = 0; i < backtileids.length; i++) {
             backtileids[i] = 0;
+        }
+        backtilemetas = new short[width * height];
+        for (int i = 0; i < backtilemetas.length; i++) {
+            backtilemetas[i] = 0;
+        }
+        backtiledata = new String[width * height];
+        for (int i = 0; i < backtiledata.length; i++) {
+            backtiledata[i] = "";
         }
         generate();
     }
@@ -72,10 +82,6 @@ public class World {
         return ids[(x * width) + y];
     }
     
-    public short getBacktileID(int x, int y) {
-        return backtileids[(x * width) + y];
-    }
-    
     public short getBlockMeta(int x, int y) {
         return metas[(x * width) + y];
     }
@@ -87,6 +93,19 @@ public class World {
     public BlockBase getBlock(int x, int y) {
         return BlockBase.blocksList[ids[(x * width) + y]];
     }
+    
+    public short getBacktileID(int x, int y) {
+        return backtileids[(x * width) + y];
+    }
+    
+    public short getBacktileMeta(int x, int y) {
+        return backtilemetas[(x * width) + y];
+    }
+    
+    public String getBacktileData(int x, int y) {
+        return backtiledata[(x * width) + y];
+    }
+    
     
     public void updateBlock(int x, int y) {
         getBlock(x, y).onUpdate(this, x, y);

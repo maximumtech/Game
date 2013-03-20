@@ -1,32 +1,23 @@
 package Game.base;
 
-import Game.render.RenderStackBase;
-
 /**
  *
  * @author maximumtech
  */
-public class BlockBase {
+public class BlockBase extends ItemBase {
 
-    public short blockID;
-    public String name;
-    private RenderStackBase image;
     public static BlockBase[] blocksList = new BlockBase[Short.MAX_VALUE];
 
     public BlockBase(short id) {
-        this.blockID = id;
+        super(id, ItemType.BLOCK);
         blocksList[id] = this;
     }
-
-    public void setImage(RenderStackBase img) {
-        this.image = img;
+    
+    public short getBlockID() {
+        return getID(ItemType.BLOCK);
     }
 
-    public RenderStackBase getImage() {
-        return image;
-    }
-
-    public void render(World world, int x, int y) {
+    public void renderWorld(World world, int x, int y) {
         getImage().render(x, y, GameBase.blockSize, GameBase.blockSize);
     }
 
@@ -54,6 +45,12 @@ public class BlockBase {
     
     public boolean isGenerationReplacable() {
         return false;
+    }
+    
+    public boolean shouldRender() {
+        //check lighting
+        //check if on screen
+        return true;
     }
 
     static {
