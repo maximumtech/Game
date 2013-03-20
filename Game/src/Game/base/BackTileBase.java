@@ -42,6 +42,14 @@ public class BackTileBase extends ItemBase {
     public boolean canBeBroken(World world, int x, int y) {
         return true;
     }
+    
+    public boolean shouldRender() {
+        //check lighting
+        //check if on screen
+        //check for blocks
+        return true;
+    }
+
 
     static {
     }
