@@ -13,6 +13,7 @@ public class World {
     private int height;
     private int seaLevel;
     private short[] ids;
+    private short[] backtileids;
     private short[] metas;
     private String[] data;
     public EntityPlayer mainPlayer;
@@ -36,7 +37,23 @@ public class World {
         for (int i = 0; i < data.length; i++) {
             data[i] = null;
         }
+        backtileids = new short[width * height];
+        for (int i = 0; i < backtileids.length; i++) {
+            backtileids[i] = 0;
+        }
         generate();
+    }
+    
+    public int getWidth() {
+        return width;
+    }
+    
+    public int getHeight() {
+        return height;
+    }
+    
+    public int getSeaLevel() {
+        return seaLevel;
     }
     
     public void spawnEntity(Entity ent) {
@@ -53,6 +70,10 @@ public class World {
     
     public short getBlockID(int x, int y) {
         return ids[(x * width) + y];
+    }
+    
+    public short getBacktileID(int x, int y) {
+        return backtileids[(x * width) + y];
     }
     
     public short getBlockMeta(int x, int y) {

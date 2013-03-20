@@ -51,6 +51,10 @@ public class BlockBase {
 
     public void onUpdate(World world, int x, int y) {
     }
+    
+    public boolean isGenerationReplacable() {
+        return false;
+    }
 
     static {
         //declare blocks
