@@ -54,20 +54,23 @@ public class World {
         for (int i = 0; i < backtiledata.length; i++) {
             backtiledata[i] = "";
         }
+        entityList = new ArrayList<>();
         generate();
+        EntityPlayer ep = new EntityPlayer(this, 0, 200, "");
+        setMainPlayer(ep);
     }
     
-    public void setMainPlayer(EntityPlayer player) {
+    private void setMainPlayer(EntityPlayer player) {
         this.mainPlayer = player;
         spawnEntity(player);
     }
 
     public int getWidth() {
-        return width - 1;
+        return width;
     }
 
     public int getHeight() {
-        return height + 1;
+        return height;
     }
 
     public int getSeaLevel() {
@@ -95,56 +98,56 @@ public class World {
     }
 
     public short getBlockID(int x, int y) {
-        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
             return 0;
         }
         return ids[(x * getWidth()) + y];
     }
 
     public short getBlockMeta(int x, int y) {
-        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
             return 0;
         }
         return metas[(x * getWidth()) + y];
     }
 
     public String getBlockData(int x, int y) {
-        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
             return "";
         }
         return data[(x * getWidth()) + y];
     }
 
     public BlockBase getBlock(int x, int y) {
-        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
             return null;
         }
         return BlockBase.blocksList[ids[(x * getWidth()) + y]];
     }
 
     public short getBacktileID(int x, int y) {
-        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
             return 0;
         }
         return backtileids[(x * getWidth()) + y];
     }
 
     public short getBacktileMeta(int x, int y) {
-        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
             return 0;
         }
         return backtilemetas[(x * getWidth()) + y];
     }
 
     public String getBacktileData(int x, int y) {
-        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
             return "";
         }
         return backtiledata[(x * getWidth()) + y];
     }
 
     public BackTileBase getBacktile(int x, int y) {
-        if (x < 0 || x > getWidth() || y < 0 || y > getHeight()) {
+        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
             return null;
         }
         return BackTileBase.backtileList[backtileids[(x * getWidth()) + y]];

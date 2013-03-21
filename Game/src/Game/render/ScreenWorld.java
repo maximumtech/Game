@@ -14,6 +14,7 @@ public class ScreenWorld extends Screen {
     public World world;
 
     public ScreenWorld(World world) {
+        this.world = world;
     }
 
     public void render() {

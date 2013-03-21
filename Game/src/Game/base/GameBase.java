@@ -48,7 +48,8 @@ public class GameBase {
         System.out.println("OpenGL Started, Tick Handling Initializing");
         new TickHandler();
         System.out.println("Tick Handler Initialized, Starting Render Loop");
-        renderScreen = new ScreenWorld(new World(20, 20, 10, 16));
+        World world = new World(20, 20, 10, 16);
+        renderScreen = new ScreenWorld(world);
         while (!closeRequested()) {
             if (Display.wasResized()) {
                 GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
