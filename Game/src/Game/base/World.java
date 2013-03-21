@@ -57,7 +57,7 @@ public class World {
         }
         entityList = new ArrayList<>();
         generate();
-        EntityPlayer ep = new EntityPlayer(this, 160, 16, "");
+        EntityPlayer ep = new EntityPlayer(this, 160, 600, "");
         setMainPlayer(ep);
     }
     
@@ -202,9 +202,10 @@ public class World {
     public void setBlock(int x, int y, BlockBase block, short meta) {
         setBlock(x, y, block.getBlockID(), meta);
     }
-    private WorldGenBase terrainGen = new WorldGenTerrain(this);
+    private WorldGenBase terrainGen;
 
     public void generate() {
+        terrainGen = new WorldGenTerrain(this);
         terrainGen.generate();
     }
 

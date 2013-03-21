@@ -78,10 +78,20 @@ public abstract class EntityLiving extends Entity {
 
     public void onLivingUpdate() {
         boolean onGround = isOnGround();
-        if (!onGround) {
+        if (!onGround && (!isJumping)) {
             fallT++;
-            motionY -= Math.min(fallT + GameBase.blockSize, GameBase.blockSize * 5);
+            motionY -= Math.min(GameBase.blockSize * 8, Math.max(10, fallT));
             wasOnGround = true;
+        }else if(isJumping) {
+            if(jumpTick == 0) {
+                motionY = 10;
+            }else if(jumpTick > 0 && jumpTick < 20) {
+                motionY += 20-jumpTick * 2;
+            }else if(jumpTick==20) {
+                jumpTick = 0;
+                isJumping = false;
+            }
+            jumpTick++;
         } else {
             if (wasOnGround) {
                 fall(fallT);
@@ -89,10 +99,14 @@ public abstract class EntityLiving extends Entity {
             fallT = 0;
         }
     }
+    
+    private boolean isJumping = false;
+    private int jumpTick = 0;
 
     public void jump() {
         if (isOnGround()) {
-            motionY = GameBase.blockSize * 6; // 6 blocks of initial force
+            isJumping = true;
+            jumpTick = 0;
         }
     }
 

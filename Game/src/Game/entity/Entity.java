@@ -45,19 +45,19 @@ public abstract class Entity {
     }
 
     public int getX() {
-        return getCollisonBox().minX;
+        return x;
     }
 
     public int getY() {
-        return getCollisonBox().minY;
+        return y;
     }
 
     public int getMaxX() {
-        return getCollisonBox().maxX;
+        return x+sizeX;
     }
 
     public int getMaxY() {
-        return getCollisonBox().maxY;
+        return y+sizeY;
     }
 
     public int getBlockX() {
@@ -78,6 +78,10 @@ public abstract class Entity {
 
     public boolean isColliding(int x, int y) {
         CollisonBox box = getCollisonBox(x, y);
+        int minX = getBlockX();
+        int maxX = getMaxBlockX();
+        int minY = getBlockY();
+        int maxY = getMaxBlockY();
         for (int xx = getBlockX(); xx < getMaxBlockX(); xx++) {
             for (int yy = getBlockY(); yy < getMaxBlockY(); yy++) {
                 BlockBase block = world.getBlock(xx, yy);
@@ -108,7 +112,7 @@ public abstract class Entity {
         if (isColliding(getX(), getY())) {
             int exY = GameBase.blockSize / 4;
             while(exY>0 && isColliding(getX(), getY())) {
-                setPositionAllowCollison(getX(), getY() + 1);
+                //setPositionAllowCollison(getX(), getY() + 1);
                 exY--;
             }
         }
@@ -130,8 +134,6 @@ public abstract class Entity {
                 motionY++;
             }
         }
-        motionX = 0;
-        motionY = 0;
     }
 
     public CollisonBox getCollisonBox() {

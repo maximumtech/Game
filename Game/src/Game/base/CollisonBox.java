@@ -22,9 +22,9 @@ public class CollisonBox {
     }
     
     public CollisonBox(int minX, int minY, int maxX, int maxY) {
-        this.maxX = maxX < minX ? minX : maxX;
-        this.maxY = maxY < minY ? minY : maxY;
-        this.minX = maxX > minX ? minX : maxX;
-        this.minY = maxY > minY ? minY : maxY;
+        this.maxX = maxX;
+        this.maxY = maxY;
+        this.minX = minX;
+        this.minY = minY;
     }
 }
