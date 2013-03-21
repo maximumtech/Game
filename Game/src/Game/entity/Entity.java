@@ -79,7 +79,7 @@ public abstract class Entity {
     public boolean isColliding(int x, int y) {
         CollisonBox box = getCollisonBox(x, y);
         for (int xx = getBlockX(); xx < getMaxBlockX(); xx++) {
-            for (int yy = getBlockY(); y < getMaxBlockY(); yy++) {
+            for (int yy = getBlockY(); yy < getMaxBlockY(); yy++) {
                 BlockBase block = world.getBlock(xx, yy);
                 if (block != null && block.canCollide(world, xx, yy)) {
                     CollisonBox box2 = block.getCollisonBox(world, xx, yy);
@@ -93,15 +93,15 @@ public abstract class Entity {
     }
 
     public void setPosition(int x, int y) {
-        //if (!isColliding(x, y)) {
-        this.x = x;
-        this.y = y;
-        //}
+        if (!isColliding(x, y)) {
+            this.x = x;
+            this.y = y;
+        }
     }
 
     public void onUpdate() {
         if (isColliding(getX(), getY())) {
-            motionY += GameBase.blockSize / 8;
+            motionY += GameBase.blockSize / 4;
         }
         if (canMove()) {
             while (motionX > 0) {

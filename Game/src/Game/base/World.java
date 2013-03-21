@@ -56,7 +56,7 @@ public class World {
         }
         entityList = new ArrayList<>();
         generate();
-        EntityPlayer ep = new EntityPlayer(this, 0, 0, "");
+        EntityPlayer ep = new EntityPlayer(this, 42, 350, "");
         setMainPlayer(ep);
     }
     
@@ -87,6 +87,10 @@ public class World {
 
     public int getCoordinateFromPixel(int pix) {
         return pix / GameBase.blockSize;
+    }
+    
+    public int getPixelFromCoordinate(int coord) {
+        return coord * GameBase.blockSize;
     }
 
     public int getRenderHeight() {

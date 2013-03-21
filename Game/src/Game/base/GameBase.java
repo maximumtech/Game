@@ -54,6 +54,7 @@ public class GameBase {
             if (Display.wasResized()) {
                 GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
             }
+            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
             render();
             Display.update();
             Display.sync(30);

@@ -38,7 +38,9 @@ public class BlockBase extends ItemBase {
     }
 
     public CollisonBox getCollisonBox(World world, int x, int y) {
-        return new CollisonBox(x, y, x + GameBase.blockSize, y + GameBase.blockSize);
+        int xx = world.getPixelFromCoordinate(x);
+        int yy = world.getPixelFromCoordinate(y);
+        return new CollisonBox(xx, yy, xx + GameBase.blockSize, yy + GameBase.blockSize);
     }
     
     public void onNeighborUpdate(World world, int x, int y) {
