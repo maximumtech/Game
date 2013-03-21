@@ -20,7 +20,7 @@ public class ImageHandler {
             if (img.containsKey(key)) {
                 return img.get(key);
             } else {
-                Image i = new Image(System.getProperty("user.dir") + "/res/" + key + ".png");
+                Image i = new Image(System.getProperty("user.dir") + "/res/" + key + ".png").getFlippedCopy(false, true);
                 img.put(key, i);
                 return i;
             }
@@ -40,7 +40,7 @@ public class ImageHandler {
                 RenderStackBase rs = null;
                 for (File file : dir.listFiles()) {
                     if (file.getName().endsWith(".png")) {
-                        imgs.add(new Image(file.toString()));
+                        imgs.add(new Image(file.toString()).getFlippedCopy(false, true));
                     } else if (file.getName().equals("config.txt")) {
                         ArrayList<String> lines = new ArrayList<>();
                         Scanner scanner = new Scanner(file);

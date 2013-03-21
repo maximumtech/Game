@@ -18,13 +18,13 @@ public abstract class EntityLiving extends Entity {
     public EntityLiving(World world) {
         this(world, 0, 0);
     }
-    
-    public void render() {
-        
-    }
 
     public EntityLiving(World world, int x, int y) {
         super(world, x, y);
+        maxHealth = 20;
+        health = maxHealth;
+        motionX = 0;
+        motionY = 0;
     }
 
     public void setMaxHealth(int hp) {
@@ -80,22 +80,23 @@ public abstract class EntityLiving extends Entity {
     private boolean wasOnGround = true;
 
     public void onLivingUpdate() {
-        if(!isColliding(getX(), getY())) {
-            motionY+= GameBase.blockSize / 8;
-        }
         if (canMove()) {
-            setPosition(getX() + motionX, getY() + motionY);
+            if (isColliding(getX(), getY())) {
+                motionY += GameBase.blockSize / 8;
+            }
+            //setPosition(getX() + motionX, getY() + motionY);
             boolean onGround = isOnGround();
             if (!onGround) {
                 fallT++;
-                    motionY -= Math.min(fallT + GameBase.blockSize, GameBase.blockSize * 5);
-                    wasOnGround = true;
-                } else {
-                    if (wasOnGround) {
+                motionY -= Math.min(fallT + GameBase.blockSize, GameBase.blockSize * 5);
+                wasOnGround = true;
+            } else {
+                if (wasOnGround) {
                     fall(fallT);
                 }
                 fallT = 0;
             }
+            setPosition(getX() + motionX, getY() + motionY);
             motionX = 0;
             motionY = 0;
         }

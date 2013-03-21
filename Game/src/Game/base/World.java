@@ -56,7 +56,7 @@ public class World {
         }
         entityList = new ArrayList<>();
         generate();
-        EntityPlayer ep = new EntityPlayer(this, 0, 200, "");
+        EntityPlayer ep = new EntityPlayer(this, 0, 0, "");
         setMainPlayer(ep);
     }
     
@@ -194,12 +194,6 @@ public class World {
 
     public void generate() {
         terrainGen.generate();
-    }
-
-    public void render() {
-        for (Entity entity : entityList) {
-            entity.render();
-        }
     }
 
     public void onUpdate() {
