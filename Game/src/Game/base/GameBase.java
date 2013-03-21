@@ -48,13 +48,13 @@ public class GameBase {
         System.out.println("OpenGL Started, Tick Handling Initializing");
         new TickHandler();
         System.out.println("Tick Handler Initialized, Starting Render Loop");
-        World world = new World(20, 20, 10, 16);
+        World world = new World(100, 50, 10, 16);
         renderScreen = new ScreenWorld(world);
         while (!closeRequested()) {
+            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
             if (Display.wasResized()) {
                 GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
             }
-            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
             render();
             Display.update();
             Display.sync(30);
@@ -66,7 +66,15 @@ public class GameBase {
 
     private void render() {
         if (renderScreen != null) {
+            GL11.glPushMatrix();
+            if(renderScreen instanceof ScreenWorld) {
+                World world = ((ScreenWorld)renderScreen).world;
+                int wid = Display.getWidth() / 2;
+                int hei = Display.getHeight() / 2;
+                GL11.glTranslatef(world.mainPlayer.getX(), -world.mainPlayer.getY() + hei, 0);
+            }
             renderScreen.render();
+            GL11.glPopMatrix();
         }
     }
 

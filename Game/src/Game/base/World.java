@@ -6,6 +6,7 @@ import Game.generation.WorldGenBase;
 import Game.generation.WorldGenTerrain;
 import java.util.ArrayList;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 
 /**
  *
@@ -56,7 +57,7 @@ public class World {
         }
         entityList = new ArrayList<>();
         generate();
-        EntityPlayer ep = new EntityPlayer(this, 42, 350, "");
+        EntityPlayer ep = new EntityPlayer(this, 160, 16, "");
         setMainPlayer(ep);
     }
     
@@ -102,56 +103,56 @@ public class World {
     }
 
     public short getBlockID(int x, int y) {
-        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
+        if (((x * getWidth()) + y) > (getWidth() * getHeight()) - 1 || ((x * getWidth()) + y) < 0) {
             return 0;
         }
         return ids[(x * getWidth()) + y];
     }
 
     public short getBlockMeta(int x, int y) {
-        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
+        if (((x * getWidth()) + y) > (getWidth() * getHeight()) - 1 || ((x * getWidth()) + y) < 0) {
             return 0;
         }
         return metas[(x * getWidth()) + y];
     }
 
     public String getBlockData(int x, int y) {
-        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
+        if (((x * getWidth()) + y) > (getWidth() * getHeight()) - 1 || ((x * getWidth()) + y) < 0) {
             return "";
         }
         return data[(x * getWidth()) + y];
     }
 
     public BlockBase getBlock(int x, int y) {
-        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
+        if (((x * getWidth()) + y) > (getWidth() * getHeight()) - 1 || ((x * getWidth()) + y) < 0) {
             return null;
         }
         return BlockBase.blocksList[ids[(x * getWidth()) + y]];
     }
 
     public short getBacktileID(int x, int y) {
-        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
+        if (((x * getWidth()) + y) > (getWidth() * getHeight()) - 1 || ((x * getWidth()) + y) < 0) {
             return 0;
         }
         return backtileids[(x * getWidth()) + y];
     }
 
     public short getBacktileMeta(int x, int y) {
-        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
+        if (((x * getWidth()) + y) > (getWidth() * getHeight()) - 1 || ((x * getWidth()) + y) < 0) {
             return 0;
         }
         return backtilemetas[(x * getWidth()) + y];
     }
 
     public String getBacktileData(int x, int y) {
-        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
+        if (((x * getWidth()) + y) > (getWidth() * getHeight()) - 1 || ((x * getWidth()) + y) < 0) {
             return "";
         }
         return backtiledata[(x * getWidth()) + y];
     }
 
     public BackTileBase getBacktile(int x, int y) {
-        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
+        if (((x * getWidth()) + y) > (getWidth() * getHeight()) - 1 || ((x * getWidth()) + y) < 0) {
             return null;
         }
         return BackTileBase.backtileList[backtileids[(x * getWidth()) + y]];
@@ -177,6 +178,9 @@ public class World {
     }
 
     public void setBlock(int x, int y, short id, short meta, String data) {
+        if (((x * getWidth()) + y) > (getWidth() * getHeight()) - 1 || ((x * getWidth()) + y) < 0) {
+            return;
+        }
         ids[(x * width) + y] = id;
         metas[(x * width) + y] = meta;
         this.data[(x * width) + y] = data;
@@ -193,6 +197,10 @@ public class World {
 
     public void setBlock(int x, int y, BlockBase block) {
         setBlock(x, y, block.getBlockID());
+    }
+    
+    public void setBlock(int x, int y, BlockBase block, short meta) {
+        setBlock(x, y, block.getBlockID(), meta);
     }
     private WorldGenBase terrainGen = new WorldGenTerrain(this);
 

@@ -98,10 +98,19 @@ public abstract class Entity {
             this.y = y;
         }
     }
+    
+    public void setPositionAllowCollison(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public void onUpdate() {
         if (isColliding(getX(), getY())) {
-            motionY += GameBase.blockSize / 4;
+            int exY = GameBase.blockSize / 4;
+            while(exY>0 && isColliding(getX(), getY())) {
+                setPositionAllowCollison(getX(), getY() + 1);
+                exY--;
+            }
         }
         if (canMove()) {
             while (motionX > 0) {

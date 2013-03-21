@@ -6,9 +6,9 @@ import Game.base.BlockBase;
  *
  * @author maximumtech
  */
-public class BlockStone extends BlockBase {
+public class BlockGenReplaceable extends BlockBase {
     
-    public BlockStone(short id) {
+    public BlockGenReplaceable(short id) {
         super(id);
     }
     
