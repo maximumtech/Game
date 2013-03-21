@@ -1,5 +1,6 @@
 package Game.entity;
 
+import Game.base.BlockBase;
 import Game.base.GameBase;
 import Game.base.World;
 import Game.misc.DamageSource;
@@ -12,8 +13,6 @@ public abstract class EntityLiving extends Entity {
 
     private int health;
     private int maxHealth;
-    public int motionX;
-    public int motionY;
 
     public EntityLiving(World world) {
         this(world, 0, 0);
@@ -23,8 +22,6 @@ public abstract class EntityLiving extends Entity {
         super(world, x, y);
         maxHealth = 20;
         health = maxHealth;
-        motionX = 0;
-        motionY = 0;
     }
 
     public void setMaxHealth(int hp) {
@@ -66,9 +63,9 @@ public abstract class EntityLiving extends Entity {
 
     public boolean isOnGround() {
         int x = world.getCoordinateFromPixel(getX());
-        int y = world.getCoordinateFromPixel(getY());
-        y -= 1;
-        return !world.isAirBlock(x, y); //TODO: make pixel worth, not block worth
+        int y = world.getCoordinateFromPixel(getY() - 1);
+        BlockBase block = world.getBlock(x, y);
+        return block == null ? false : block.canCollide(world, x, y);
     }
 
     public void fall(int dist) {
@@ -80,25 +77,16 @@ public abstract class EntityLiving extends Entity {
     private boolean wasOnGround = true;
 
     public void onLivingUpdate() {
-        if (canMove()) {
-            if (isColliding(getX(), getY())) {
-                motionY += GameBase.blockSize / 8;
+        boolean onGround = isOnGround();
+        if (!onGround) {
+            fallT++;
+            //motionY -= Math.min(fallT + GameBase.blockSize, GameBase.blockSize * 5);
+            wasOnGround = true;
+        } else {
+            if (wasOnGround) {
+                fall(fallT);
             }
-            //setPosition(getX() + motionX, getY() + motionY);
-            boolean onGround = isOnGround();
-            if (!onGround) {
-                fallT++;
-                motionY -= Math.min(fallT + GameBase.blockSize, GameBase.blockSize * 5);
-                wasOnGround = true;
-            } else {
-                if (wasOnGround) {
-                    fall(fallT);
-                }
-                fallT = 0;
-            }
-            setPosition(getX() + motionX, getY() + motionY);
-            motionX = 0;
-            motionY = 0;
+            fallT = 0;
         }
     }
 
@@ -109,9 +97,9 @@ public abstract class EntityLiving extends Entity {
     }
 
     public void onUpdate() {
-        super.onUpdate();
         if (!isDead()) {
             onLivingUpdate();
         }
+        super.onUpdate();
     }
 }

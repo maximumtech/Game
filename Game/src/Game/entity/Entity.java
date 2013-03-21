@@ -27,7 +27,7 @@ public abstract class Entity {
         motionX = 0;
         motionY = 0;
     }
-    
+
     public boolean canMove() {
         return true;
     }
@@ -45,27 +45,43 @@ public abstract class Entity {
     }
 
     public int getX() {
-        return x;
+        return getCollisonBox().minX;
     }
 
     public int getY() {
-        return y;
+        return getCollisonBox().minY;
+    }
+
+    public int getMaxX() {
+        return getCollisonBox().maxX;
+    }
+
+    public int getMaxY() {
+        return getCollisonBox().maxY;
     }
 
     public int getBlockX() {
-        return x / GameBase.blockSize;
+        return world.getCoordinateFromPixel(getX());
     }
 
     public int getBlockY() {
-        return y / GameBase.blockSize;
+        return world.getCoordinateFromPixel(getY());
+    }
+
+    public int getMaxBlockX() {
+        return world.getCoordinateFromPixel(getMaxX());
+    }
+
+    public int getMaxBlockY() {
+        return world.getCoordinateFromPixel(getMaxY());
     }
 
     public boolean isColliding(int x, int y) {
         CollisonBox box = getCollisonBox(x, y);
-        for (int xx = box.minX / GameBase.blockSize - 1; xx < box.maxX / GameBase.blockSize + 1; xx++) {
-            for (int yy = box.minY / GameBase.blockSize - 1; yy < box.maxY / GameBase.blockSize + 1; yy++) {
+        for (int xx = getBlockX(); xx < getMaxBlockX(); xx++) {
+            for (int yy = getBlockY(); y < getMaxBlockY(); yy++) {
                 BlockBase block = world.getBlock(xx, yy);
-                if (block != null) {
+                if (block != null && block.canCollide(world, xx, yy)) {
                     CollisonBox box2 = block.getCollisonBox(world, xx, yy);
                     if (box.intersects(box2)) {
                         return true;
@@ -84,6 +100,29 @@ public abstract class Entity {
     }
 
     public void onUpdate() {
+        if (isColliding(getX(), getY())) {
+            motionY += GameBase.blockSize / 8;
+        }
+        if (canMove()) {
+            while (motionX > 0) {
+                setPosition(getX() + 1, getY());
+                motionX--;
+            }
+            while (motionX < 0) {
+                setPosition(getX() - 1, getY());
+                motionX++;
+            }
+            while (motionY > 0) {
+                setPosition(getX(), getY() + 1);
+                motionY--;
+            }
+            while (motionY < 0) {
+                setPosition(getX(), getY() - 1);
+                motionY++;
+            }
+        }
+        motionX = 0;
+        motionY = 0;
     }
 
     public CollisonBox getCollisonBox() {
