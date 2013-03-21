@@ -8,7 +8,7 @@ import Game.entity.EntityLiving;
  * @author maximumtech
  */
 public class RenderLiving extends RenderEntity {
-    private Image still;
+    private Image still = ImageHandler.getImage("blockGrass/blockGrass");
     //TODO: add animation f/ player
     
     public RenderLiving(EntityLiving entity) {
@@ -16,6 +16,6 @@ public class RenderLiving extends RenderEntity {
     }
     
     public void render(int x, int y) {
-        ImageHandler.drawImage2D(still, x, y + entity.sizeY);
+        ImageHandler.drawImage2D(still, x, y, entity.sizeX, entity.sizeY);
     }
 }

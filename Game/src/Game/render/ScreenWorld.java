@@ -4,6 +4,7 @@ import Game.base.World;
 import Game.base.BlockBase;
 import Game.base.BackTileBase;
 import Game.base.GameBase;
+import Game.entity.Entity;
 
 /**
  *
@@ -31,6 +32,9 @@ public class ScreenWorld extends Screen {
                         tile.renderWorld(world, x * GameBase.blockSize, y * GameBase.blockSize);
                     }
                 }
+            }
+            for(Entity ent : world.entityList) {
+                ent.render();
             }
         }
     }
