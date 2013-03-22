@@ -9,19 +9,16 @@ import Game.base.World;
  * @author maximumtech
  */
 public class WorldClickHandler implements IMouseHandler {
+    
+    World world;
 
-    public WorldClickHandler() {
+    public WorldClickHandler(World world) {
+        this.world = world;
         MouseHandler.instance.registerHandler(this);
     }
 
     public void clickLeftDown(int x, int y) {
-        World world = GameBase.instance.getWorld();
-        if (world != null) {
-            int xx = world.getCoordinateFromPixel(x);
-            int yy = world.getCoordinateFromPixel(y);
-            world.getBlock(xx, yy).onBlockBreak(world, xx, yy);
-            world.setBlock(xx, yy, (short)0);
-        }
+        
     }
 
     public void clickLeftHeld(int x, int y, long msDown) {

@@ -6,7 +6,6 @@ import Game.generation.WorldGenBase;
 import Game.generation.WorldGenTerrain;
 import java.util.ArrayList;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
 
 /**
  *
@@ -211,6 +210,20 @@ public class World {
     public void setBlock(int x, int y, BlockBase block, short meta) {
         setBlock(x, y, block.getBlockID(), meta);
     }
+    
+    public int[] getRelativePixelFromScreen(int x, int y) {
+        int wid = Display.getWidth() / 2;
+        int hei = Display.getHeight() / 2;
+        int xx = mainPlayer.getX() + (mainPlayer.sizeX / 2) - wid + x;
+        int yy = mainPlayer.getY() + (mainPlayer.sizeY / 2) - hei + y;
+        return new int[]{xx, yy};
+    }
+    
+    public int[] getRelativeCoordinateFromScreen(int x, int y) {
+        int[] pix = getRelativePixelFromScreen(x, y);
+        return new int[]{getCoordinateFromPixel(pix[0]), getCoordinateFromPixel(pix[1])};
+    }
+    
     private WorldGenBase terrainGen;
 
     public void generate() {

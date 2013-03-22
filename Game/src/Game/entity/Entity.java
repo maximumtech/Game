@@ -38,9 +38,8 @@ public abstract class Entity {
             renderer.render(getX(), getY());
         }
     }
-    
+
     public void onCollide(Entity entity) {
-        
     }
 
     public Entity(World world, int x, int y) {
@@ -108,7 +107,7 @@ public abstract class Entity {
                 }
             }
         } else if (side == Side.BOTTOM) {
-            int bottom = world.getCoordinateFromPixel(minY-1);
+            int bottom = world.getCoordinateFromPixel(minY - 1);
             for (int cX = minBlockX; cX < maxBlockX; cX++) {
                 if (bottom < 0 || cX < 0 || bottom > world.getHeight() || cX > world.getWidth()) {
                     return true;
@@ -136,7 +135,7 @@ public abstract class Entity {
                 }
             }
         } else if (side == Side.LEFT) {
-            int left = world.getCoordinateFromPixel(minX-1);
+            int left = world.getCoordinateFromPixel(minX - 1);
             for (int cY = minBlockY; cY < maxBlockY; cY++) {
                 if (left < 0 || cY < 0 || cY > world.getHeight() || left > world.getWidth()) {
                     return true;
@@ -152,7 +151,6 @@ public abstract class Entity {
         }
         return false;
     }
-    
     public boolean isJumping = false;
     public int jumpTick = 0;
 
@@ -162,11 +160,11 @@ public abstract class Entity {
             jumpTick = 0;
         }
     }
-    
+
     public void setDead() {
         world.entityList.remove(this);
     }
-    
+
     public boolean isOnGround() {
         int y = world.getCoordinateFromPixel(getY() - 1);
         boolean ground = false;
@@ -180,17 +178,13 @@ public abstract class Entity {
     }
 
     public void setPosition(int x, int y) {
-        //if (!isColliding(x, y, Side.ALL)) {
-            this.x = x;
-            this.y = y;
-        //}
+        this.x = x;
+        this.y = y;
     }
-    
     private int fallT;
     private boolean wasOnGround = true;
-    
+
     public void fall(int dist) {
-        
     }
 
     public void onUpdate() {
@@ -236,10 +230,10 @@ public abstract class Entity {
             motionY = 0;
         }
         CollisonBox box = getCollisonBox();
-        for(Entity ent : world.entityList) {
-            if(ent!=this) {
+        for (Entity ent : world.entityList) {
+            if (ent != this) {
                 CollisonBox box2 = ent.getCollisonBox();
-                if(box.intersects(box2)) {
+                if (box.intersects(box2)) {
                     onCollide(ent);
                 }
             }

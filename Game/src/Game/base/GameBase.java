@@ -53,7 +53,7 @@ public class GameBase {
         World world = new World(600, 100, 30, 16);
         renderScreen = new ScreenWorld(world);
         new MovementHandler();
-        new WorldClickHandler();
+        new WorldClickHandler(world);
         ItemStack.fontRenderer = new FontRenderer(4);
         while (!closeRequested()) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
