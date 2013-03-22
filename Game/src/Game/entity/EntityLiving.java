@@ -61,53 +61,14 @@ public abstract class EntityLiving extends Entity {
         return !isDead();
     }
 
-    public boolean isOnGround() {
-        int x = world.getCoordinateFromPixel(getX());
-        int y = world.getCoordinateFromPixel(getY() - 1);
-        BlockBase block = world.getBlock(x, y);
-        return block == null ? false : block.canCollide(world, x, y);
-    }
-
     public void fall(int dist) {
         if (dist > 80) {
             attackEntityFrom(Math.max(0, (dist - 80) / 4), DamageSource.FALL);
         }
     }
-    private int fallT;
-    private boolean wasOnGround = true;
 
     public void onLivingUpdate() {
-        boolean onGround = isOnGround();
-        if (!onGround && (!isJumping)) {
-            fallT++;
-            motionY -= Math.min(GameBase.blockSize * 8, Math.max(10, fallT));
-            wasOnGround = true;
-        }else if(isJumping) {
-            if(jumpTick == 0) {
-                motionY = 10;
-            }else if(jumpTick > 0 && jumpTick < 20) {
-                motionY += 20-jumpTick * 2;
-            }else if(jumpTick==20) {
-                jumpTick = 0;
-                isJumping = false;
-            }
-            jumpTick++;
-        } else {
-            if (wasOnGround) {
-                fall(fallT);
-            }
-            fallT = 0;
-        }
-    }
-    
-    private boolean isJumping = false;
-    private int jumpTick = 0;
-
-    public void jump() {
-        if (isOnGround()) {
-            isJumping = true;
-            jumpTick = 0;
-        }
+        
     }
 
     public void onUpdate() {

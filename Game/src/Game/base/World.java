@@ -87,7 +87,7 @@ public class World {
     }
 
     public int getCoordinateFromPixel(int pix) {
-        return pix / GameBase.blockSize;
+        return (int)Math.floor((double)pix / (double)GameBase.blockSize);
     }
     
     public int getPixelFromCoordinate(int coord) {
