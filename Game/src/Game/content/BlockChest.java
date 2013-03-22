@@ -10,7 +10,7 @@ import Game.base.World;
 public class BlockChest extends BlockGenReplaceable {
     
     private int chestWidth = 10;
-    private int chestHeight = 5;
+    private int chestHeight = 4;
     
     public BlockChest(short id, int height, int width) {
         super(id);

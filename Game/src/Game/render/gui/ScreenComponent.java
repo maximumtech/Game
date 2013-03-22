@@ -1,4 +1,4 @@
-package Game.render;
+package Game.render.gui;
 
 /**
  *

@@ -8,8 +8,8 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import Game.render.Screen;
-import Game.render.ScreenWorld;
+import Game.render.gui.Screen;
+import Game.render.gui.ScreenWorld;
 
 /**
  *

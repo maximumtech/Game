@@ -2,7 +2,7 @@ package Game.interaction;
 
 import Game.base.GameBase;
 import Game.base.World;
-import Game.render.ScreenWorld;
+import Game.render.gui.ScreenWorld;
 
 /**
  *

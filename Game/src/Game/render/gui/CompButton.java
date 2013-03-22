@@ -1,8 +1,9 @@
-package Game.render;
+package Game.render.gui;
 
 import Game.interaction.IMouseHandler;
 import org.newdawn.slick.Image;
 import Game.interaction.MouseHandler;
+import Game.render.ImageHandler;
 import org.lwjgl.input.Mouse;
 
 /**
