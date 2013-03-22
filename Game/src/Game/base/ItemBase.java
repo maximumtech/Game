@@ -13,6 +13,16 @@ public abstract class ItemBase {
     public static ItemBase[] totalList = new ItemBase[Short.MAX_VALUE * 3];
     public static ItemBase[] itemsList = new ItemBase[Short.MAX_VALUE];
     private RenderStackBase image;
+    private int maxStackSize = 999;
+    
+    public int getMaxStackSize() {
+        return maxStackSize;
+    }
+    
+    public ItemBase setMaxStackSize(int size) {
+        this.maxStackSize = size;
+        return this;
+    }
 
     public ItemBase(short id, ItemType type) {
         itemID = (Short.MAX_VALUE * (type == ItemType.BLOCK ? 0 : type == ItemType.BACKTILE ? 1 : 2)) + id;
@@ -20,6 +30,17 @@ public abstract class ItemBase {
         if (type == ItemType.ITEM) {
             itemsList[itemID] = this;
         }
+    }
+    
+    public ItemBase getFromID(short id, ItemType type) {
+        if(type == ItemType.ITEM) {
+            return itemsList[id];
+        }else if(type==ItemType.BLOCK){
+            return BlockBase.blocksList[id];
+        }else if(type==ItemType.BACKTILE) {
+            return BackTileBase.backtileList[id];
+        }
+        return null;
     }
 
     public short getItemID() {
@@ -46,7 +67,6 @@ public abstract class ItemBase {
     }
 
     protected static enum ItemType {
-
         BLOCK,
         BACKTILE,
         ITEM;
