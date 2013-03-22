@@ -8,6 +8,5 @@ public enum Side {
     TOP,
     BOTTOM,
     LEFT,
-    RIGHT,
-    ALL;
+    RIGHT;
 }

@@ -50,7 +50,7 @@ public class GameBase {
         System.out.println("OpenGL Started, Tick Handling Initializing");
         new TickHandler();
         System.out.println("Tick Handler Initialized, Starting Render Loop");
-        World world = new World(100, 50, 30, 16);
+        World world = new World(600, 100, 30, 16);
         renderScreen = new ScreenWorld(world);
         new MovementHandler();
         new WorldClickHandler();

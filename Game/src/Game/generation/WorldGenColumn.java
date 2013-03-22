@@ -13,7 +13,7 @@ public class WorldGenColumn extends WorldGenBase {
     }
     
     public void generate() {
-        for(int x = 0;x<world.getWidth();x++) {
+        for(int x = 0;x<=world.getWidth();x++) {
             generateColumn(x);
         }
     }

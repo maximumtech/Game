@@ -94,6 +94,9 @@ public abstract class Entity {
         if (side == Side.TOP) {
             int top = world.getCoordinateFromPixel(maxY);
             for (int cX = minBlockX; cX < maxBlockX; cX++) {
+                if (top < 0 || cX < 0 || top > world.getHeight() || cX > world.getWidth()) {
+                    return true;
+                }
                 BlockBase block = world.getBlock(cX, top);
                 if (block != null && block.canCollide(world, cX, top)) {
                     CollisonBox box2 = block.getCollisonBox(world, cX, top);
@@ -105,8 +108,11 @@ public abstract class Entity {
                 }
             }
         } else if (side == Side.BOTTOM) {
-            int bottom = world.getCoordinateFromPixel(minY - 1);
+            int bottom = world.getCoordinateFromPixel(minY-1);
             for (int cX = minBlockX; cX < maxBlockX; cX++) {
+                if (bottom < 0 || cX < 0 || bottom > world.getHeight() || cX > world.getWidth()) {
+                    return true;
+                }
                 BlockBase block = world.getBlock(cX, bottom);
                 if (block != null && block.canCollide(world, cX, bottom)) {
                     CollisonBox box2 = block.getCollisonBox(world, cX, bottom);
@@ -118,6 +124,9 @@ public abstract class Entity {
         } else if (side == Side.RIGHT) {
             int right = world.getCoordinateFromPixel(maxX);
             for (int cY = minBlockY; cY < maxBlockY; cY++) {
+                if (right < 0 || cY < 0 || cY > world.getHeight() || right > world.getWidth()) {
+                    return true;
+                }
                 BlockBase block = world.getBlock(right, cY);
                 if (block != null && block.canCollide(world, right, cY)) {
                     CollisonBox box2 = block.getCollisonBox(world, right, cY);
@@ -127,25 +136,16 @@ public abstract class Entity {
                 }
             }
         } else if (side == Side.LEFT) {
-            int left = world.getCoordinateFromPixel(minX - 1);
+            int left = world.getCoordinateFromPixel(minX-1);
             for (int cY = minBlockY; cY < maxBlockY; cY++) {
+                if (left < 0 || cY < 0 || cY > world.getHeight() || left > world.getWidth()) {
+                    return true;
+                }
                 BlockBase block = world.getBlock(left, cY);
                 if (block != null && block.canCollide(world, left, cY)) {
                     CollisonBox box2 = block.getCollisonBox(world, left, cY);
                     if (box.intersects(box2)) {
                         return true;
-                    }
-                }
-            }
-        } else if (side == Side.ALL) {
-            for (int cX = minBlockX; cX < maxBlockX; cX++) {
-                for (int cY = minBlockY; cY < maxBlockY; cY++) {
-                    BlockBase block = world.getBlock(cX, cY);
-                    if (block != null && block.canCollide(world, cX, cY)) {
-                        CollisonBox box2 = block.getCollisonBox(world, cX, cY);
-                        if (box.intersects(box2)) {
-                            return true;
-                        }
                     }
                 }
             }
@@ -171,7 +171,7 @@ public abstract class Entity {
         int x = world.getCoordinateFromPixel(getX());
         int y = world.getCoordinateFromPixel(getY() - 1);
         BlockBase block = world.getBlock(x, y);
-        return block == null ? false : block.canCollide(world, x, y);
+        return this.y == 0?true:block == null ? false : block.canCollide(world, x, y);
     }
 
     public void setPosition(int x, int y) {
