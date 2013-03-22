@@ -8,9 +8,9 @@ import Game.base.World;
  *
  * @author maximumtech
  */
-public class ClickHandler implements IMouseHandler {
+public class WorldClickHandler implements IMouseHandler {
 
-    public ClickHandler() {
+    public WorldClickHandler() {
         MouseHandler.instance.registerHandler(this);
     }
 
@@ -18,8 +18,8 @@ public class ClickHandler implements IMouseHandler {
         World world = GameBase.instance.getWorld();
         if (world != null) {
             int xx = world.getCoordinateFromPixel(x);
-            int yy = world.getCoordinateFromPixel(y);
-            world.setBlock(xx, yy+12, (short)0);
+            int yy = world.getCoordinateFromPixel(y + 200);
+            world.setBlock(xx, yy, (short)0);
         }
     }
 

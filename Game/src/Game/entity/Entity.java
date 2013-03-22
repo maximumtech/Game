@@ -84,7 +84,7 @@ public abstract class Entity {
         int minY = box.minY;
         int maxY = box.maxY;
         int minBlockX = world.getCoordinateFromPixel(minX);
-        int maxBlockX = world.getCoordinateFromPixel(maxX) + 1;
+        int maxBlockX = world.getCoordinateFromPixel(maxX);
         int minBlockY = world.getCoordinateFromPixel(minY);
         int maxBlockY = world.getCoordinateFromPixel(maxY);
         if (side == Side.TOP) {

@@ -1,6 +1,6 @@
 package Game.base;
 
-import Game.interaction.ClickHandler;
+import Game.interaction.WorldClickHandler;
 import Game.interaction.KeyboardHandler;
 import Game.interaction.MouseHandler;
 import Game.interaction.MovementHandler;
@@ -51,8 +51,7 @@ public class GameBase {
         World world = new World(100, 50, 30, 16);
         renderScreen = new ScreenWorld(world);
         new MovementHandler();
-        new ClickHandler();
-        GL11.glTranslatef(0, -200, 0);
+        new WorldClickHandler();
         while (!closeRequested()) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
             if (Display.wasResized()) {
@@ -81,7 +80,8 @@ public class GameBase {
                 World world = ((ScreenWorld)renderScreen).world;
                 int wid = Display.getWidth() / 2;
                 int hei = Display.getHeight() / 2;
-                //GL11.glTranslatef(-world.mainPlayer.getX() + wid - (world.mainPlayer.sizeX / 2), -world.mainPlayer.getY() + hei - (world.mainPlayer.sizeY / 2), 0);
+                GL11.glTranslatef(-world.mainPlayer.getX() + wid - (world.mainPlayer.sizeX / 2), -world.mainPlayer.getY() + hei - (world.mainPlayer.sizeY / 2), 0);
+                //GL11.glFrustum(-world.mainPlayer.getX() + wid - (world.mainPlayer.sizeX / 2), -world.mainPlayer.getX() - wid + (world.mainPlayer.sizeX / 2), -world.mainPlayer.getY() + hei - (world.mainPlayer.sizeY / 2), -world.mainPlayer.getY() - hei + (world.mainPlayer.sizeY / 2), 0, 0);
             }
             renderScreen.render();
             GL11.glPopMatrix();
