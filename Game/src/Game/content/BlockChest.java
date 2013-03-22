@@ -9,43 +9,18 @@ import Game.base.World;
  */
 public class BlockChest extends BlockGenReplaceable {
     
-    private int chestSize = 15;
-    private int[] contents = new int[chestSize];
+    private int chestWidth = 10;
+    private int chestHeight = 5;
     
-    public BlockChest(short id) {
+    public BlockChest(short id, int height, int width) {
         super(id);
-        //addContent();
+        chestHeight = height;
+        chestWidth = width;
     }
     
-    public void onUpdate(World world, int x, int y) {
-        
+    public int getSize() {
+        return chestWidth * chestHeight;
     }
     
-    public void addItems(String rarity){
-        if(rarity == "shit"){
-            //most likely run a for loop, first decided whether or not to place into current slot in chest
-            //then choose the BlockID of an item from the rarity level defined.
-            //if the slot in the chest is supposed to be empty, add in an empty entity that isn't usable.
-            //contents.add(BlockID)
-        }else if(rarity == "common"){
-            //most likely run a for loop, first decided whether or not to place into current slot in chest
-            //then choose the BlockID of an item from the rarity level defined.
-            //contents.add(BlockID)
-        }else if(rarity == "uncommon"){
-            //most likely run a for loop, first decided whether or not to place into current slot in chest
-            //then choose the BlockID of an item from the rarity level defined.
-            //if the slot in the chest is supposed to be empty, add in an empty entity that isn't usable.
-            //contents.add(BlockID)
-        }else if(rarity == "rare"){
-            //most likely run a for loop, first decided whether or not to place into current slot in chest
-            //then choose the BlockID of an item from the rarity level defined.
-            //if the slot in the chest is supposed to be empty, add in an empty entity that isn't usable.
-            //contents.add(BlockID)
-        }else if(rarity == "legendary"){
-            //most likely run a for loop, first decided whether or not to place into current slot in chest
-            //then choose the BlockID of an item from the rarity level defined.
-            //if the slot in the chest is supposed to be empty, add in an empty entity that isn't usable.
-            //contents.add(BlockID)
-        }
-    }
+    //add retrieve inventory from data
 }
