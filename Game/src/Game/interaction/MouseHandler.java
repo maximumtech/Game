@@ -15,42 +15,45 @@ public class MouseHandler {
     long leftms = 0L;
     long rightms = 0L;
     private ArrayList<IMouseHandler> handlers = new ArrayList<>();
-    
+
     public void registerHandler(IMouseHandler handler) {
         handlers.add(handler);
     }
 
     public void onUpdate() {
-        if (Mouse.isButtonDown(0)) {
-            if (!wasLeftDown) {
-                wasLeftDown = true;
-                clickLeftDown(Mouse.getX(), Mouse.getY());
-                leftms = System.currentTimeMillis();
+        try {
+            if (Mouse.isButtonDown(0)) {
+                if (!wasLeftDown) {
+                    wasLeftDown = true;
+                    clickLeftDown(Mouse.getX(), Mouse.getY());
+                    leftms = System.currentTimeMillis();
+                }
+                clickLeftHeld(Mouse.getX(), Mouse.getY(), System.currentTimeMillis() - leftms);
+            } else {
+                if (wasLeftDown) {
+                    wasLeftDown = false;
+                    clickLeftUp(Mouse.getX(), Mouse.getY(), leftms);
+                }
             }
-            clickLeftHeld(Mouse.getX(), Mouse.getY(), System.currentTimeMillis() - leftms);
-        } else {
-            if (wasLeftDown) {
-                wasLeftDown = false;
-                clickLeftUp(Mouse.getX(), Mouse.getY(), leftms);
+            if (Mouse.isButtonDown(1)) {
+                if (!wasRightDown) {
+                    wasRightDown = true;
+                    clickRightDown(Mouse.getX(), Mouse.getY());
+                    rightms = System.currentTimeMillis();
+                }
+                clickRightHeld(Mouse.getX(), Mouse.getY(), System.currentTimeMillis() - rightms);
+            } else {
+                if (wasRightDown) {
+                    wasRightDown = false;
+                    clickRightUp(Mouse.getX(), Mouse.getY(), rightms);
+                }
             }
-        }
-        if (Mouse.isButtonDown(1)) {
-            if (!wasRightDown) {
-                wasRightDown = true;
-                clickRightDown(Mouse.getX(), Mouse.getY());
-                rightms = System.currentTimeMillis();
-            }
-            clickRightHeld(Mouse.getX(), Mouse.getY(), System.currentTimeMillis() - rightms);
-        } else {
-            if (wasRightDown) {
-                wasRightDown = false;
-                clickRightUp(Mouse.getX(), Mouse.getY(), rightms);
-            }
+        } catch (IllegalStateException e) {
         }
     }
 
     public void clickLeftDown(int x, int y) {
-        for(IMouseHandler handler : handlers) {
+        for (IMouseHandler handler : handlers) {
             handler.clickLeftDown(x, y);
         }
     }
