@@ -18,7 +18,8 @@ public class WorldClickHandler implements IMouseHandler {
         World world = GameBase.instance.getWorld();
         if (world != null) {
             int xx = world.getCoordinateFromPixel(x);
-            int yy = world.getCoordinateFromPixel(y + 200);
+            int yy = world.getCoordinateFromPixel(y);
+            world.getBlock(xx, yy).onBlockBreak(world, xx, yy);
             world.setBlock(xx, yy, (short)0);
         }
     }

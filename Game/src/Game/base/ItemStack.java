@@ -1,5 +1,7 @@
 package Game.base;
 
+import Game.render.FontRenderer;
+
 /**
  *
  * @author maximumtech
@@ -9,6 +11,7 @@ public class ItemStack {
     private short meta = 0;
     private String data = "";
     private int stackSize = 1;
+    public static FontRenderer fontRenderer;
     
     public ItemStack() {
         
@@ -17,6 +20,16 @@ public class ItemStack {
     public ItemStack(ItemBase item) {
         this();
         this.item = item;
+    }
+    
+    public void renderWorld(World world, int x, int y) {
+        getItem().renderWorld(world, x, y, meta, data);
+    }
+    
+    public void renderGUI(int x, int y) {
+        getItem().renderGUI(x, y, meta, data);
+        fontRenderer.drawString("" + stackSize, x, y);
+        fontRenderer.drawString("" + getItem().getName(), x, y + GameBase.blockSize);
     }
     
     public ItemStack(ItemBase item, int amt) {

@@ -4,6 +4,7 @@ import Game.interaction.WorldClickHandler;
 import Game.interaction.KeyboardHandler;
 import Game.interaction.MouseHandler;
 import Game.interaction.MovementHandler;
+import Game.render.FontRenderer;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -45,6 +46,7 @@ public class GameBase {
         GL11.glLoadIdentity();
         GL11.glOrtho(0, 800, 0, 600, 1, -1);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        Display.setVSyncEnabled(true);
         System.out.println("OpenGL Started, Tick Handling Initializing");
         new TickHandler();
         System.out.println("Tick Handler Initialized, Starting Render Loop");
@@ -52,6 +54,7 @@ public class GameBase {
         renderScreen = new ScreenWorld(world);
         new MovementHandler();
         new WorldClickHandler();
+        ItemStack.fontRenderer = new FontRenderer(4);
         while (!closeRequested()) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
             if (Display.wasResized()) {
@@ -65,10 +68,10 @@ public class GameBase {
         System.out.println("Closing");
         Display.destroy();
     }
-    
+
     public World getWorld() {
-        if(renderScreen!=null && renderScreen instanceof ScreenWorld) {
-            return ((ScreenWorld)renderScreen).world;
+        if (renderScreen != null && renderScreen instanceof ScreenWorld) {
+            return ((ScreenWorld) renderScreen).world;
         }
         return null;
     }
@@ -76,15 +79,26 @@ public class GameBase {
     private void render() {
         if (renderScreen != null) {
             GL11.glPushMatrix();
-            if(renderScreen instanceof ScreenWorld) {
-                World world = ((ScreenWorld)renderScreen).world;
-                int wid = Display.getWidth() / 2;
-                int hei = Display.getHeight() / 2;
-                GL11.glTranslatef(-world.mainPlayer.getX() + wid - (world.mainPlayer.sizeX / 2), -world.mainPlayer.getY() + hei - (world.mainPlayer.sizeY / 2), 0);
-                //GL11.glFrustum(-world.mainPlayer.getX() + wid - (world.mainPlayer.sizeX / 2), -world.mainPlayer.getX() - wid + (world.mainPlayer.sizeX / 2), -world.mainPlayer.getY() + hei - (world.mainPlayer.sizeY / 2), -world.mainPlayer.getY() - hei + (world.mainPlayer.sizeY / 2), 0, 0);
+            if (renderScreen instanceof ScreenWorld) {
+                World world = ((ScreenWorld) renderScreen).world;
+                if (world != null && world.mainPlayer != null) {
+                    int wid = Display.getWidth() / 2;
+                    int hei = Display.getHeight() / 2;
+                    world.mainPlayer.renderer.render(wid - (world.mainPlayer.sizeX / 2), hei - (world.mainPlayer.sizeY / 2));
+                    translateToPlayer();
+                }
             }
             renderScreen.render();
             GL11.glPopMatrix();
+        }
+    }
+
+    public void translateToPlayer() {
+        if (renderScreen instanceof ScreenWorld) {
+            World world = ((ScreenWorld) renderScreen).world;
+            int wid = Display.getWidth() / 2;
+            int hei = Display.getHeight() / 2;
+            GL11.glTranslatef(-world.mainPlayer.getX() + wid - (world.mainPlayer.sizeX / 2), -world.mainPlayer.getY() + hei - (world.mainPlayer.sizeY / 2), 0);
         }
     }
 

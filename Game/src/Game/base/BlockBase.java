@@ -1,6 +1,7 @@
 package Game.base;
 
 import Game.content.*;
+import Game.entity.EntityItem;
 import Game.render.ImageHandler;
 
 /**
@@ -19,7 +20,7 @@ public class BlockBase extends ItemBase {
         super(id, ItemType.BLOCK);
         blocksList[id] = this;
     }
-    
+
     public short getBlockID() {
         return getID(ItemType.BLOCK);
     }
@@ -40,22 +41,40 @@ public class BlockBase extends ItemBase {
         return true;
     }
 
+    public void onBlockBreak(World world, int x, int y) {
+        ItemStack[] items = getDroppedItem(world, x, y);
+        for (ItemStack item : items) {
+            EntityItem itm = new EntityItem(world, x, y, item);
+            world.spawnEntity(itm);
+        }
+    }
+
+    public ItemStack[] getDroppedItem(World world, int x, int y) {
+        return new ItemStack[]{new ItemStack((ItemBase)this)};
+    }
+
+    public void onRightClick(World world, int x, int y) {
+    }
+    
+    public void onPlace(World world, int x, int y) {
+    }
+
     public CollisonBox getCollisonBox(World world, int x, int y) {
         int xx = world.getPixelFromCoordinate(x);
         int yy = world.getPixelFromCoordinate(y);
         return new CollisonBox(xx, yy, xx + GameBase.blockSize, yy + GameBase.blockSize);
     }
-    
+
     public void onNeighborUpdate(World world, int x, int y) {
     }
 
     public void onUpdate(World world, int x, int y) {
     }
-    
+
     public boolean isGenerationReplacable() {
         return false;
     }
-    
+
     public boolean shouldRender() {
         //check lighting
         //check if on screen

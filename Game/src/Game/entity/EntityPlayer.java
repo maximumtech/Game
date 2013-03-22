@@ -3,6 +3,8 @@ package Game.entity;
 import Game.base.GameBase;
 import Game.base.World;
 import Game.render.RenderPlayer;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 
 /**
  *
@@ -18,5 +20,13 @@ public class EntityPlayer extends EntityLiving {
         sizeY = GameBase.blockSize * 3;
         this.username = name;
         renderer = new RenderPlayer(this);
+    }
+    
+    public void render() {
+        if (renderer != null) {
+            if(world.mainPlayer != this) {
+                renderer.render(getX(), getY());
+            }
+        }
     }
 }

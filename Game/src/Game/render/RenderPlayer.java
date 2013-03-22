@@ -11,5 +11,4 @@ public class RenderPlayer extends RenderLiving {
     public RenderPlayer(EntityPlayer ent) {
         super(ent);
     }
-    
 }

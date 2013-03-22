@@ -19,7 +19,7 @@ public abstract class Entity {
     private int y = 0;
     public int sizeX = 0;
     public int sizeY = 0;
-    RenderEntity renderer = null;
+    public RenderEntity renderer = null;
     public int motionX;
     public int motionY;
 
@@ -37,6 +37,10 @@ public abstract class Entity {
         if (renderer != null) {
             renderer.render(getX(), getY());
         }
+    }
+    
+    public void onCollide(Entity entity) {
+        
     }
 
     public Entity(World world, int x, int y) {
@@ -159,6 +163,10 @@ public abstract class Entity {
         }
     }
     
+    public void setDead() {
+        world.entityList.remove(this);
+    }
+    
     public boolean isOnGround() {
         int x = world.getCoordinateFromPixel(getX());
         int y = world.getCoordinateFromPixel(getY() - 1);
@@ -221,6 +229,15 @@ public abstract class Entity {
             }
             motionX = 0;
             motionY = 0;
+        }
+        CollisonBox box = getCollisonBox();
+        for(Entity ent : world.entityList) {
+            if(ent!=this) {
+                CollisonBox box2 = ent.getCollisonBox();
+                if(box.intersects(box2)) {
+                    onCollide(ent);
+                }
+            }
         }
     }
 
