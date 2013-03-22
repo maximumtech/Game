@@ -14,6 +14,14 @@ public class RenderStack implements RenderStackBase {
         
     }
     
+    public Image getImage(int index) {
+        return stack.get(index);
+    }
+    
+    public int getSize() {
+        return stack.size();
+    }
+    
     public RenderStack add(Image img) {
         stack.add(img);
         return this;

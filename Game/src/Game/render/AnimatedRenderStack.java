@@ -17,14 +17,30 @@ public class AnimatedRenderStack implements RenderStackBase {
         
     }
     
+    public Image getImage(int index) {
+        return stack.get(index);
+    }
+    
+    public long getDelay(int index) {
+        return delayStack.get(index);
+    }
+    
+    public int getSize() {
+        return stack.size();
+    }
+    
     public AnimatedRenderStack add(Image img) {
         stack.add(img);
-        delayStack.add(1L);
         return this;
     }
     
     public AnimatedRenderStack add(Image img, long delayMillis) {
         stack.add(img);
+        delayStack.add(delayMillis);
+        return this;
+    }
+    
+    public AnimatedRenderStack add(long delayMillis) {
         delayStack.add(delayMillis);
         return this;
     }

@@ -1,8 +1,5 @@
 package Game.content;
 
-import Game.base.BlockBase;
-import Game.base.World;
-
 /**
  *
  * @author Mirw-

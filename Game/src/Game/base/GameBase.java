@@ -4,6 +4,7 @@ import Game.interaction.WorldClickHandler;
 import Game.interaction.KeyboardHandler;
 import Game.interaction.MouseHandler;
 import Game.interaction.MovementHandler;
+import Game.misc.BlockBreakingHandler;
 import Game.render.FontRenderer;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -27,6 +28,7 @@ public class GameBase {
     }
 
     public GameBase(String[] args) {
+        System.out.println("Game Copyright (C) 2013 Maxwell Bruce");
         instance = this;
         try {
             Display.setDisplayMode(new DisplayMode(800, 600));
@@ -54,6 +56,7 @@ public class GameBase {
         renderScreen = new ScreenWorld(world);
         new MovementHandler();
         new WorldClickHandler(world);
+        new BlockBreakingHandler(world);
         ItemStack.fontRenderer = new FontRenderer(4);
         while (!closeRequested()) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);

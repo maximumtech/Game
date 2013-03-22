@@ -10,6 +10,7 @@ import Game.render.ImageHandler;
  */
 public class BlockBase extends ItemBase {
 
+    public float blockHardness = 0.05F;
     public static BlockBase[] blocksList = new BlockBase[Short.MAX_VALUE];
     public static final BlockBase stone = (BlockBase) new BlockGenReplaceable((short) 1).setImage(ImageHandler.getRenderStack("blockStone")).setName("Stone");
     public static final BlockBase dirt = (BlockBase) new BlockGenReplaceable((short) 2).setImage(ImageHandler.getRenderStack("blockDirt")).setName("Dirt");
@@ -19,6 +20,11 @@ public class BlockBase extends ItemBase {
     public BlockBase(short id) {
         super(id, ItemType.BLOCK);
         blocksList[id] = this;
+    }
+    
+    public BlockBase setHardness(float hardness) {
+        this.blockHardness = hardness / 20;
+        return this;
     }
 
     public short getBlockID() {

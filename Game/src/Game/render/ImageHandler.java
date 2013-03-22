@@ -53,9 +53,20 @@ public class ImageHandler {
                                 if (type.equals("overlay")) {
                                     rs = new RenderStack();
                                 } else if (type.equals("animation")) {
-                                    //animation
+                                    rs = new AnimatedRenderStack();
                                 } else {
                                     //??
+                                }
+                            }
+                            if (line.startsWith("animDelay:")) {
+                                String delay = line.substring(10);
+                                if (rs instanceof AnimatedRenderStack) {
+                                    for (String str : delay.replace(" ", "").split(",")) {
+                                        try {
+                                            ((AnimatedRenderStack) rs).add(Long.parseLong(str));
+                                        } catch (Exception e) {
+                                        }
+                                    }
                                 }
                             }
                         }
