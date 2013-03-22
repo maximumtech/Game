@@ -15,6 +15,8 @@ import java.util.Random;
  */
 public class LootHelper {
     
+    public LootHelper instance = new LootHelper();
+    
     public static enum Rarity {
         POOR,
         COMMON,
