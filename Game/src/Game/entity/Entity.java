@@ -168,10 +168,15 @@ public abstract class Entity {
     }
     
     public boolean isOnGround() {
-        int x = world.getCoordinateFromPixel(getX());
         int y = world.getCoordinateFromPixel(getY() - 1);
-        BlockBase block = world.getBlock(x, y);
-        return this.y == 0?true:block == null ? false : block.canCollide(world, x, y);
+        boolean ground = false;
+        for (int x = world.getCoordinateFromPixel(getX()); x < world.getCoordinateFromPixel(getMaxX()); x++) {
+            BlockBase block = world.getBlock(x, y);
+            if (block != null && block.canCollide(world, x, y)) {
+                ground = true;
+            }
+        }
+        return this.y == 0 ? true : ground;
     }
 
     public void setPosition(int x, int y) {
