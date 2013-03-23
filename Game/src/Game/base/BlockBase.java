@@ -22,6 +22,10 @@ public class BlockBase extends ItemBase {
         blocksList[id] = this;
     }
     
+    public boolean isBreakable() {
+        return true;
+    }
+    
     public BlockBase setHardness(float hardness) {
         this.blockHardness = hardness / 20;
         return this;
@@ -63,6 +67,10 @@ public class BlockBase extends ItemBase {
     }
     
     public void onPlace(World world, int x, int y) {
+    }
+    
+    public void onStartBreaking(World world, int x, int y) {
+        
     }
 
     public CollisonBox getCollisonBox(World world, int x, int y) {

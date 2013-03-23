@@ -5,6 +5,7 @@ import Game.base.BlockBase;
 import Game.base.BackTileBase;
 import Game.base.GameBase;
 import Game.entity.Entity;
+import Game.misc.BlockBreakingHandler;
 
 /**
  *
@@ -33,6 +34,7 @@ public class ScreenWorld extends Screen {
                     }
                 }
             }
+            BlockBreakingHandler.instance.renderBreaking();
             for(Entity ent : world.entityList) {
                 ent.render();
             }
