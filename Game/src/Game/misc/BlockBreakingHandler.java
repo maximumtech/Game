@@ -6,6 +6,7 @@ import Game.base.World;
 import Game.render.ImageHandler;
 import Game.render.RenderStack;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
 
 /**
  *
@@ -81,29 +82,28 @@ public class BlockBreakingHandler {
         if (isBreaking && currentBlockX > -1 && currentBlockY > -1) {
             GL11.glPushMatrix();
             GL11.glTranslatef(0, 0, 1);
-            GL11.glColor3f(0, 0, 0);
             int x = world.getPixelFromCoordinate(currentBlockX);
             int y = world.getPixelFromCoordinate(currentBlockY);
             if (progress < 0.1F) {
-                ImageHandler.drawImage2D(breaking.getImage(0), x, y, GameBase.blockSize, GameBase.blockSize);
+                ImageHandler.drawImage2D(breaking.getImage(0), x, y, GameBase.blockSize, GameBase.blockSize, Color.black);
             } else if (progress < 0.2F) {
-                ImageHandler.drawImage2D(breaking.getImage(1), x, y, GameBase.blockSize, GameBase.blockSize);
+                ImageHandler.drawImage2D(breaking.getImage(1), x, y, GameBase.blockSize, GameBase.blockSize, Color.black);
             } else if (progress < 0.3F) {
-                ImageHandler.drawImage2D(breaking.getImage(2), x, y, GameBase.blockSize, GameBase.blockSize);
+                ImageHandler.drawImage2D(breaking.getImage(2), x, y, GameBase.blockSize, GameBase.blockSize, Color.black);
             } else if (progress < 0.4F) {
-                ImageHandler.drawImage2D(breaking.getImage(3), x, y, GameBase.blockSize, GameBase.blockSize);
+                ImageHandler.drawImage2D(breaking.getImage(3), x, y, GameBase.blockSize, GameBase.blockSize, Color.black);
             } else if (progress < 0.5F) {
-                ImageHandler.drawImage2D(breaking.getImage(4), x, y, GameBase.blockSize, GameBase.blockSize);
+                ImageHandler.drawImage2D(breaking.getImage(4), x, y, GameBase.blockSize, GameBase.blockSize, Color.black);
             } else if (progress < 0.6F) {
-                ImageHandler.drawImage2D(breaking.getImage(5), x, y, GameBase.blockSize, GameBase.blockSize);
+                ImageHandler.drawImage2D(breaking.getImage(5), x, y, GameBase.blockSize, GameBase.blockSize, Color.black);
             } else if (progress < 0.7F) {
-                ImageHandler.drawImage2D(breaking.getImage(6), x, y, GameBase.blockSize, GameBase.blockSize);
+                ImageHandler.drawImage2D(breaking.getImage(6), x, y, GameBase.blockSize, GameBase.blockSize, Color.black);
             } else if (progress < 0.8F) {
-                ImageHandler.drawImage2D(breaking.getImage(7), x, y, GameBase.blockSize, GameBase.blockSize);
+                ImageHandler.drawImage2D(breaking.getImage(7), x, y, GameBase.blockSize, GameBase.blockSize, Color.black);
             } else if (progress < 0.9F) {
-                ImageHandler.drawImage2D(breaking.getImage(8), x, y, GameBase.blockSize, GameBase.blockSize);
+                ImageHandler.drawImage2D(breaking.getImage(8), x, y, GameBase.blockSize, GameBase.blockSize, Color.black);
             } else if (progress < 1F) {
-                ImageHandler.drawImage2D(breaking.getImage(9), x, y, GameBase.blockSize, GameBase.blockSize);
+                ImageHandler.drawImage2D(breaking.getImage(9), x, y, GameBase.blockSize, GameBase.blockSize, Color.black);
             }
             GL11.glPopMatrix();
         }

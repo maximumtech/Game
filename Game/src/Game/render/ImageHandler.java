@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.io.File;
 import java.util.Scanner;
 import java.util.ArrayList;
+import org.newdawn.slick.Color;
 
 /**
  *
@@ -96,6 +97,12 @@ public class ImageHandler {
     public static void drawImage2D(Image image, int x, int y, int width, int height) {
         if (image != null) {
             image.draw(x, y, width, height);
+        }
+    }
+    
+    public static void drawImage2D(Image image, int x, int y, int width, int height, Color color) {
+        if (image != null) {
+            image.draw(x, y, width, height, color);
         }
     }
 }
