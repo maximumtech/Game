@@ -20,11 +20,7 @@ public class EntityPlayer extends EntityLiving {
         renderer = new RenderPlayer(this);
     }
     
-    public void render() {
-        if (renderer != null) {
-            if(world.mainPlayer != this) {
-                renderer.render(getX(), getY());
-            }
-        }
+    public boolean shouldRender() {
+        return world.mainPlayer!=this;
     }
 }

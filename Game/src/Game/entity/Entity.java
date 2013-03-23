@@ -34,7 +34,7 @@ public abstract class Entity {
     }
 
     public void render() {
-        if (renderer != null) {
+        if (renderer != null && shouldRender()) {
             renderer.render(getX(), getY());
         }
     }
@@ -164,6 +164,10 @@ public abstract class Entity {
     public void setDead() {
         world.despawnEntity(this);
     }
+    
+    public boolean shouldRender() {
+        return true;
+    }
 
     public boolean isOnGround() {
         int y = world.getCoordinateFromPixel(getY() - 1);
@@ -236,7 +240,7 @@ public abstract class Entity {
                     if (ent != this) {
                         CollisonBox box2 = ent.getCollisonBox();
                         if (box.intersects(box2)) {
-                            onCollide(ent);
+                            this.onCollide(ent);
                         }
                     }
                 }

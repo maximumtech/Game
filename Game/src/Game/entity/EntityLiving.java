@@ -1,7 +1,5 @@
 package Game.entity;
 
-import Game.base.BlockBase;
-import Game.base.GameBase;
 import Game.base.World;
 import Game.misc.DamageSource;
 
