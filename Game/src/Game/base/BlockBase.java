@@ -54,7 +54,7 @@ public class BlockBase extends ItemBase {
     public void onBlockBreak(World world, int x, int y) {
         ItemStack[] items = getDroppedItem(world, x, y);
         for (ItemStack item : items) {
-            EntityItem itm = new EntityItem(world, x, y, item);
+            EntityItem itm = new EntityItem(world, world.getPixelFromCoordinate(x), world.getPixelFromCoordinate(y), item);
             world.spawnEntity(itm);
         }
     }

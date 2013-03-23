@@ -162,7 +162,7 @@ public abstract class Entity {
     }
 
     public void setDead() {
-        world.entityList.remove(this);
+        world.despawnEntity(this);
     }
 
     public boolean isOnGround() {
@@ -229,12 +229,16 @@ public abstract class Entity {
             motionX = 0;
             motionY = 0;
         }
-        CollisonBox box = getCollisonBox();
-        for (Entity ent : world.entityList) {
-            if (ent != this) {
-                CollisonBox box2 = ent.getCollisonBox();
-                if (box.intersects(box2)) {
-                    onCollide(ent);
+        synchronized (world.entityList) {
+            CollisonBox box = getCollisonBox();
+            for (Entity ent : world.entityList) {
+                synchronized (ent) {
+                    if (ent != this) {
+                        CollisonBox box2 = ent.getCollisonBox();
+                        if (box.intersects(box2)) {
+                            onCollide(ent);
+                        }
+                    }
                 }
             }
         }

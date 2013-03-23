@@ -35,8 +35,12 @@ public class ScreenWorld extends Screen {
                 }
             }
             BlockBreakingHandler.instance.renderBreaking();
-            for(Entity ent : world.entityList) {
-                ent.render();
+            synchronized (world.entityList) {
+                for (Entity ent : world.entityList) {
+                    synchronized (ent) {
+                        ent.render();
+                    }
+                }
             }
         }
     }

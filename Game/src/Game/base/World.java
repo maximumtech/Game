@@ -24,6 +24,8 @@ public class World {
     private String[] backtiledata;
     public EntityPlayer mainPlayer;
     public ArrayList<Entity> entityList;
+    private ArrayList<Entity> spawnEntityList;
+    private ArrayList<Entity> despawnEntityList;
 
     public World(int width, int height, int seaLevel, int blockSize) {
         GameBase.blockSize = blockSize;
@@ -55,11 +57,13 @@ public class World {
             backtiledata[i] = "";
         }
         entityList = new ArrayList<>();
+        spawnEntityList = new ArrayList<>();
+        despawnEntityList = new ArrayList<>();
         generate();
         EntityPlayer ep = new EntityPlayer(this, 160, 600, "");
         setMainPlayer(ep);
     }
-    
+
     private void setMainPlayer(EntityPlayer player) {
         this.mainPlayer = player;
         spawnEntity(player);
@@ -72,7 +76,7 @@ public class World {
     public int getHeight() {
         return height;
     }
-    
+
     public int getPixelWidth() {
         return getPixelFromCoordinate(getWidth());
     }
@@ -85,8 +89,12 @@ public class World {
         return seaLevel;
     }
 
-    public void spawnEntity(Entity ent) {
-        entityList.add(ent);
+    public synchronized void spawnEntity(Entity ent) {
+        spawnEntityList.add(ent);
+    }
+
+    public synchronized void despawnEntity(Entity ent) {
+        despawnEntityList.add(ent);
     }
 
     public boolean isAirBlock(int x, int y) {
@@ -94,9 +102,9 @@ public class World {
     }
 
     public int getCoordinateFromPixel(int pix) {
-        return (int)Math.floor((double)pix / (double)GameBase.blockSize);
+        return (int) Math.floor((double) pix / (double) GameBase.blockSize);
     }
-    
+
     public int getPixelFromCoordinate(int coord) {
         return coord * GameBase.blockSize;
     }
@@ -206,11 +214,11 @@ public class World {
     public void setBlock(int x, int y, BlockBase block) {
         setBlock(x, y, block.getBlockID());
     }
-    
+
     public void setBlock(int x, int y, BlockBase block, short meta) {
         setBlock(x, y, block.getBlockID(), meta);
     }
-    
+
     public int[] getRelativePixelFromScreen(int x, int y) {
         int wid = Display.getWidth() / 2;
         int hei = Display.getHeight() / 2;
@@ -218,12 +226,11 @@ public class World {
         int yy = mainPlayer.getY() + (mainPlayer.sizeY / 2) - hei + y;
         return new int[]{xx, yy};
     }
-    
+
     public int[] getRelativeCoordinateFromScreen(int x, int y) {
         int[] pix = getRelativePixelFromScreen(x, y);
         return new int[]{getCoordinateFromPixel(pix[0]), getCoordinateFromPixel(pix[1])};
     }
-    
     private WorldGenBase terrainGen;
 
     public void generate() {
@@ -231,9 +238,21 @@ public class World {
         terrainGen.generate();
     }
 
-    public void onUpdate() {
-        for (Entity entity : entityList) {
-            entity.onUpdate();
+    private void updateEntities() {
+        synchronized (entityList) {
+            entityList.addAll(spawnEntityList);
+            entityList.removeAll(despawnEntityList);
+            despawnEntityList.clear();
+            spawnEntityList.clear();
+            for (Entity entity : entityList) {
+                synchronized(entity) {
+                    entity.onUpdate();
+                }
+            }
         }
+    }
+
+    public void onUpdate() {
+        updateEntities();
     }
 }

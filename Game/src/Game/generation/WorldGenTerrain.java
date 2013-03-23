@@ -15,37 +15,39 @@ public class WorldGenTerrain extends WorldGenColumn {
         undulatingLevel = world.getSeaLevel();
     }
     boolean isHill = false;
-    ;
-    int maxProg = 0;
-    int prog = 0;
-    int mProg = 0;
+    boolean goingDownHill = false;
+    int hillSize = 0;
+    int hillTopSize = 0;
+    boolean isRoundHill = false;
     private int undulatingLevel;
     public Random rand = new Random();
 
     public void generateColumn(int x) {
         boolean isNewHill = rand.nextInt(50) == 0 && !isHill;
         if (isNewHill) {
-            maxProg = rand.nextInt((world.getHeight() - world.getSeaLevel()) / 2);
-            prog = 0;
-            mProg = 0;
-            isHill = true;
+            goingDownHill = false;
+            isRoundHill = rand.nextInt(2) == 0;
+            hillSize = 0;
+            hillTopSize = isRoundHill ? world.getSeaLevel() / 4 : rand.nextInt(world.getSeaLevel() * 4 / 3);
         }
         int level = undulatingLevel;
-        if(isHill) {
-            int progCurve = maxProg / 2;
-            level+=prog;
-            int inc = rand.nextInt(4);
-            if(prog<progCurve) {
-                prog+=inc;
-            }else{
-                prog-=inc;
+        if (isHill) {
+            if(hillSize > hillTopSize) {
+                goingDownHill = true;
             }
-            mProg+=inc;
-            if(mProg >= maxProg) {
+            if (goingDownHill && hillSize <= 0) {
                 isHill = false;
-                mProg = 0;
-                prog = 0;
-                maxProg = 0;
+                goingDownHill = false;
+                isRoundHill = false;
+                hillSize = 0;
+                hillTopSize = 0;
+            } else {
+                if (goingDownHill) {
+                    hillSize -= isRoundHill ? rand.nextInt(2) : rand.nextInt(4);
+                } else {
+                    hillSize += isRoundHill ? rand.nextInt(2) : rand.nextInt(4);
+                }
+                level += hillSize;
             }
         }
         for (int y = 0; y <= world.getHeight(); y++) {

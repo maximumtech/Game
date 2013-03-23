@@ -1,5 +1,6 @@
 package Game.entity;
 
+import Game.base.GameBase;
 import Game.base.ItemStack;
 import Game.base.World;
 
@@ -11,6 +12,8 @@ public class EntityItem extends Entity {
     public ItemStack storedItem = null;
     public EntityItem(World world) {
         super(world);
+        sizeX = GameBase.blockSize;
+        sizeY = GameBase.blockSize;
     }
     public EntityItem(World world, int x, int y) {
         super(world, x, y);
@@ -22,7 +25,7 @@ public class EntityItem extends Entity {
     
     public void onCollide(Entity ent) {
         if(ent instanceof EntityPlayer && ent == world.mainPlayer) {
-            setDead();
+            //setDead();
         }
     }
     

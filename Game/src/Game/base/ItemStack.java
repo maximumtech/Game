@@ -79,7 +79,7 @@ public class ItemStack {
     }
     
     public ItemStack setAmount(int amt) {
-        this.stackSize = amt;
+        Math.max(1, Math.min(amt, getItem().getMaxStackSize()));
         return this;
     }
     

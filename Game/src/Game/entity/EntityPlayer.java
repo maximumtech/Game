@@ -3,8 +3,6 @@ package Game.entity;
 import Game.base.GameBase;
 import Game.base.World;
 import Game.render.RenderPlayer;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
 
 /**
  *
