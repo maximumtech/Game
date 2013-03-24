@@ -23,4 +23,8 @@ public class EntityPlayer extends EntityLiving {
     public boolean shouldRender() {
         return world.mainPlayer!=this;
     }
+    
+    public void render(){
+        super.render();
+    }
 }
