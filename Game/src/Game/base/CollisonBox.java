@@ -1,6 +1,5 @@
 package Game.base;
 
-import Game.misc.Side;
 import org.lwjgl.util.Rectangle;
 
 /**
@@ -18,29 +17,6 @@ public class CollisonBox {
         Rectangle otherRect = new Rectangle(box.minX, box.minY, box.maxX, box.maxY);
         if(thisRect.intersects(otherRect)) {
             return true;
-        }
-        return false;
-    }
-    
-    public boolean isColliding(CollisonBox box, Side side) {
-        boolean inColumn = (box.minX >= this.minX || box.maxX <= this.maxX);
-        boolean inRow = (box.minY >= this.minY || box.maxY <= this.maxY);
-        if(side == Side.BOTTOM) {
-            if(inColumn && box.maxY > this.minY) {
-                return true;
-            }
-        } else if (side == Side.TOP) {
-            if (inColumn && box.maxY < this.maxY) {
-                return true;
-            }
-        }else if (side == Side.LEFT) {
-            if (inRow && box.maxX > this.minX) {
-                return true;
-            }
-        } else if (side == Side.RIGHT) {
-            if (inRow && box.minX < this.maxX) {
-                return true;
-            }
         }
         return false;
     }

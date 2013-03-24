@@ -79,6 +79,78 @@ public abstract class Entity {
     public int getMaxBlockY() {
         return world.getCoordinateFromPixel(getMaxY());
     }
+
+    public boolean isColliding(int x, int y, Side side) {
+        CollisonBox box = getCollisonBox(x, y);
+        int minX = box.minX;
+        int maxX = box.maxX;
+        int minY = box.minY;
+        int maxY = box.maxY;
+        int minBlockX = world.getCoordinateFromPixel(minX);
+        int maxBlockX = world.getCoordinateFromPixel(maxX);
+        int minBlockY = world.getCoordinateFromPixel(minY);
+        int maxBlockY = world.getCoordinateFromPixel(maxY);
+        if (side == Side.TOP) {
+            int top = world.getCoordinateFromPixel(maxY);
+            for (int cX = minBlockX; cX < maxBlockX; cX++) {
+                if (top < 0 || cX < 0 || top > world.getHeight() || cX > world.getWidth()) {
+                    return true;
+                }
+                BlockBase block = world.getBlock(cX, top);
+                if (block != null && block.canCollide(world, cX, top)) {
+                    CollisonBox box2 = block.getCollisonBox(world, cX, top);
+                    if (box.intersects(box2)) {
+                        isJumping = false;
+                        jumpTick = 0;
+                        return true;
+                    }
+                }
+            }
+        } else if (side == Side.BOTTOM) {
+            int bottom = world.getCoordinateFromPixel(minY - 1);
+            for (int cX = minBlockX; cX < maxBlockX; cX++) {
+                if (bottom < 0 || cX < 0 || bottom > world.getHeight() || cX > world.getWidth()) {
+                    return true;
+                }
+                BlockBase block = world.getBlock(cX, bottom);
+                if (block != null && block.canCollide(world, cX, bottom)) {
+                    CollisonBox box2 = block.getCollisonBox(world, cX, bottom);
+                    if (box.intersects(box2)) {
+                        return true;
+                    }
+                }
+            }
+        } else if (side == Side.RIGHT) {
+            int right = world.getCoordinateFromPixel(maxX);
+            for (int cY = minBlockY; cY < maxBlockY; cY++) {
+                if (right < 0 || cY < 0 || cY > world.getHeight() || right > world.getWidth()) {
+                    return true;
+                }
+                BlockBase block = world.getBlock(right, cY);
+                if (block != null && block.canCollide(world, right, cY)) {
+                    CollisonBox box2 = block.getCollisonBox(world, right, cY);
+                    if (box.intersects(box2)) {
+                        return true;
+                    }
+                }
+            }
+        } else if (side == Side.LEFT) {
+            int left = world.getCoordinateFromPixel(minX - 1);
+            for (int cY = minBlockY; cY < maxBlockY; cY++) {
+                if (left < 0 || cY < 0 || cY > world.getHeight() || left > world.getWidth()) {
+                    return true;
+                }
+                BlockBase block = world.getBlock(left, cY);
+                if (block != null && block.canCollide(world, left, cY)) {
+                    CollisonBox box2 = block.getCollisonBox(world, left, cY);
+                    if (box.intersects(box2)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
     public boolean isJumping = false;
     public int jumpTick = 0;
 
@@ -92,7 +164,7 @@ public abstract class Entity {
     public void setDead() {
         world.despawnEntity(this);
     }
-
+    
     public boolean shouldRender() {
         return true;
     }
@@ -119,33 +191,18 @@ public abstract class Entity {
     public void fall(int dist) {
     }
 
-    public boolean isMovementBlocked(int xx, int yy, Side side) {
-        CollisonBox box = this.getCollisonBox(xx, yy);
-        for (int x = getBlockX(); x < getMaxBlockX(); x++) {
-            for (int y = getBlockY(); y < getMaxBlockY(); y++) {
-                BlockBase block = world.getBlock(x, y);
-                if (block != null && block.canCollide(world, x, y)) {
-                    if (block.getCollisonBox(world, x, y).isColliding(box, side)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
     public void onUpdate() {
         boolean onGround = isOnGround();
         if (!onGround && (!isJumping)) {
             fallT++;
-            motionY -= Math.min(GameBase.blockSize * 8, Math.max(13, fallT));
+            motionY -= Math.min(GameBase.blockSize * 8, Math.max(10, fallT));
             wasOnGround = true;
         } else if (isJumping) {
             if (jumpTick == 0) {
                 motionY = 10;
-            } else if (jumpTick > 0 && jumpTick < 15) {
-                motionY += 15 - jumpTick * 2;
-            } else if (jumpTick == 15) {
+            } else if (jumpTick > 0 && jumpTick < 20) {
+                motionY += 20 - jumpTick * 2;
+            } else if (jumpTick == 20) {
                 jumpTick = 0;
                 isJumping = false;
             }
@@ -157,29 +214,22 @@ public abstract class Entity {
             fallT = 0;
         }
         if (canMove()) {
-            while (motionX > 0 && !isMovementBlocked(getX() + 1, getY(), Side.RIGHT)) {
+            while (motionX > 0 && !isColliding(getX(), getY(), Side.RIGHT)) {
                 setPosition(getX() + 1, getY());
                 motionX--;
             }
-            while (motionX < 0 && !isMovementBlocked(getX() - 1, getY(), Side.LEFT)) {
+            while (motionX < 0 && !isColliding(getX(), getY(), Side.LEFT)) {
                 setPosition(getX() - 1, getY());
                 motionX++;
             }
-            while (motionY > 0 && !isMovementBlocked(getX(), getY() + 1, Side.TOP)) {
+            while (motionY > 0 && !isColliding(getX(), getY(), Side.TOP)) {
                 setPosition(getX(), getY() + 1);
                 motionY--;
             }
-            while (motionY < 0 && !isMovementBlocked(getX(), getY() - 1, Side.BOTTOM)) {
+            while (motionY < 0 && !isColliding(getX(), getY(), Side.BOTTOM)) {
                 setPosition(getX(), getY() - 1);
                 motionY++;
             }
-            //while (isMovementBlocked(Side.BOTTOM)) {
-            //    setPosition(getX(), getY() + 1);
-            //}
-            
-            //while (isMovementBlocked(Side.TOP)) {
-            //    setPosition(getX(), getY() - 1);
-            //}
             motionX = 0;
             motionY = 0;
         }
