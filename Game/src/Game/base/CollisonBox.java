@@ -30,7 +30,7 @@ public class CollisonBox {
                 return true;
             }
         } else if (side == Side.TOP) {
-            if (inColumn && box.maxY < this.maxY) {
+            if (inColumn && box.minY > this.maxY) {
                 return true;
             }
         }else if (side == Side.LEFT) {
