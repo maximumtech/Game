@@ -59,7 +59,7 @@ public class WorldGenTerrain extends WorldGenColumn {
                 world.setBlock(x, y, BlockBase.stone);
             }
             if (y == 0) {
-                world.setBlock(x, y, (short) 0); // bedrock
+                world.setBlock(x, y, BlockBase.bedrock);
             }
         }
         int change = rand.nextInt(8);
