@@ -1,6 +1,7 @@
 package Game.entity;
 
 import Game.base.GameBase;
+import Game.base.ItemStack;
 import Game.base.World;
 import Game.render.RenderPlayer;
 
@@ -8,7 +9,7 @@ import Game.render.RenderPlayer;
  *
  * @author maximumtech
  */
-public class EntityPlayer extends EntityLiving {
+public class EntityPlayer extends EntityLiving implements ICollector {
     
     public String username = "";
     
@@ -18,6 +19,10 @@ public class EntityPlayer extends EntityLiving {
         sizeY = GameBase.blockSize * 3;
         this.username = name;
         renderer = new RenderPlayer(this);
+    }
+    
+    public void onCollect(ICollectable item) {
+        
     }
     
     public boolean shouldRender() {

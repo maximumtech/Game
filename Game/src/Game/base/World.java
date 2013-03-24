@@ -4,6 +4,7 @@ import Game.entity.EntityPlayer;
 import Game.entity.Entity;
 import Game.generation.WorldGenBase;
 import Game.generation.WorldGenTerrain;
+import Game.misc.MathHelper;
 import java.util.ArrayList;
 import org.lwjgl.opengl.Display;
 
@@ -62,6 +63,63 @@ public class World {
         generate();
         EntityPlayer ep = new EntityPlayer(this, 160, 600, "");
         setMainPlayer(ep);
+    }
+
+    public Entity getNearestEntity(int x, int y, double dist, Class<?>[] entityType) {
+        Entity ent1 = null;
+        synchronized (entityList) {
+            for (Entity ent2 : entityList) {
+                synchronized (ent2) {
+                    boolean isClass = entityType != null;
+                    if (!isClass) {
+                        for (Class<?> clas : entityType) {
+                            if (ent2.getClass().isAssignableFrom(clas)) {
+                                isClass = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (entityType != null ? isClass : true) {
+                        double ent1Dist = ent1 == null ? 0D : MathHelper.getDistance(ent1.getX() + ent1.sizeX / 2, ent1.getY() + ent1.sizeY / 2, x, y);
+                        double ent2Dist = MathHelper.getDistance(ent2.getX() + ent2.sizeX / 2, ent2.getY() + ent2.sizeY / 2, x, y);
+                        if (ent2Dist >= ent1Dist && ent2Dist <= dist) {
+                            ent1 = ent2;
+                        }
+                    }
+                }
+            }
+        }
+        return ent1;
+    }
+
+    public Entity getNearestEntity(Entity entity, double dist, Class<?>[] entityType) {
+        Entity ent1 = null;
+        if (entity == null) {
+            return null;
+        }
+        synchronized (entityList) {
+            for (Entity ent2 : entityList) {
+                synchronized (ent2) {
+                    boolean isClass = entityType != null;
+                    if (!isClass) {
+                        for (Class<?> clas : entityType) {
+                            if (ent2.getClass().isAssignableFrom(clas)) {
+                                isClass = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (ent2 != null && isClass && entity != ent2) {
+                        double ent1Dist = ent1 == null ? 0D : MathHelper.getDistance(ent1.getX() + ent1.sizeX / 2, ent1.getY() + ent1.sizeY / 2, entity.getX() + entity.sizeX / 2, entity.getY() + entity.sizeY / 2);
+                        double ent2Dist = MathHelper.getDistance(ent2.getX() + ent2.sizeX / 2, ent2.getY() + ent2.sizeY / 2, entity.getX() + entity.sizeX / 2, entity.getY() + entity.sizeY / 2);
+                        if (ent2Dist >= ent1Dist && ent2Dist <= dist) {
+                            ent1 = ent2;
+                        }
+                    }
+                }
+            }
+        }
+        return ent1;
     }
 
     private void setMainPlayer(EntityPlayer player) {
@@ -245,7 +303,7 @@ public class World {
             despawnEntityList.clear();
             spawnEntityList.clear();
             for (Entity entity : entityList) {
-                synchronized(entity) {
+                synchronized (entity) {
                     entity.onUpdate();
                 }
             }

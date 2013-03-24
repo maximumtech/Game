@@ -56,11 +56,11 @@ public abstract class ItemBase {
     }
     
     public void renderWorld(World world, int x, int y, short meta, String data) {
-        getImage().render(x + 2, y + 2, GameBase.blockSize - 2, GameBase.blockSize - 2);
+        getImage().render(x + 2, y + 2, GameBase.blockSize - 4, GameBase.blockSize - 4);
     }
 
     public void renderGUI(int x, int y, short meta, String data) {
-        getImage().render(x + 2, y + 2, GameBase.blockSize - 2, GameBase.blockSize - 2);
+        getImage().render(x + 2, y + 2, GameBase.blockSize - 4, GameBase.blockSize - 4);
     }
 
     protected short getID(ItemType type) {
