@@ -125,7 +125,7 @@ public abstract class Entity {
             for (int y = getBlockY(); y < getMaxBlockY(); y++) {
                 BlockBase block = world.getBlock(x, y);
                 if (block != null && block.canCollide(world, x, y)) {
-                    if (box.isColliding(block.getCollisonBox(world, x, y), side)) {
+                    if (block.getCollisonBox(world, x, y).isColliding(box, side)) {
                         return true;
                     }
                 }
