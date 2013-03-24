@@ -28,4 +28,8 @@ public class EntityPlayer extends EntityLiving implements ICollector {
     public boolean shouldRender() {
         return world.mainPlayer!=this;
     }
+    
+    public void render(){
+        super.render();
+    }
 }

@@ -16,6 +16,7 @@ public class BlockBase extends ItemBase {
     public static final BlockBase dirt = (BlockBase) new BlockGenReplaceable((short) 2).setImage(ImageHandler.getRenderStack("blockDirt")).setName("Dirt");
     public static final BlockBase grass = (BlockBase) new BlockGrass((short) 3).setImage(ImageHandler.getRenderStack("blockGrass")).setName("Grass");
     public static final BlockBase chest = (BlockBase) new BlockChest((short) 4, 10, 4).setImage(ImageHandler.getRenderStack("blockChest")).setName("Chest");
+    public static final BlockBase bedrock = (BlockBase) new BlockBedRock((short) 5).setImage(ImageHandler.getRenderStack("blockBedrock")).setName("BedRock");
 
     public BlockBase(short id) {
         super(id, ItemType.BLOCK);
