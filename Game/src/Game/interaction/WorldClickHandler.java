@@ -20,7 +20,7 @@ public class WorldClickHandler implements IMouseHandler {
     public void clickLeftDown(int x, int y) {
         int[] xy = world.getRelativeCoordinateFromScreen(x, y);
         BlockBase block = world.getBlock(xy[0], xy[1]);
-        if (block != null && block.isBreakable() && !BlockBreakingHandler.instance.isBreaking) {
+        if (block != null && block.isBreakable(world, xy[0], xy[1]) && !BlockBreakingHandler.instance.isBreaking) {
             block.onStartBreaking(world, xy[0], xy[1]);
             BlockBreakingHandler.instance.beginBreaking(xy[0], xy[1]);
         } else if (BlockBreakingHandler.instance.isBreaking) {
@@ -31,9 +31,9 @@ public class WorldClickHandler implements IMouseHandler {
     public void clickLeftHeld(int x, int y, long msDown) {
         int[] xy = world.getRelativeCoordinateFromScreen(x, y);
         BlockBase block = world.getBlock(xy[0], xy[1]);
-        if (block != null && block.isBreakable() && BlockBreakingHandler.instance.isBreaking) {
+        if (block != null && block.isBreakable(world, xy[0], xy[1]) && BlockBreakingHandler.instance.isBreaking) {
             BlockBreakingHandler.instance.onContinuedBreaking(xy[0], xy[1]);
-        } else if (block != null && block.isBreakable() && !BlockBreakingHandler.instance.isBreaking) {
+        } else if (block != null && block.isBreakable(world, xy[0], xy[1]) && !BlockBreakingHandler.instance.isBreaking) {
             block.onStartBreaking(world, xy[0], xy[1]);
             BlockBreakingHandler.instance.beginBreaking(xy[0], xy[1]);
         } else if (BlockBreakingHandler.instance.isBreaking) {
