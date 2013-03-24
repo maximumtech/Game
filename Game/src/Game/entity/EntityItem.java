@@ -10,6 +10,8 @@ import Game.base.World;
  */
 public class EntityItem extends Entity {
     public ItemStack storedItem = null;
+    public int floatTick = 15;
+    public boolean downFloat = false;
     public EntityItem(World world) {
         super(world);
         sizeX = GameBase.blockSize;
