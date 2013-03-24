@@ -5,7 +5,6 @@ import Game.interaction.KeyboardHandler;
 import Game.interaction.MouseHandler;
 import Game.interaction.MovementHandler;
 import Game.misc.BlockBreakingHandler;
-import Game.misc.item.ItemHandler;
 import Game.render.FontRenderer;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -25,7 +24,6 @@ public class GameBase {
     public static int blockSize = 16;
     public static int reachDistance = 8;
     public static FontRenderer fontRenderer;
-    public static ItemHandler itemHandler;
     
     public static void main(String[] args) {
         new GameBase(args);
@@ -57,7 +55,6 @@ public class GameBase {
         new TickHandler();
         System.out.println("Tick Handler Initialized, Starting Render Loop");
         World world = new World(600, 100, 30, 16);
-        itemHandler = new ItemHandler();
         fontRenderer = new FontRenderer(12);
         renderScreen = new ScreenWorld(world);
         new MovementHandler();
