@@ -30,13 +30,9 @@ public class WorldGenTerrain extends WorldGenColumn {
             if(i == height - 3){
                 world.setBlock(x - 1, y + i, BlockBase.leaves);
                 world.setBlock(x + 1, y + i, BlockBase.leaves);
-                if(world.isAirBlock(x + 2, y + i)){
-                    world.setBlock(x + 2, y + i, BlockBase.leaves);
-                }
-                if(world.isAirBlock(x - 2, y + i)){
-                    world.setBlock(x - 2, y + i, BlockBase.leaves);
-                }
-                    world.setBlock(x, y + i, BlockBase.wood);
+                world.setBlock(x + 2, y + i, BlockBase.leaves);
+                world.setBlock(x - 2, y + i, BlockBase.leaves);
+                world.setBlock(x, y + i, BlockBase.wood);
             } else if(i == height - 2){
                 world.setBlock(x - 1, y + i, BlockBase.leaves);
                 world.setBlock(x + 1, y + i, BlockBase.leaves);
@@ -52,6 +48,7 @@ public class WorldGenTerrain extends WorldGenColumn {
     
     public void generateColumn(int x) {
         boolean isNewHill = rand.nextInt(50) == 0 && !isHill;
+        boolean spawnTree = rand.nextInt(10) == 0;
         if (isNewHill) {
             goingDownHill = false;
             isRoundHill = rand.nextInt(2) == 0;
@@ -80,7 +77,7 @@ public class WorldGenTerrain extends WorldGenColumn {
         }
         for (int y = 0; y <= world.getHeight(); y++) {
             if (y == level) {
-                if(rand.nextInt(10) == 0){
+                if(spawnTree){
                     generateTree(x, y);
                 }
                 world.setBlock(x, y, BlockBase.grass);
