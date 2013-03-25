@@ -73,15 +73,22 @@ public class World {
                     boolean isClass = entityType != null;
                     if (!isClass) {
                         for (Class<?> clas : entityType) {
-                            if (ent2.getClass().isAssignableFrom(clas)) {
-                                isClass = true;
-                                break;
+                            for (Class<?> clas2 : ent2.getClass().getInterfaces()) {
+                                if (clas.equals(clas2)) {
+                                    isClass = true;
+                                    break;
+                                }
+                                if (!isClass) {
+                                    if (clas.equals(ent2.getClass())) {
+                                        isClass = true;
+                                    }
+                                }
                             }
                         }
                     }
                     if (entityType != null ? isClass : true) {
-                        double ent1Dist = ent1 == null ? 0D : MathHelper.getDistance(ent1.getX() + ent1.sizeX / 2, ent1.getY() + ent1.sizeY / 2, x, y);
-                        double ent2Dist = MathHelper.getDistance(ent2.getX() + ent2.sizeX / 2, ent2.getY() + ent2.sizeY / 2, x, y);
+                        double ent1Dist = ent1 == null ? 0D : MathHelper.getDistance(ent1.getMidX(), ent1.getMidY(), x, y);
+                        double ent2Dist = MathHelper.getDistance(ent2.getMidX(), ent2.getMidY(), x, y);
                         if (ent2Dist >= ent1Dist && ent2Dist <= dist) {
                             ent1 = ent2;
                         }
@@ -92,26 +99,39 @@ public class World {
         return ent1;
     }
 
-    public Entity getNearestEntity(Entity entity, double dist, Class<?>[] entityType) {
+    public Entity getNearestEntity(Entity entity, double dist, Class<?>[] entityType, int iter) {
         Entity ent1 = null;
         if (entity == null) {
             return null;
         }
         synchronized (entityList) {
+            int itr = 0;
             for (Entity ent2 : entityList) {
+                if(itr<iter) {
+                    itr++;
+                    continue;
+                }
                 synchronized (ent2) {
-                    boolean isClass = entityType != null;
+                    boolean isClass = entityType == null;
                     if (!isClass) {
                         for (Class<?> clas : entityType) {
-                            if (ent2.getClass().isAssignableFrom(clas)) {
-                                isClass = true;
-                                break;
+                            Class<?>[] clases = ent2.getClass().getInterfaces();
+                            for(Class<?> clas2 : clases) {
+                                if(clas.equals(clas2)) {
+                                    isClass = true;
+                                    break;
+                                }
+                                if(!isClass) {
+                                    if(clas.equals(ent2.getClass())) {
+                                        isClass = true;
+                                    }
+                                }
                             }
                         }
                     }
                     if (ent2 != null && isClass && entity != ent2) {
-                        double ent1Dist = ent1 == null ? 0D : MathHelper.getDistance(ent1.getX() + ent1.sizeX / 2, ent1.getY() + ent1.sizeY / 2, entity.getX() + entity.sizeX / 2, entity.getY() + entity.sizeY / 2);
-                        double ent2Dist = MathHelper.getDistance(ent2.getX() + ent2.sizeX / 2, ent2.getY() + ent2.sizeY / 2, entity.getX() + entity.sizeX / 2, entity.getY() + entity.sizeY / 2);
+                        double ent1Dist = ent1 == null ? 0D : MathHelper.getDistance(ent1.getMidX(), ent1.getMidY(), entity.getMidX(), entity.getMidY());
+                        double ent2Dist = MathHelper.getDistance(ent2.getMidX(), ent2.getMidY(), entity.getMidX(), entity.getMidY());
                         if (ent2Dist >= ent1Dist && ent2Dist <= dist) {
                             ent1 = ent2;
                         }
@@ -280,8 +300,8 @@ public class World {
     public int[] getRelativePixelFromScreen(int x, int y) {
         int wid = Display.getWidth() / 2;
         int hei = Display.getHeight() / 2;
-        int xx = mainPlayer.getX() + (mainPlayer.sizeX / 2) - wid + x;
-        int yy = mainPlayer.getY() + (mainPlayer.sizeY / 2) - hei + y;
+        int xx = mainPlayer.getMidX() - wid + x;
+        int yy = mainPlayer.getMidY() - hei + y;
         return new int[]{xx, yy};
     }
 

@@ -23,8 +23,12 @@ public class EntityPlayer extends EntityLiving implements ICollector {
         renderer = new RenderPlayer(this);
     }
     
-    public void onCollect(ICollectable item) {
-        
+    public boolean onCollect(ICollectable item) {
+        return true;
+    }
+    
+    public boolean canCollect(ICollectable item) {
+        return true;
     }
     
     public boolean shouldRender() {
@@ -32,8 +36,8 @@ public class EntityPlayer extends EntityLiving implements ICollector {
     }
     
     public void render(){
-        GameBase.fontRenderer.drawStringWithColor("Test", ((ScreenWorld)GameBase.renderScreen).world.mainPlayer.getBlockX(),
-                ((ScreenWorld)GameBase.renderScreen).world.mainPlayer.getBlockY() + 30, Color.white);
+        //TODO: flip text & make work
+        //GameBase.fontRenderer.drawStringWithColor(username, getMidX() - GameBase.fontRenderer.getStringWidth(username) / 2, getMaxY() + 30, Color.white);
         super.render();
     }
 }

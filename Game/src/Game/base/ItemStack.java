@@ -78,18 +78,17 @@ public class ItemStack {
         return Math.max(1, Math.min(stackSize, getItem().getMaxStackSize()));
     }
     
-    public ItemStack setAmount(int amt) {
-        Math.max(1, Math.min(amt, getItem().getMaxStackSize()));
-        return this;
+    public int setAmount(int amt) {
+        int pamt = getAmount();
+        stackSize = Math.max(1, Math.min(amt, getItem().getMaxStackSize()));
+        return pamt + amt - stackSize;
     }
     
-    public ItemStack increment(int inc) {
-        setAmount(getAmount() + inc);
-        return this;
+    public int increment(int inc) {
+        return setAmount(getAmount() + inc);
     }
-    
-    public ItemStack decrement(int dec) {
-        setAmount(getAmount() - dec);
-        return this;
+
+    public int decrement(int dec) {
+        return setAmount(getAmount() - dec);
     }
 }

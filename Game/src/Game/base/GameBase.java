@@ -50,7 +50,6 @@ public class GameBase {
         GL11.glLoadIdentity();
         GL11.glOrtho(0, 800, 0, 600, 1, -1);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
-        Display.setVSyncEnabled(true);
         System.out.println("OpenGL Started, Tick Handling Initializing");
         new TickHandler();
         System.out.println("Tick Handler Initialized, Starting Render Loop");

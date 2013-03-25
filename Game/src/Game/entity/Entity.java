@@ -65,6 +65,14 @@ public abstract class Entity {
     public int getMaxY() {
         return y + sizeY;
     }
+    
+    public int getMidX() {
+        return x + sizeX / 2;
+    }
+
+    public int getMidY() {
+        return y + sizeY / 2;
+    }
 
     public int getBlockX() {
         return world.getCoordinateFromPixel(getX());

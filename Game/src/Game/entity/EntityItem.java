@@ -10,7 +10,7 @@ import Game.render.gui.ScreenWorld;
  *
  * @author maximumtech
  */
-public class EntityItem extends Entity implements ICollectable {
+public class EntityItem extends Entity implements ICollectable, ICollector {
 
     public ItemStack storedItem = null;
     public int floatTick = 15;
@@ -34,10 +34,38 @@ public class EntityItem extends Entity implements ICollectable {
         storedItem = item;
     }
 
-    public void onCollide(Entity ent) {
-        if (ent instanceof EntityPlayer && ent == world.mainPlayer) {
-            //setDead();
+    public boolean canCollect(ICollectable collectable) {
+        if (collectable instanceof EntityItem) {
+            EntityItem item = ((EntityItem) collectable);
+            if (item.storedItem.getItem() == storedItem.getItem() && item.storedItem.getMeta() == storedItem.getMeta() && item.storedItem.getData().equals(storedItem.getData())) {
+                return true;
+            }
         }
+        return false;
+    }
+    
+    protected boolean isCollecting = false;
+
+    public boolean onCollect(ICollectable collectable) {
+        isCollecting = true;
+        if (collectable instanceof EntityItem) {
+            EntityItem item = ((EntityItem) collectable);
+            if(item.isCollecting) {
+                isCollecting = false;
+                return false;
+            }
+            int ext = storedItem.increment(item.storedItem.getAmount());
+            if (ext == 0) {
+                item.setDead();
+            } else {
+                ext = item.storedItem.decrement(ext);
+                if (ext != 0) {
+                    item.setDead();
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     public boolean canFall() {
@@ -51,51 +79,55 @@ public class EntityItem extends Entity implements ICollectable {
     }
 
     public void onUpdate() {
-        
-        //TODO: Read:
-        //The math stuff is being a bitch. I'll do more research on it at a later date
-        //but for now we've got bigger fish to fry. Let's work on PlayerSprite rendering,
-        //and Textual overlay/sprite rendering & animations/block placing. Don't touch this 
-        //for now, it's perfectly fine as a temporary ordeal.
-        
-        Entity p = (Entity) world.getNearestEntity(this, 150D, new Class<?>[]{ICollector.class});
-        if (p != null && MathHelper.getDistance(this.getBlockX(), this.getBlockY(), p.getBlockX(), p.getBlockY()) < 7) {
-            if (p.getBlockX() < this.getBlockX()) {
-                this.motionX = -3;
-            } else {
-                this.motionX = 3;
+        isCollecting = false;
+        ICollector pi = (ICollector) world.getNearestEntity(this, 112D, new Class<?>[]{ICollector.class}, 0);
+        int iter = 1;
+        Entity p = (Entity)pi;
+        boolean isGood = pi!=null?pi.canCollect(this):true;
+        while (pi!=null && !isGood) {
+            pi = (ICollector) world.getNearestEntity(this, 112D, new Class<?>[]{ICollector.class}, iter);
+            if(pi!=null && pi.canCollect(this)) {
+                isGood = true;
             }
-            if (p.getBlockY() < this.getBlockY()) {
-                this.motionY = -3;
-            } else if (p.getBlockY() > this.getBlockY()){
-                this.motionY = 3;
-            }else {
+            p = (Entity)pi;
+            iter++;
+        }
+        if (p != null) {
+            if (p.getX() > this.getX()) {
+                this.motionX = 3;//Math.min(3, p.getX() - this.getX());
+            } else if (p.getX() < this.getX()) {
+                this.motionX = -3;//Math.max(-3, p.getX() - this.getX());
+            } else {
+                this.motionX = 0;
+            }
+            if (p.getY() > this.getY()) {
+                this.motionY = 3;//Math.min(3, p.getY() - this.getY());
+            } else if (p.getY() < this.getY()) {
+                this.motionY = -3;//Math.max(-3, p.getY() - this.getY());
+            } else {
                 this.motionY = 0;
             }
-
-            if (MathHelper.getDistance(this.getBlockX(), this.getBlockY(), p.getBlockX(), p.getBlockY()) < 2) {
-                ((ScreenWorld) GameBase.renderScreen).world.despawnEntity(this);
-                //TODO: Implement Inventory.
-                System.out.println("Giving player Item [ID: " + ((EntityItem)this).storedItem.getItem().getItemID() + "] and despawning entity.");
+            if (MathHelper.getDistance(getMidX(), getMidY(), p.getMidX(), p.getY()) < 32) {
+                pi.onCollect(this);
             }
-        }else {
-            if(this.floatTick > 16) {
+        } else {
+            if (this.floatTick > 16) {
                 this.downFloat = true;
-            }else if(this.floatTick < 0) {
+            } else if (this.floatTick < 0) {
                 this.downFloat = false;
             }
-            if(this.downFloat) {
+            if (this.downFloat) {
                 this.floatTick -= 1;
-                if(this.floatTick % 3 == 0) {
+                if (this.floatTick % 3 == 0) {
                     this.motionY = -1;
-                }else {
+                } else {
                     this.motionY = 0;
                 }
-            }else {
+            } else {
                 this.floatTick += 1;
-                if(this.floatTick % 3 == 0) {
+                if (this.floatTick % 3 == 0) {
                     this.motionY = 1;
-                }else {
+                } else {
                     this.motionY = 0;
                 }
             }

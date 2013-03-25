@@ -6,6 +6,7 @@ import Game.base.BackTileBase;
 import Game.base.GameBase;
 import Game.entity.Entity;
 import Game.misc.BlockBreakingHandler;
+import org.lwjgl.opengl.GL11;
 
 /**
  *
@@ -35,6 +36,8 @@ public class ScreenWorld extends Screen {
                 }
             }
             BlockBreakingHandler.instance.renderBreaking();
+            GL11.glPushMatrix();
+            GL11.glTranslatef(0, 0, 1);
             synchronized (world.entityList) {
                 for (Entity ent : world.entityList) {
                     synchronized (ent) {
@@ -42,6 +45,7 @@ public class ScreenWorld extends Screen {
                     }
                 }
             }
+            GL11.glPopMatrix();
         }
     }
 

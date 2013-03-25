@@ -1,6 +1,5 @@
 package Game.entity;
 
-import Game.base.ItemStack;
 
 /**
  *
@@ -8,6 +7,8 @@ import Game.base.ItemStack;
  */
 public interface ICollector {
     
-    public void onCollect(ICollectable collectable);
+    public boolean onCollect(ICollectable collectable);
+    
+    public boolean canCollect(ICollectable collectable);
     
 }
