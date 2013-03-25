@@ -25,14 +25,18 @@ public class WorldGenTerrain extends WorldGenColumn {
     public void generateTree(int x, int y){
         Random randHeight = new Random();
         int height = randHeight.nextInt(4) + 6;
-        
+        if(world.isAirBlock(x - 1, y + 1) && world.isAirBlock(x + 1, y + 1)){
         for(int i = 1; i < height; i++){
             if(i == height - 3){
-                world.setBlock(x - 2, y + i, BlockBase.leaves);
                 world.setBlock(x - 1, y + i, BlockBase.leaves);
-                world.setBlock(x + 2, y + i, BlockBase.leaves);
                 world.setBlock(x + 1, y + i, BlockBase.leaves);
-                world.setBlock(x, y + i, BlockBase.wood);
+                if(world.isAirBlock(x + 2, y + i)){
+                    world.setBlock(x + 2, y + i, BlockBase.leaves);
+                }
+                if(world.isAirBlock(x - 2, y + i)){
+                    world.setBlock(x - 2, y + i, BlockBase.leaves);
+                }
+                    world.setBlock(x, y + i, BlockBase.wood);
             } else if(i == height - 2){
                 world.setBlock(x - 1, y + i, BlockBase.leaves);
                 world.setBlock(x + 1, y + i, BlockBase.leaves);
@@ -42,6 +46,7 @@ public class WorldGenTerrain extends WorldGenColumn {
             } else {
                 world.setBlock(x, y + i, BlockBase.wood);
             }
+        }
         }
     }
     
