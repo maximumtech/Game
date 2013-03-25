@@ -21,7 +21,30 @@ public class WorldGenTerrain extends WorldGenColumn {
     boolean isRoundHill = false;
     private int undulatingLevel;
     public Random rand = new Random();
-
+    
+    public void generateTree(int x, int y){
+        Random randHeight = new Random();
+        int height = randHeight.nextInt(4) + 6;
+        
+        for(int i = 1; i < height; i++){
+            if(i == height - 3){
+                world.setBlock(x - 2, y + i, BlockBase.leaves);
+                world.setBlock(x - 1, y + i, BlockBase.leaves);
+                world.setBlock(x + 2, y + i, BlockBase.leaves);
+                world.setBlock(x + 1, y + i, BlockBase.leaves);
+                world.setBlock(x, y + i, BlockBase.wood);
+            } else if(i == height - 2){
+                world.setBlock(x - 1, y + i, BlockBase.leaves);
+                world.setBlock(x + 1, y + i, BlockBase.leaves);
+                world.setBlock(x, y + i, BlockBase.wood);
+            } else if(i == height - 1){
+                world.setBlock(x, y + i, BlockBase.leaves);
+            } else {
+                world.setBlock(x, y + i, BlockBase.wood);
+            }
+        }
+    }
+    
     public void generateColumn(int x) {
         boolean isNewHill = rand.nextInt(50) == 0 && !isHill;
         if (isNewHill) {
@@ -52,6 +75,9 @@ public class WorldGenTerrain extends WorldGenColumn {
         }
         for (int y = 0; y <= world.getHeight(); y++) {
             if (y == level) {
+                if(rand.nextInt(10) == 0){
+                    generateTree(x, y);
+                }
                 world.setBlock(x, y, BlockBase.grass);
             } else if (y < level && y > level - (world.getSeaLevel() / 3)) {
                 world.setBlock(x, y, BlockBase.dirt);
@@ -59,7 +85,7 @@ public class WorldGenTerrain extends WorldGenColumn {
                 world.setBlock(x, y, BlockBase.stone);
             }
             if (y == 0) {
-                world.setBlock(x, y, BlockBase.bedrock);
+                world.setBlock(x, y, (short) 0); //Bedrock broke
             }
         }
         int change = rand.nextInt(8);
