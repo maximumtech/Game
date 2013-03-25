@@ -4,6 +4,8 @@ import Game.base.GameBase;
 import Game.base.ItemStack;
 import Game.base.World;
 import Game.render.RenderPlayer;
+import Game.render.gui.ScreenWorld;
+import org.newdawn.slick.Color;
 
 /**
  *
@@ -30,6 +32,8 @@ public class EntityPlayer extends EntityLiving implements ICollector {
     }
     
     public void render(){
+        GameBase.fontRenderer.drawStringWithColor("Test", ((ScreenWorld)GameBase.renderScreen).world.mainPlayer.getBlockX(),
+                ((ScreenWorld)GameBase.renderScreen).world.mainPlayer.getBlockY() + 30, Color.white);
         super.render();
     }
 }
