@@ -309,7 +309,7 @@ public class World {
         int[] pix = getRelativePixelFromScreen(x, y);
         return new int[]{getCoordinateFromPixel(pix[0]), getCoordinateFromPixel(pix[1])};
     }
-    private WorldGenBase terrainGen;
+    private WorldGenTerrain terrainGen;
 
     public void generate() {
         terrainGen = new WorldGenTerrain(this);

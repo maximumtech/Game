@@ -13,64 +13,45 @@ public class WorldGenTerrain extends WorldGenColumn {
     public WorldGenTerrain(World world) {
         super(world);
         undulatingLevel = world.getSeaLevel();
+        treeGen = new StructureGenTree(world);
     }
     boolean isHill = false;
     boolean goingDownHill = false;
     int hillSize = 0;
     int hillTopSize = 0;
-    boolean isRoundHill = false;
     private int undulatingLevel;
     public Random rand = new Random();
     
-    public void generateTree(int x, int y){
-        Random randHeight = new Random();
-        int height = randHeight.nextInt(4) + 6;
-        if(world.isAirBlock(x - 1, y + 1) && world.isAirBlock(x + 1, y + 1)){
-        for(int i = 1; i < height; i++){
-            if(i == height - 3){
-                world.setBlock(x - 1, y + i, BlockBase.leaves);
-                world.setBlock(x + 1, y + i, BlockBase.leaves);
-                world.setBlock(x + 2, y + i, BlockBase.leaves);
-                world.setBlock(x - 2, y + i, BlockBase.leaves);
-                world.setBlock(x, y + i, BlockBase.wood);
-            } else if(i == height - 2){
-                world.setBlock(x - 1, y + i, BlockBase.leaves);
-                world.setBlock(x + 1, y + i, BlockBase.leaves);
-                world.setBlock(x, y + i, BlockBase.wood);
-            } else if(i == height - 1){
-                world.setBlock(x, y + i, BlockBase.leaves);
-            } else {
-                world.setBlock(x, y + i, BlockBase.wood);
-            }
-        }
-        }
-    }
+    StructureGenTree treeGen;
+    
+    
+    int lastTree = 10;
     
     public void generateColumn(int x) {
+        lastTree--;
         boolean isNewHill = rand.nextInt(50) == 0 && !isHill;
-        boolean spawnTree = rand.nextInt(10) == 0;
+        boolean spawnTree = rand.nextInt(10) == 0 && lastTree <= 0;
+        if(spawnTree) lastTree = 10;
         if (isNewHill) {
             goingDownHill = false;
-            isRoundHill = rand.nextInt(2) == 0;
             hillSize = 0;
-            hillTopSize = isRoundHill ? world.getSeaLevel() / 4 : rand.nextInt(world.getSeaLevel() * 4 / 3);
+            hillTopSize = rand.nextInt(world.getSeaLevel() * 4 / 3);
         }
         int level = undulatingLevel;
         if (isHill) {
-            if(hillSize > hillTopSize) {
+            if(hillSize > hillTopSize + level) {
                 goingDownHill = true;
             }
             if (goingDownHill && hillSize <= 0) {
                 isHill = false;
                 goingDownHill = false;
-                isRoundHill = false;
                 hillSize = 0;
                 hillTopSize = 0;
             } else {
                 if (goingDownHill) {
-                    hillSize -= isRoundHill ? rand.nextInt(2) : rand.nextInt(4);
+                    hillSize -= rand.nextInt(4);
                 } else {
-                    hillSize += isRoundHill ? rand.nextInt(2) : rand.nextInt(4);
+                    hillSize += rand.nextInt(4);
                 }
                 level += hillSize;
             }
@@ -78,7 +59,7 @@ public class WorldGenTerrain extends WorldGenColumn {
         for (int y = 0; y <= world.getHeight(); y++) {
             if (y == level) {
                 if(spawnTree){
-                    generateTree(x, y);
+                    treeGen.generate(x, y+1);
                 }
                 world.setBlock(x, y, BlockBase.grass);
             } else if (y < level && y > level - (world.getSeaLevel() / 3)) {

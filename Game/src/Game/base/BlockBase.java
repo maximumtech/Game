@@ -17,7 +17,7 @@ public class BlockBase extends ItemBase {
     public static final BlockBase grass = (BlockBase) new BlockGrass((short) 3).setImage(ImageHandler.getRenderStack("blockGrass")).setName("Grass");
     public static final BlockBase chest = (BlockBase) new BlockChest((short) 4, 10, 4).setImage(ImageHandler.getRenderStack("blockChest")).setName("Chest");
     public static final BlockBase bedrock = (BlockBase) new BlockBedrock((short) 5).setImage(ImageHandler.getRenderStack("blockBedrock")).setName("Bedrock");
-    public static final BlockBase wood = (BlockBase) new BlockNonColliding((short) 6).setImage(ImageHandler.getRenderStack("blockWood")).setName("Wood");
+    public static final BlockBase woodLog = (BlockBase) new BlockNonColliding((short) 6).setImage(ImageHandler.getRenderStack("blockWood")).setName("Wood");
     public static final BlockBase leaves = (BlockBase) new BlockLeaves((short) 7).setImage(ImageHandler.getRenderStack("blockLeaves")).setName("Leaves");
 
     public BlockBase(short id) {
