@@ -31,6 +31,7 @@ public class WorldGenTerrain extends WorldGenColumn {
         lastTree--;
         boolean isNewHill = rand.nextInt(50) == 0 && !isHill;
         boolean spawnTree = rand.nextInt(10) == 0 && lastTree <= 0;
+        boolean spawnFlower = rand.nextInt(15) == 0;
         if(spawnTree) lastTree = 10;
         if (isNewHill) {
             goingDownHill = false;
@@ -58,6 +59,9 @@ public class WorldGenTerrain extends WorldGenColumn {
         }
         for (int y = 0; y <= world.getHeight(); y++) {
             if (y == level) {
+                if(spawnFlower){
+                    world.setBlock(x, y+1, BlockBase.redflower);
+                }
                 if(spawnTree){
                     treeGen.generate(x, y+1);
                 }

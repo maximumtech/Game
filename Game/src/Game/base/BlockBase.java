@@ -21,7 +21,8 @@ public class BlockBase extends ItemBase {
     public static final BlockBase bedrock = (BlockBase) new BlockBedrock((short) 5).setImage(ImageHandler.getRenderStack("blockBedrock")).setName("Bedrock");
     public static final BlockBase woodLog = (BlockBase) new BlockNonColliding((short) 6).setImage(ImageHandler.getRenderStack("blockWood")).setName("Wood");
     public static final BlockBase leaves = (BlockBase) new BlockLeaves((short) 7).setImage(ImageHandler.getRenderStack("blockLeaves")).setName("Leaves");
-
+    public static final BlockBase redflower = (BlockBase) new BlockNonColliding((short) 8).setImage(ImageHandler.getRenderStack("blockRedFlower")).setName("RedFlower");
+    
     public BlockBase(short id) {
         super(id, ItemType.BLOCK);
         blocksList[id] = this;
