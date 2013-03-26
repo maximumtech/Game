@@ -36,8 +36,6 @@ public class ScreenWorld extends Screen {
                 }
             }
             BlockBreakingHandler.instance.renderBreaking();
-            GL11.glPushMatrix();
-            GL11.glTranslatef(0, 0, 1);
             synchronized (world.entityList) {
                 for (Entity ent : world.entityList) {
                     synchronized (ent) {
@@ -45,7 +43,7 @@ public class ScreenWorld extends Screen {
                     }
                 }
             }
-            GL11.glPopMatrix();
+            GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
         }
     }
 

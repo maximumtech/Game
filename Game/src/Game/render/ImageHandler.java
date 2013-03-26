@@ -1,10 +1,12 @@
 package Game.render;
 
+import Game.base.GameBase;
 import org.newdawn.slick.Image;
 import java.util.HashMap;
 import java.io.File;
 import java.util.Scanner;
 import java.util.ArrayList;
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 
 /**
@@ -88,21 +90,28 @@ public class ImageHandler {
         }
     }
 
-    public static void drawImage2D(Image image, int x, int y) {
+    public static void drawImage2D(Image image, int x, int y, int z) {
         if (image != null) {
-            image.draw(x, y);
+            drawImage2D(image, x, y, z, image.getWidth(), image.getHeight());
         }
     }
 
-    public static void drawImage2D(Image image, int x, int y, int width, int height) {
+    public static void drawImage2D(Image image, int x, int y, int z, int width, int height) {
         if (image != null) {
-            image.draw(x, y, width, height);
+            drawImage2D(image, x, y, z, width, height, Color.white);
         }
     }
-    
-    public static void drawImage2D(Image image, int x, int y, int width, int height, Color color) {
+    public static void drawImage2D(Image image, int x, int y, int z, int width, int height, Color filler) {
         if (image != null) {
-            image.draw(x, y, width, height, color);
+            GL11.glPushMatrix();
+            filler.bind();
+            image.getTexture().bind();
+            GL11.glTranslatef(0, 0, z);
+            GL11.glBegin(GL11.GL_QUADS);
+            image.drawEmbedded(x, y, width, height);
+            GL11.glEnd();
+            GL11.glTranslatef(0, 0, -z);
+            GL11.glPopMatrix();
         }
     }
 }

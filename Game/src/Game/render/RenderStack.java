@@ -27,15 +27,15 @@ public class RenderStack implements RenderStackBase {
         return this;
     }
     
-    public void render(int x, int y) {
+    public void render(int x, int y, int z) {
         for (Image img : stack) {
-            ImageHandler.drawImage2D(img, x, y);
+            ImageHandler.drawImage2D(img, x, y, z);
         }
     }
     
-    public void render(int x, int y, int width, int height) {
+    public void render(int x, int y, int z, int width, int height) {
         for (Image img : stack) {
-            ImageHandler.drawImage2D(img, x, y, width, height);
+            ImageHandler.drawImage2D(img, x, y, z, width, height);
         }
     }
 }

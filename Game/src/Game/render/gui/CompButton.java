@@ -37,12 +37,12 @@ public class CompButton implements IMouseHandler, ScreenComponent {
         int y = Mouse.getY();
         if (x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height) {
             if(Mouse.isButtonDown(0)) {
-                ImageHandler.drawImage2D(held, this.x, this.y, width, height);
+                ImageHandler.drawImage2D(held, this.x, this.y, 1, width, height);
             }else{ 
-                ImageHandler.drawImage2D(over, this.x, this.y, width, height);
+                ImageHandler.drawImage2D(over, this.x, this.y, 1, width, height);
             }
         }else{
-            ImageHandler.drawImage2D(def, this.x, this.y, width, height);
+            ImageHandler.drawImage2D(def, this.x, this.y, 1, width, height);
         }
     }
 

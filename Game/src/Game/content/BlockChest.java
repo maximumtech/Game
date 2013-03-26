@@ -1,10 +1,12 @@
 package Game.content;
 
+import Game.base.BlockBase;
+
 /**
  *
  * @author Mirw-
  */
-public class BlockChest extends BlockGenReplaceable {
+public class BlockChest extends BlockBase {
     
     private int chestWidth = 10;
     private int chestHeight = 4;

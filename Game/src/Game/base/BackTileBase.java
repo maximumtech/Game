@@ -14,7 +14,7 @@ public class BackTileBase extends ItemBase {
     }
     
     public void renderWorld(World world, int x, int y) {
-        getImage().render(x - 2, y - 2, GameBase.blockSize + 2, GameBase.blockSize + 2);
+        getImage().render(x - 2, y - 2, -1, GameBase.blockSize + 2, GameBase.blockSize + 2);
     }
 
     public boolean isOpaque(World world, int x, int y) {
