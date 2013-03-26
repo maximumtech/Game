@@ -34,6 +34,14 @@ public abstract class Entity {
     public boolean canMove() {
         return true;
     }
+    
+    public void setXPos(int x) {
+        this.x = x;
+    }
+    
+    public void setYPos(int y) {
+        this.y = y;
+    }
 
     public void render() {
         if (renderer != null && shouldRender()) {
@@ -173,6 +181,12 @@ public abstract class Entity {
 
     public void setDead() {
         world.despawnEntity(this);
+    }
+    
+    public void giveItem(EntityItem i) {
+        System.out.printf("Giving player [%s] Item [ID: %s, Amt: %s]\n",
+                this instanceof EntityPlayer ? ((EntityPlayer)this).username : this.name, 
+                ""+i.storedItem.getItem().getItemID(), ""+i.storedItem.getAmount());
     }
 
     public boolean shouldRender() {

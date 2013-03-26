@@ -2,6 +2,7 @@ package Game.interaction;
 
 import Game.base.GameBase;
 import Game.base.World;
+import Game.entity.player.GameMode;
 import Game.render.gui.ScreenWorld;
 
 /**
@@ -9,7 +10,7 @@ import Game.render.gui.ScreenWorld;
  * @author maximumtech
  */
 public class MovementHandler implements IKeyboardHandler {
-    
+
     public MovementHandler() {
         KeyboardHandler.instance.registerHandler(this);
     }
@@ -18,16 +19,16 @@ public class MovementHandler implements IKeyboardHandler {
     }
 
     public void keyHeld(String key, long ms) {
-        if(GameBase.renderScreen != null && GameBase.renderScreen instanceof ScreenWorld) {
-            World world = ((ScreenWorld)GameBase.renderScreen).world;
-            if(world!=null && world.mainPlayer != null) {
-                if(key.equals("w")) {
+        if (GameBase.renderScreen != null && GameBase.renderScreen instanceof ScreenWorld) {
+            World world = ((ScreenWorld) GameBase.renderScreen).world;
+            if (world != null && world.mainPlayer != null) {
+                if (key.equals("space")) {
                     world.mainPlayer.jump();
                 }
-                if(key.equals("a")) {
+                if (key.equals("a")) {
                     world.mainPlayer.motionX = -GameBase.blockSize / 2;
                 }
-                if(key.equals("d")) {
+                if (key.equals("d")) {
                     world.mainPlayer.motionX = GameBase.blockSize / 2;
                 }
             }
@@ -35,5 +36,15 @@ public class MovementHandler implements IKeyboardHandler {
     }
 
     public void keyUp(String key, long ms) {
+        if (GameBase.renderScreen != null && GameBase.renderScreen instanceof ScreenWorld) {
+            World world = ((ScreenWorld) GameBase.renderScreen).world;
+            if (key.equals("g")) {
+                if (world.mainPlayer.getPlayerGameMode().equals(GameMode.SURVIVAL)) {
+                    world.mainPlayer.setGameMode(GameMode.CREATIVE);
+                } else {
+                    world.mainPlayer.setGameMode(GameMode.SURVIVAL);
+                }
+            }
+        }
     }
 }

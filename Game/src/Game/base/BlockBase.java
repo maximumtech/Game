@@ -2,6 +2,8 @@ package Game.base;
 
 import Game.content.*;
 import Game.entity.EntityItem;
+import Game.entity.EntityPlayer;
+import Game.misc.MathHelper;
 import Game.render.ImageHandler;
 
 /**
@@ -10,7 +12,7 @@ import Game.render.ImageHandler;
  */
 public class BlockBase extends ItemBase {
 
-    public float blockHardness = 0.05F;
+    public float blockHardness = 0.05f;
     public static BlockBase[] blocksList = new BlockBase[Short.MAX_VALUE];
     public static final BlockBase stone = (BlockBase) new BlockGenReplaceable((short) 1).setImage(ImageHandler.getRenderStack("blockStone")).setName("Stone");
     public static final BlockBase dirt = (BlockBase) new BlockGenReplaceable((short) 2).setImage(ImageHandler.getRenderStack("blockDirt")).setName("Dirt");
@@ -26,7 +28,8 @@ public class BlockBase extends ItemBase {
     }
     
     public boolean isBreakable(World world, int x, int y) {
-        return true;
+        EntityPlayer p = world.mainPlayer;
+        return (MathHelper.getDistance(p.getBlockX(), p.getBlockY(), x, y) <= GameBase.reachDistance);
     }
     
     public BlockBase setHardness(float hardness) {
