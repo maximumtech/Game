@@ -24,6 +24,7 @@ public class EntityPlayer extends EntityLiving implements ICollector {
     }
     
     public boolean onCollect(ICollectable item) {
+        item.onCollected(this);
         return true;
     }
     

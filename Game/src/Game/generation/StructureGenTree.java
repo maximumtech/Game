@@ -14,7 +14,7 @@ public class StructureGenTree extends StructureGenBase {
     }
 
     public void generate(int x, int y) {
-        int height = 12 + rand.nextInt(5);
+        int height = 13 + rand.nextInt(5);
         int leavesProg = height / 2;
         boolean passedLast = false;
         for (int i = 0; leavesProg > 0; i++) {
@@ -41,6 +41,9 @@ public class StructureGenTree extends StructureGenBase {
                 //}else{
                 //    leavesProg++;
                 //}
+            }else if(i == height - 11) {
+                world.setBlock(x + 1, yy, BlockBase.leaves);
+                world.setBlock(x - 1, yy, BlockBase.leaves);
             }
         }
     }

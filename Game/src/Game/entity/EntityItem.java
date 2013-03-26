@@ -10,7 +10,7 @@ import Game.render.gui.ScreenWorld;
  *
  * @author maximumtech
  */
-public class EntityItem extends Entity implements ICollectable, ICollector {
+public class EntityItem extends Entity implements ICollectable {
 
     public ItemStack storedItem = null;
     public int floatTick = 15;
@@ -23,6 +23,7 @@ public class EntityItem extends Entity implements ICollectable, ICollector {
     }
 
     public void onCollected(ICollector collector) {
+        this.setDead();
     }
 
     public EntityItem(World world, int x, int y) {
@@ -32,40 +33,6 @@ public class EntityItem extends Entity implements ICollectable, ICollector {
     public EntityItem(World world, int x, int y, ItemStack item) {
         this(world, x, y);
         storedItem = item;
-    }
-
-    public boolean canCollect(ICollectable collectable) {
-        if (collectable instanceof EntityItem) {
-            EntityItem item = ((EntityItem) collectable);
-            if (item.storedItem.getItem() == storedItem.getItem() && item.storedItem.getMeta() == storedItem.getMeta() && item.storedItem.getData().equals(storedItem.getData())) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    protected boolean isCollecting = false;
-
-    public boolean onCollect(ICollectable collectable) {
-        isCollecting = true;
-        if (collectable instanceof EntityItem) {
-            EntityItem item = ((EntityItem) collectable);
-            if(item.isCollecting) {
-                isCollecting = false;
-                return false;
-            }
-            int ext = storedItem.increment(item.storedItem.getAmount());
-            if (ext == 0) {
-                item.setDead();
-            } else {
-                ext = item.storedItem.decrement(ext);
-                if (ext != 0) {
-                    item.setDead();
-                }
-            }
-            return true;
-        }
-        return false;
     }
 
     public boolean canFall() {
@@ -79,7 +46,6 @@ public class EntityItem extends Entity implements ICollectable, ICollector {
     }
 
     public void onUpdate() {
-        isCollecting = false;
         ICollector pi = (ICollector) world.getNearestEntity(this, 112D, new Class<?>[]{ICollector.class}, 0);
         int iter = 1;
         Entity p = (Entity)pi;
