@@ -75,7 +75,6 @@ public class EntityItem extends Entity implements ICollectable {
             }
             if (MathHelper.getDistance(getMidX(), getMidY(), p.getMidX(), p.getY()) < 32) {
                 pi.onCollect(this);
-                p.giveItem(this);
             }
         } else {
             if (this.floatTick > 16) {

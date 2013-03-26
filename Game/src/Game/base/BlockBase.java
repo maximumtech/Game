@@ -32,8 +32,7 @@ public class BlockBase extends ItemBase {
     }
     
     public boolean isBreakable(World world, int x, int y) {
-        EntityPlayer p = world.mainPlayer;
-        return (MathHelper.getDistance(p.getBlockX(), p.getBlockY(), x, y) <= GameBase.reachDistance);
+        return true;
     }
     
     public BlockBase setHardness(float hardness) {

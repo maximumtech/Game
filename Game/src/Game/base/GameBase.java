@@ -114,6 +114,7 @@ public class GameBase {
     protected void runTick() {
         MouseHandler.instance.onUpdate();
         KeyboardHandler.instance.onUpdate();
+        Game.interaction.TickHandler.instance.tick();
         if (renderScreen != null) {
             renderScreen.onUpdate();
         }

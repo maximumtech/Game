@@ -3,8 +3,8 @@ package Game.interaction;
 import Game.base.BlockBase;
 import Game.base.GameBase;
 import Game.base.World;
-import Game.entity.player.GameMode;
 import Game.misc.BlockBreakingHandler;
+import Game.misc.MathHelper;
 
 /**
  *
@@ -22,36 +22,25 @@ public class WorldClickHandler implements IMouseHandler {
     public void clickLeftDown(int x, int y) {
         int[] xy = world.getRelativeCoordinateFromScreen(x, y);
         BlockBase block = world.getBlock(xy[0], xy[1]);
-        if (GameBase.instance.getWorld().mainPlayer.getPlayerGameMode().equals(GameMode.CREATIVE)) {
-            if (block != null) {
-                block.setHardness(1000000000000f);
-                block.onBlockBreak(world, x, y);
-            }
-        } else {
-            if (block != null && block.isBreakable(world, xy[0], xy[1]) && !BlockBreakingHandler.instance.isBreaking) {
-                block.onStartBreaking(world, xy[0], xy[1]);
-                BlockBreakingHandler.instance.beginBreaking(xy[0], xy[1]);
-            } else if (BlockBreakingHandler.instance.isBreaking) {
-                BlockBreakingHandler.instance.resetBreaking();
-            }
+        boolean canBreak = MathHelper.getDistance(GameBase.instance.getWorld().mainPlayer.getMidX(), GameBase.instance.getWorld().mainPlayer.getMidY(), x, y) <= GameBase.instance.getWorld().mainPlayer.getGameMode().getReachDistance();
+        if (block != null && block.isBreakable(world, xy[0], xy[1]) && !BlockBreakingHandler.instance.isBreaking && canBreak) {
+            block.onStartBreaking(world, xy[0], xy[1]);
+            BlockBreakingHandler.instance.beginBreaking(xy[0], xy[1]);
+        } else if (BlockBreakingHandler.instance.isBreaking || !canBreak) {
+            BlockBreakingHandler.instance.resetBreaking();
         }
     }
 
     public void clickLeftHeld(int x, int y, long msDown) {
         int[] xy = world.getRelativeCoordinateFromScreen(x, y);
         BlockBase block = world.getBlock(xy[0], xy[1]);
-        if (GameBase.instance.getWorld().mainPlayer.getPlayerGameMode().equals(GameMode.CREATIVE)) {
-            if (block != null) {
-                block.setHardness(1000000000000f);
-                block.onBlockBreak(world, x, y);
-            }
-        }
-        if (block != null && block.isBreakable(world, xy[0], xy[1]) && BlockBreakingHandler.instance.isBreaking) {
+        boolean canBreak = MathHelper.getDistance(GameBase.instance.getWorld().mainPlayer.getX(), GameBase.instance.getWorld().mainPlayer.getY(), x, y) <= GameBase.instance.getWorld().mainPlayer.getGameMode().getReachDistance();
+        if (block != null && block.isBreakable(world, xy[0], xy[1]) && BlockBreakingHandler.instance.isBreaking && canBreak) {
             BlockBreakingHandler.instance.onContinuedBreaking(xy[0], xy[1]);
-        } else if (block != null && block.isBreakable(world, xy[0], xy[1]) && !BlockBreakingHandler.instance.isBreaking) {
+        } else if (block != null && block.isBreakable(world, xy[0], xy[1]) && !BlockBreakingHandler.instance.isBreaking && canBreak) {
             block.onStartBreaking(world, xy[0], xy[1]);
             BlockBreakingHandler.instance.beginBreaking(xy[0], xy[1]);
-        } else if (BlockBreakingHandler.instance.isBreaking) {
+        } else if (BlockBreakingHandler.instance.isBreaking || !canBreak) {
             BlockBreakingHandler.instance.resetBreaking();
         }
 

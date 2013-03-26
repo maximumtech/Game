@@ -4,10 +4,8 @@ import Game.base.BlockBase;
 import Game.base.World;
 import Game.base.CollisonBox;
 import Game.base.GameBase;
-import Game.misc.MathHelper;
 import Game.misc.Side;
 import Game.render.RenderEntity;
-import Game.render.gui.ScreenWorld;
 
 /**
  *
@@ -33,14 +31,6 @@ public abstract class Entity {
 
     public boolean canMove() {
         return true;
-    }
-    
-    public void setXPos(int x) {
-        this.x = x;
-    }
-    
-    public void setYPos(int y) {
-        this.y = y;
     }
 
     public void render() {
@@ -73,7 +63,7 @@ public abstract class Entity {
     public int getMaxY() {
         return y + sizeY;
     }
-    
+
     public int getMidX() {
         return x + sizeX / 2;
     }
@@ -98,7 +88,14 @@ public abstract class Entity {
         return world.getCoordinateFromPixel(getMaxY());
     }
 
+    public boolean canCollide() {
+        return true;
+    }
+
     public boolean isColliding(int x, int y, Side side) {
+        if (!canCollide()) {
+            return false;
+        }
         CollisonBox box = getCollisonBox(x, y);
         int minX = box.minX;
         int maxX = box.maxX;
@@ -182,12 +179,6 @@ public abstract class Entity {
     public void setDead() {
         world.despawnEntity(this);
     }
-    
-    public void giveItem(EntityItem i) {
-        System.out.printf("Giving player [%s] Item [ID: %s, Amt: %s]\n",
-                this instanceof EntityPlayer ? ((EntityPlayer)this).username : this.name, 
-                ""+i.storedItem.getItem().getItemID(), ""+i.storedItem.getAmount());
-    }
 
     public boolean shouldRender() {
         return true;
@@ -214,20 +205,18 @@ public abstract class Entity {
 
     public void fall(int dist) {
     }
-    
+
     public boolean canFall() {
         return true;
     }
 
     public void onUpdate() {
         boolean onGround = isOnGround();
-        if (!onGround && (!isJumping)) {
+        if (!onGround && (!isJumping) && canFall()) {
             fallT++;
-            if(canFall()) {
-                motionY -= Math.min(GameBase.blockSize * 8, Math.max(10, fallT));
-            }
+            motionY -= Math.min(GameBase.blockSize * 8, Math.max(10, fallT));
             wasOnGround = true;
-        } else if (isJumping) {
+        } else if (isJumping && canFall()) {
             if (jumpTick == 0) {
                 motionY = 10;
             } else if (jumpTick > 0 && jumpTick < 20) {
@@ -242,6 +231,8 @@ public abstract class Entity {
                 fall(fallT);
             }
             fallT = 0;
+            jumpTick = 0;
+            isJumping = false;
         }
         if (canMove()) {
             while (motionX > 0 && !isColliding(getX(), getY(), Side.RIGHT)) {

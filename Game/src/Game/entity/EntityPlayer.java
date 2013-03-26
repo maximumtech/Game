@@ -1,15 +1,9 @@
 package Game.entity;
 
 import Game.base.GameBase;
-import Game.base.ItemStack;
 import Game.base.World;
 import Game.entity.player.GameMode;
-import Game.misc.Side;
 import Game.render.RenderPlayer;
-import Game.render.gui.ScreenWorld;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Color;
 
 /**
  *
@@ -48,7 +42,7 @@ public class EntityPlayer extends EntityLiving implements ICollector {
         super.render();
     }
     
-    public GameMode getPlayerGameMode() {
+    public GameMode getGameMode() {
         return this.mode;
     }
     
@@ -56,20 +50,21 @@ public class EntityPlayer extends EntityLiving implements ICollector {
         this.mode = newMode;
     }
     
-    public void onUpdate() {
-        if(this.getPlayerGameMode().getModeFlightAbility()) {
-            this.handleFlight();
-        }else {
-            super.onUpdate();
-        }
+    private boolean isFlying = false;
+    
+    public void setFlying(boolean flying) {
+        isFlying = flying;
     }
     
-    public void handleFlight() {
-        this.motionX = 0;
-        this.motionY = 0;
-        if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) this.setYPos(this.getY() + 15);
-        if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) this.setYPos(this.getY() - 15);
-        if(Keyboard.isKeyDown(Keyboard.KEY_A)) this.setXPos(this.getX() - 20);
-        if(Keyboard.isKeyDown(Keyboard.KEY_D)) this.setXPos(this.getX() + 20);
+    public boolean isFlying() {
+        return getGameMode().canFly() && isFlying;
+    }
+    
+    public boolean canFall() {
+        return !isFlying();
+    }
+    
+    public boolean canCollide() {
+        return !isFlying();
     }
 }
