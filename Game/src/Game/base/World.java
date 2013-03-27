@@ -61,7 +61,7 @@ public class World {
         spawnEntityList = new ArrayList<>();
         despawnEntityList = new ArrayList<>();
         generate();
-        EntityPlayer ep = new EntityPlayer(this, 160, 600, "TempName");
+        EntityPlayer ep = new EntityPlayer(this, 160, getPixelFromCoordinate(seaLevel) + 160, "TempName");
         setMainPlayer(ep);
     }
 

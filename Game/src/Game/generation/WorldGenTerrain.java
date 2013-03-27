@@ -2,6 +2,7 @@ package Game.generation;
 
 import Game.base.BlockBase;
 import Game.base.World;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -14,6 +15,7 @@ public class WorldGenTerrain extends WorldGenColumn {
         super(world);
         undulatingLevel = world.getSeaLevel();
         treeGen = new StructureGenTree(world);
+        ores.add(new StructureGenOre(world, BlockBase.coalore, 6, world.getSeaLevel(), world.getSeaLevel(), 2));
     }
     boolean isHill = false;
     boolean goingDownHill = false;
@@ -23,6 +25,19 @@ public class WorldGenTerrain extends WorldGenColumn {
     public Random rand = new Random();
     StructureGenTree treeGen;
     int lastTree = 10;
+    private ArrayList<StructureGenOre> ores = new ArrayList<>();
+    
+    public void generate() {
+        super.generate();
+        for(int x = 0;x < world.getWidth() / 100;x++) {
+            int minX = x * 100;
+            for(StructureGenOre ore : ores) {
+                for(int num = 0;num < ore.getAmountPer();num++) {
+                    ore.generate(minX + rand.nextInt(100), 1 + rand.nextInt(ore.getMaxHeight() - 1));
+                }
+            }
+        }
+    }
 
     public void generateColumn(int x) {
         lastTree--;

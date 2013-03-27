@@ -14,7 +14,7 @@ public class BlockLeaves extends BlockWood{
         setHardness(2F);
     }
     
-    public ItemStack[] getDroppedItem(World world, int x, int y) {
+    public ItemStack[] getDroppedItem(World world, int x, int y, ItemStack item) {
         return new ItemStack[]{};
     }
 }

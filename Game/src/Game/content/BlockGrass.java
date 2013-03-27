@@ -7,7 +7,7 @@ import Game.base.World;
  *
  * @author maximumtech
  */
-public class BlockGrass extends BlockGenReplaceable {
+public class BlockGrass extends BlockDirt {
     
     public BlockGrass(short id) {
         super(id);

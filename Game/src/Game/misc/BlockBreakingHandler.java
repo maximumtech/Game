@@ -2,10 +2,10 @@ package Game.misc;
 
 import Game.base.BlockBase;
 import Game.base.GameBase;
+import Game.base.ItemStack;
 import Game.base.World;
 import Game.render.ImageHandler;
 import Game.render.RenderStack;
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 
 /**
@@ -26,15 +26,17 @@ public class BlockBreakingHandler {
     private int currentBlockY;
     public float progress = 0F;
     public boolean isBreaking = false;
+    private ItemStack item;
 
-    public void beginBreaking(int x, int y) {
+    public void beginBreaking(int x, int y, ItemStack item) {
         currentBlockX = x;
         currentBlockY = y;
         progress = 0F;
         isBreaking = true;
+        this.item = item;
         BlockBase block = world.getBlock(x, y);
         if(block!=null) {
-            block.onStartBreaking(world, x, y);
+            block.onStartBreaking(world, x, y, item);
         }
     }
     
@@ -43,41 +45,45 @@ public class BlockBreakingHandler {
         currentBlockY = -1;
         progress = 0F;
         isBreaking = false;
+        this.item = null;
     }
 
-    public void onContinuedBreaking(int x, int y) {
-        if (currentBlockX == x && currentBlockY == y) {
+    public void onContinuedBreaking(int x, int y, ItemStack item) {
+        if (currentBlockX == x && currentBlockY == y && this.item == item) {
             if (progress >= 1F) {
-                onComplete(x, y);
+                onComplete(x, y, item);
                 return;
             }
             BlockBase block = world.getBlock(x, y);
             if (block != null) {
-                progress += ((block.blockHardness / 10) * GameBase.instance.getWorld().mainPlayer.getGameMode().getBlockBreakingModifier());
+                progress += ((block.blockHardness / 10) * GameBase.instance.getWorld().mainPlayer.getGameMode().getBlockBreakingModifier() * item.getItem().getHardnessModifier(world, x, y, block));
             }
         } else {
             isBreaking = false;
             progress = 0F;
             currentBlockX = -1;
             currentBlockY = -1;
+            this.item = null;
         }
     }
 
-    public void onComplete(int x, int y) {
-        if (currentBlockX == x && currentBlockY == y) {
+    public void onComplete(int x, int y, ItemStack item) {
+        if (currentBlockX == x && currentBlockY == y && this.item == item) {
             BlockBase block = world.getBlock(x, y);
             if (block != null) {
-                block.onBlockBreak(world, x, y);
+                block.onBlockBreak(world, x, y, item);
             }
             isBreaking = false;
             progress = 0F;
             currentBlockX = -1;
             currentBlockY = -1;
+            this.item = null;
         } else {
             isBreaking = false;
             progress = 0F;
             currentBlockX = -1;
             currentBlockY = -1;
+            this.item = null;
         }
     }
 

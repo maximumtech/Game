@@ -29,7 +29,7 @@ public class BlockFlower extends BlockNonColliding {
 
     public void onUpdate(World world, int x, int y) {
         if(!canBePlacedHere(world, x, y)) {
-            onBlockBreak(world, x, y);
+            onBlockBreak(world, x, y, null);
         }
     }
     

@@ -19,6 +19,10 @@ public abstract class ItemBase {
         return maxStackSize;
     }
     
+    public float getHardnessModifier(World world, int x, int y, BlockBase block) {
+        return 1F;
+    }
+    
     public ItemBase setMaxStackSize(int size) {
         this.maxStackSize = size;
         return this;

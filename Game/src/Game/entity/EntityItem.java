@@ -12,8 +12,6 @@ import Game.misc.MathHelper;
 public class EntityItem extends Entity implements ICollectable {
 
     public ItemStack storedItem = null;
-    public int floatTick = 15;
-    public boolean downFloat = false;
 
     public void onCollected(ICollector collector) {
         this.setDead();
@@ -22,7 +20,7 @@ public class EntityItem extends Entity implements ICollectable {
     public EntityItem(World world, int x, int y) {
         super(world, x, y);
         sizeX = GameBase.blockSize;
-        sizeY = GameBase.blockSize;
+        sizeY = GameBase.blockSize * (3 / 2);
     }
 
     public EntityItem(World world, int x, int y, ItemStack item) {
@@ -44,7 +42,7 @@ public class EntityItem extends Entity implements ICollectable {
             iter++;
         }
         if (p != null) {
-            if (p.getMidX() > getMidX()) {
+            if (p.getMidX() > this.getMidX()) {
                 this.motionX = Math.min(3, p.getMidX() - this.getMidX());
             } else if (p.getMidX() < this.getMidX()) {
                 this.motionX = Math.min(-3, this.getMidX() - p.getMidX());
@@ -52,17 +50,13 @@ public class EntityItem extends Entity implements ICollectable {
                 this.motionX = 0;
             }
             if (p.getY() > this.getY()) {
-                this.motionY = Math.min(3, p.getMidY() - this.getMidY());
-            } else if (p.getY() < this.getY()) {
-                this.motionY = Math.min(-3, this.getMidY() - p.getMidY());
+                this.motionY = Math.min(12, p.getMidY() - this.getMidY());
             } else {
                 this.motionY = 0;
             }
             if (MathHelper.getDistance(getMidX(), getMidY(), p.getMidX(), p.getY()) < 32) {
                 pi.onCollect(this);
             }
-        } else if(isOnGround()) {
-            
         }
         super.onUpdate();
     }

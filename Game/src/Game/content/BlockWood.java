@@ -1,6 +1,7 @@
 package Game.content;
 
 import Game.base.BlockBase;
+import Game.base.ItemStack;
 import Game.base.World;
 
 /**
@@ -25,11 +26,11 @@ public class BlockWood extends BlockNonColliding {
         return true;
     }
 
-    public void onBlockBreak(World world, int x, int y) {
+    public void onBlockBreak(World world, int x, int y, ItemStack it) {
         if (world.getBlockMeta(x, y) == (short) 1) {
             BlockBase block = world.getBlock(x, y + 1);
             if (block != null && (block == BlockBase.woodLog || (block == BlockBase.leaves && world.getBlockMeta(x, y + 1) == (short) 1))) {
-                block.onBlockBreak(world, x, y + 1);
+                block.onBlockBreak(world, x, y + 1, it);
             }
             for (int xx = x + 1; xx < x + 10; xx++) {
                 if (world.getBlock(xx, y) == BlockBase.leaves) {
@@ -46,6 +47,6 @@ public class BlockWood extends BlockNonColliding {
                 }
             }
         }
-        super.onBlockBreak(world, x, y);
+        super.onBlockBreak(world, x, y, it);
     }
 }
