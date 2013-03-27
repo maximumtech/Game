@@ -13,13 +13,8 @@ public class ItemStack {
     private int stackSize = 1;
     public static FontRenderer fontRenderer;
     
-    public ItemStack() {
-        
-    }
-    
     public ItemStack(ItemBase item) {
-        this();
-        this.item = item;
+        this(item, 1);
     }
     
     public void renderWorld(World world, int x, int y) {
@@ -33,7 +28,7 @@ public class ItemStack {
     }
     
     public ItemStack(ItemBase item, int amt) {
-        this(item);
+        this.item = item;
         stackSize = amt;
     }
     

@@ -1,6 +1,8 @@
 package Game.content;
 
 import Game.base.BlockBase;
+import Game.base.ItemBase;
+import Game.base.ItemStack;
 import Game.base.World;
 
 /**
@@ -25,14 +27,21 @@ public class BlockGrass extends BlockDirt {
             for (int yy = y - 1; yy < y + 1; yy++) {
                 BlockBase block = world.getBlock(xx, yy);
                 if(block == BlockBase.dirt) {
-                    world.setBlock(x, y, BlockBase.grass, world.getBlockMeta(xx, yy));
-                }else if(block == null) {
-                    world.setBlock(x, y, BlockBase.tallgrass);
-                }else if(block == BlockBase.tallgrass && rand.nextInt(10) == 0) {
-                    world.setBlock(x, y, BlockBase.mushroom);
+                    world.setBlock(xx, yy, BlockBase.grass, world.getBlockMeta(xx, yy));
+                }
+                if(block == null) {
+                    world.setBlock(xx, yy, BlockBase.tallgrass);
+                } else if (block == BlockBase.tallgrass && rand.nextInt(10) == 0) {
+                    world.setBlock(xx, yy, BlockBase.mushroom);
+                } else if (block == BlockBase.mushroom && rand.nextInt(10) == 0) {
+                    world.setBlock(xx, yy, BlockBase.sapling);
                 }
             }
         }
+    }
+    
+    public ItemStack[] getDroppedItem(World world, int x, int y, ItemStack item) {
+        return new ItemStack[]{new ItemStack((ItemBase)BlockBase.dirt)};
     }
 
     public void onUpdate(World world, int x, int y) {

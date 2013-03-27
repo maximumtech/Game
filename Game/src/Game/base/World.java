@@ -357,7 +357,7 @@ public class World {
         for(int x = 0;x<getWidth();x++) {
             for (int y = 0; y < getHeight(); y++) {
                 BlockBase block = getBlock(x, y);
-                if(block!=null && block.requiresRandomTick() && rand.nextInt(block.getTickRate()) == 0) {
+                if(block!=null && block.requiresRandomTick() && (rand.nextInt(block.getTickRate()) == 0)) {
                     block.tick(this, x, y);
                 } 
             }
