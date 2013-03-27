@@ -89,10 +89,10 @@ public class BlockBase extends ItemBase {
     public void onRightClick(World world, int x, int y, ItemStack is) {
         int xx = world.getCoordinateFromPixel(x);
         int yy = world.getCoordinateFromPixel(y);
-        onPlace(world, xx, yy, (short)0, "");
+        onPlace(world, xx, yy);
     }
     
-    public void onPlace(World world, int x, int y, short meta, String data) {
+    public void onPlace(World world, int x, int y) {
     }
     
     public void onStartBreaking(World world, int x, int y, ItemStack item) {

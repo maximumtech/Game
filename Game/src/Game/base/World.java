@@ -2,7 +2,6 @@ package Game.base;
 
 import Game.entity.EntityPlayer;
 import Game.entity.Entity;
-import Game.generation.WorldGenBase;
 import Game.generation.WorldGenTerrain;
 import Game.misc.MathHelper;
 import java.util.ArrayList;
@@ -19,10 +18,10 @@ public class World {
     private int seaLevel;
     private short[] ids;
     private short[] metas;
-    private String[] data;
+    private TileEntityBase[] data;
     private short[] backtileids;
     private short[] backtilemetas;
-    private String[] backtiledata;
+    private TileEntityBase[] backtiledata;
     public EntityPlayer mainPlayer;
     public ArrayList<Entity> entityList;
     private ArrayList<Entity> spawnEntityList;
@@ -41,9 +40,9 @@ public class World {
         for (int i = 0; i < metas.length; i++) {
             metas[i] = 0;
         }
-        data = new String[(width * width) + height];
+        data = new TileEntityBase[(width * width) + height];
         for (int i = 0; i < data.length; i++) {
-            data[i] = "";
+            data[i] = null;
         }
         backtileids = new short[(width * width) + height];
         for (int i = 0; i < backtileids.length; i++) {
@@ -53,9 +52,9 @@ public class World {
         for (int i = 0; i < backtilemetas.length; i++) {
             backtilemetas[i] = 0;
         }
-        backtiledata = new String[(width * width) + height];
+        backtiledata = new TileEntityBase[(width * width) + height];
         for (int i = 0; i < backtiledata.length; i++) {
-            backtiledata[i] = "";
+            backtiledata[i] = null;
         }
         entityList = new ArrayList<>();
         spawnEntityList = new ArrayList<>();
@@ -209,9 +208,9 @@ public class World {
         return metas[(x * getWidth()) + y];
     }
 
-    public String getBlockData(int x, int y) {
+    public TileEntityBase getBlockTileEntity(int x, int y) {
         if (((x * getWidth()) + y) > (getWidth() * getWidth()) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
-            return "";
+            return null;
         }
         return data[(x * getWidth()) + y];
     }
@@ -237,9 +236,9 @@ public class World {
         return backtilemetas[(x * getWidth()) + y];
     }
 
-    public String getBacktileData(int x, int y) {
+    public TileEntityBase getBacktileData(int x, int y) {
         if (((x * getWidth()) + y) > (getWidth() * getWidth()) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
-            return "";
+            return null;
         }
         return backtiledata[(x * getWidth()) + y];
     }
@@ -277,25 +276,25 @@ public class World {
         neighborUpdate(x, y - 1);
     }
 
-    public void setBlock(int x, int y, short id, short meta, String data) {
+    public void setBlock(int x, int y, short id, short meta, TileEntityBase data) {
         if (((x * getWidth()) + y) > ((getWidth() * getWidth())) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
             System.out.println(x);
             return;
         }
         BlockBase block = BlockBase.blocksList[id];
         if (block == null || block.canBePlacedHere(this, x, y)) {
-            if(block!=null) {
-                block.onPlace(this, x, y, meta, data);
-            }
             ids[(x * width) + y] = id;
             metas[(x * width) + y] = meta;
             this.data[(x * width) + y] = data;
+            if (block != null) {
+                block.onPlace(this, x, y);
+            }
         }
         updateBlockAndNeighbors(x, y);
     }
 
     public void setBlock(int x, int y, short id, short meta) {
-        setBlock(x, y, id, meta, "");
+        setBlock(x, y, id, meta, null);
     }
 
     public void setBlock(int x, int y, short id) {
