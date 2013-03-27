@@ -107,7 +107,7 @@ public class World {
         synchronized (entityList) {
             int itr = 0;
             for (Entity ent2 : entityList) {
-                if(itr<iter) {
+                if (itr < iter) {
                     itr++;
                     continue;
                 }
@@ -116,13 +116,13 @@ public class World {
                     if (!isClass) {
                         for (Class<?> clas : entityType) {
                             Class<?>[] clases = ent2.getClass().getInterfaces();
-                            for(Class<?> clas2 : clases) {
-                                if(clas.equals(clas2)) {
+                            for (Class<?> clas2 : clases) {
+                                if (clas.equals(clas2)) {
                                     isClass = true;
                                     break;
                                 }
-                                if(!isClass) {
-                                    if(clas.equals(ent2.getClass())) {
+                                if (!isClass) {
+                                    if (clas.equals(ent2.getClass())) {
                                         isClass = true;
                                     }
                                 }
@@ -258,16 +258,23 @@ public class World {
         }
     }
 
+    public void neighborUpdate(int x, int y) {
+        BlockBase block = getBlock(x, y);
+        if (block != null) {
+            block.onNeighborUpdate(this, x, y);
+        }
+    }
+
     public void updateBlockAndNeighbors(int x, int y) {
         updateBlock(x, y);
         updateNeighbors(x, y);
     }
 
     public void updateNeighbors(int x, int y) {
-        updateBlock(x + 1, y);
-        updateBlock(x - 1, y);
-        updateBlock(x, y + 1);
-        updateBlock(x, y - 1);
+        neighborUpdate(x + 1, y);
+        neighborUpdate(x - 1, y);
+        neighborUpdate(x, y + 1);
+        neighborUpdate(x, y - 1);
     }
 
     public void setBlock(int x, int y, short id, short meta, String data) {
@@ -275,9 +282,15 @@ public class World {
             System.out.println(x);
             return;
         }
-        ids[(x * width) + y] = id;
-        metas[(x * width) + y] = meta;
-        this.data[(x * width) + y] = data;
+        BlockBase block = BlockBase.blocksList[id];
+        if (block == null || block.canBePlacedHere(this, x, y)) {
+            if(block!=null) {
+                block.onPlace(this, x, y, meta, data);
+            }
+            ids[(x * width) + y] = id;
+            metas[(x * width) + y] = meta;
+            this.data[(x * width) + y] = data;
+        }
         updateBlockAndNeighbors(x, y);
     }
 

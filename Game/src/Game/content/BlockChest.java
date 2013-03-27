@@ -15,6 +15,7 @@ public class BlockChest extends BlockBase {
         super(id);
         chestHeight = height;
         chestWidth = width;
+        setHardness(0.9F);
     }
     
     public int getSize() {

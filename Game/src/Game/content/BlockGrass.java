@@ -11,6 +11,7 @@ public class BlockGrass extends BlockGenReplaceable {
     
     public BlockGrass(short id) {
         super(id);
+        setHardness(0.8F);
     }
     
     public void onUpdate(World world, int x, int y) {

@@ -21,12 +21,9 @@ public class WorldGenTerrain extends WorldGenColumn {
     int hillTopSize = 0;
     private int undulatingLevel;
     public Random rand = new Random();
-    
     StructureGenTree treeGen;
-    
-    
     int lastTree = 10;
-    
+
     public void generateColumn(int x) {
         lastTree--;
         boolean isNewHill = rand.nextInt(50) == 0 && !isHill;
@@ -34,7 +31,9 @@ public class WorldGenTerrain extends WorldGenColumn {
         boolean spawnFlower = rand.nextInt(15) == 0;
         boolean spawnGrass = rand.nextInt(3) == 0;
         boolean spawnMushroom = rand.nextInt(18) == 0;
-        if(spawnTree) lastTree = 10;
+        if (spawnTree) {
+            lastTree = 10;
+        }
         if (isNewHill) {
             goingDownHill = false;
             hillSize = 0;
@@ -42,7 +41,7 @@ public class WorldGenTerrain extends WorldGenColumn {
         }
         int level = undulatingLevel;
         if (isHill) {
-            if(hillSize > hillTopSize + level) {
+            if (hillSize > hillTopSize + level) {
                 goingDownHill = true;
             }
             if (goingDownHill && hillSize <= 0) {
@@ -60,21 +59,17 @@ public class WorldGenTerrain extends WorldGenColumn {
             }
         }
         for (int y = 0; y <= world.getHeight(); y++) {
-            if (y == level) {
-                if(world.getBlock(x, y + 1) == null){
-                    if(spawnGrass){
-                        world.setBlock(x, y + 1, BlockBase.tallgrass);
-                    }
-                    if(spawnMushroom){
-                        world.setBlock(x, y + 1, BlockBase.mushroom);
-                    }
-                    if(spawnFlower){
-                        world.setBlock(x, y + 1, BlockBase.redflower);
-                    }
-                    if(spawnTree){
-                        treeGen.generate(x, y+1);
-                    }
+            if(y==level+1) {
+                if (spawnTree) {
+                    treeGen.generate(x, y);
+                } else if (spawnMushroom) {
+                    world.setBlock(x, y, BlockBase.mushroom);
+                } else if (spawnFlower) {
+                    world.setBlock(x, y, BlockBase.redflower);
+                } else if (spawnGrass) {
+                    world.setBlock(x, y, BlockBase.tallgrass);
                 }
+            }else if (y == level) {
                 world.setBlock(x, y, BlockBase.grass);
             } else if (y < level && y > level - (world.getSeaLevel() / 3)) {
                 world.setBlock(x, y, BlockBase.dirt);
@@ -82,7 +77,7 @@ public class WorldGenTerrain extends WorldGenColumn {
                 world.setBlock(x, y, BlockBase.stone);
             }
             if (y == 0) {
-                world.setBlock(x, y, (short) 0); //Bedrock broke
+                world.setBlock(x, y, BlockBase.bedrock);
             }
         }
         int change = rand.nextInt(8);

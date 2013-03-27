@@ -71,7 +71,7 @@ public class GameBase {
             }
             render();
             Display.update();
-            Display.sync(60);
+            Display.sync(30);
         }
         closeRequested = true;
         System.out.println("Closing");

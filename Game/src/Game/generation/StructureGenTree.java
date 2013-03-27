@@ -17,14 +17,17 @@ public class StructureGenTree extends StructureGenBase {
         int height = 13 + rand.nextInt(5);
         int leavesProg = height / 2;
         boolean passedLast = false;
-        for (int i = 0; leavesProg > 0; i++) {
+        for (int i = 0; leavesProg > 0 || i < height; i++) {
             int yy = y + i;
-            if (i < height - 2) {
+            if(leavesProg == 0) {
+                leavesProg = 1;
+            }
+            if (i < height - 1) {
                 world.setBlock(x, yy, BlockBase.woodLog);
             }
             if (i > height - 11 && leavesProg > 0) {
                 for (int o = x - leavesProg; o <= x + leavesProg; o++) {
-                    if (o != x || i >= height - 2) {
+                    if (o != x || i >= height - 1) {
                         world.setBlock(o, yy, BlockBase.leaves);
                     }
                 }

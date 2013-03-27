@@ -20,21 +20,14 @@ public class WorldClickHandler implements IMouseHandler {
     }
 
     public void clickLeftDown(int x, int y) {
-        int[] xy = world.getRelativeCoordinateFromScreen(x, y);
-        BlockBase block = world.getBlock(xy[0], xy[1]);
-        boolean canBreak = MathHelper.getDistance(GameBase.instance.getWorld().mainPlayer.getMidX(), GameBase.instance.getWorld().mainPlayer.getMidY(), x, y) <= GameBase.instance.getWorld().mainPlayer.getGameMode().getReachDistance();
-        if (block != null && block.isBreakable(world, xy[0], xy[1]) && !BlockBreakingHandler.instance.isBreaking && canBreak) {
-            block.onStartBreaking(world, xy[0], xy[1]);
-            BlockBreakingHandler.instance.beginBreaking(xy[0], xy[1]);
-        } else if (BlockBreakingHandler.instance.isBreaking || !canBreak) {
-            BlockBreakingHandler.instance.resetBreaking();
-        }
+        
     }
 
     public void clickLeftHeld(int x, int y, long msDown) {
         int[] xy = world.getRelativeCoordinateFromScreen(x, y);
+        int[] xy2 = world.getRelativePixelFromScreen(x, y);
         BlockBase block = world.getBlock(xy[0], xy[1]);
-        boolean canBreak = MathHelper.getDistance(GameBase.instance.getWorld().mainPlayer.getX(), GameBase.instance.getWorld().mainPlayer.getY(), x, y) <= GameBase.instance.getWorld().mainPlayer.getGameMode().getReachDistance();
+        boolean canBreak = MathHelper.getDistance(GameBase.instance.getWorld().mainPlayer.getMidX(), GameBase.instance.getWorld().mainPlayer.getMidY(), xy2[0], xy2[1])  <= (double)GameBase.instance.getWorld().mainPlayer.getGameMode().getReachDistance();
         if (block != null && block.isBreakable(world, xy[0], xy[1]) && BlockBreakingHandler.instance.isBreaking && canBreak) {
             BlockBreakingHandler.instance.onContinuedBreaking(xy[0], xy[1]);
         } else if (block != null && block.isBreakable(world, xy[0], xy[1]) && !BlockBreakingHandler.instance.isBreaking && canBreak) {

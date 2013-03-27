@@ -112,7 +112,7 @@ public abstract class Entity {
                     return true;
                 }
                 BlockBase block = world.getBlock(cX, top);
-                if (block != null && block.canCollide(world, cX, top)) {
+                if (block != null && block.canCollide(world, cX, top, Side.BOTTOM)) {
                     CollisonBox box2 = block.getCollisonBox(world, cX, top);
                     if (box.intersects(box2)) {
                         isJumping = false;
@@ -128,7 +128,7 @@ public abstract class Entity {
                     return true;
                 }
                 BlockBase block = world.getBlock(cX, bottom);
-                if (block != null && block.canCollide(world, cX, bottom)) {
+                if (block != null && block.canCollide(world, cX, bottom, Side.TOP)) {
                     CollisonBox box2 = block.getCollisonBox(world, cX, bottom);
                     if (box.intersects(box2)) {
                         return true;
@@ -142,7 +142,7 @@ public abstract class Entity {
                     return true;
                 }
                 BlockBase block = world.getBlock(right, cY);
-                if (block != null && block.canCollide(world, right, cY)) {
+                if (block != null && block.canCollide(world, right, cY, Side.LEFT)) {
                     CollisonBox box2 = block.getCollisonBox(world, right, cY);
                     if (box.intersects(box2)) {
                         return true;
@@ -156,7 +156,7 @@ public abstract class Entity {
                     return true;
                 }
                 BlockBase block = world.getBlock(left, cY);
-                if (block != null && block.canCollide(world, left, cY)) {
+                if (block != null && block.canCollide(world, left, cY, Side.RIGHT)) {
                     CollisonBox box2 = block.getCollisonBox(world, left, cY);
                     if (box.intersects(box2)) {
                         return true;
@@ -189,7 +189,7 @@ public abstract class Entity {
         boolean ground = false;
         for (int x = world.getCoordinateFromPixel(getX()); x < world.getCoordinateFromPixel(getMaxX()); x++) {
             BlockBase block = world.getBlock(x, y);
-            if (block != null && block.canCollide(world, x, y)) {
+            if (block != null && block.canCollide(world, x, y, Side.TOP)) {
                 ground = true;
             }
         }
