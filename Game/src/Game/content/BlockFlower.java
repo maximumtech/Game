@@ -33,4 +33,8 @@ public class BlockFlower extends BlockNonColliding {
         }
     }
     
+    public boolean canBeReplaced(World world, int x, int y, BlockBase replacer) {
+        return true;
+    }
+    
 }

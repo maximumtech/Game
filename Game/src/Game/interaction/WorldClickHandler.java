@@ -29,10 +29,10 @@ public class WorldClickHandler implements IMouseHandler {
         BlockBase block = world.getBlock(xy[0], xy[1]);
         boolean canBreak = MathHelper.getDistance(GameBase.instance.getWorld().mainPlayer.getMidX(), GameBase.instance.getWorld().mainPlayer.getMidY(), xy2[0], xy2[1])  <= (double)GameBase.instance.getWorld().mainPlayer.getGameMode().getReachDistance();
         if (block != null && block.isBreakable(world, xy[0], xy[1]) && BlockBreakingHandler.instance.isBreaking && canBreak) {
-            BlockBreakingHandler.instance.onContinuedBreaking(xy[0], xy[1]);
+            BlockBreakingHandler.instance.onContinuedBreaking(xy[0], xy[1], null);
         } else if (block != null && block.isBreakable(world, xy[0], xy[1]) && !BlockBreakingHandler.instance.isBreaking && canBreak) {
-            block.onStartBreaking(world, xy[0], xy[1]);
-            BlockBreakingHandler.instance.beginBreaking(xy[0], xy[1]);
+            block.onStartBreaking(world, xy[0], xy[1], null);
+            BlockBreakingHandler.instance.beginBreaking(xy[0], xy[1], null);
         } else if (BlockBreakingHandler.instance.isBreaking || !canBreak) {
             BlockBreakingHandler.instance.resetBreaking();
         }

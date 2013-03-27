@@ -95,6 +95,10 @@ public class BlockBase extends ItemBase {
     public void onStartBreaking(World world, int x, int y, ItemStack item) {
         
     }
+    
+    public boolean canBeReplaced(World world, int x, int y, BlockBase replacer) {
+        return false;
+    }
 
     public CollisonBox getCollisonBox(World world, int x, int y) {
         int xx = world.getPixelFromCoordinate(x);

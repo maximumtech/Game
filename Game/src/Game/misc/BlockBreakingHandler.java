@@ -56,7 +56,7 @@ public class BlockBreakingHandler {
             }
             BlockBase block = world.getBlock(x, y);
             if (block != null) {
-                progress += ((block.blockHardness / 10) * GameBase.instance.getWorld().mainPlayer.getGameMode().getBlockBreakingModifier() * item.getItem().getHardnessModifier(world, x, y, block));
+                progress += ((block.blockHardness / 10) * GameBase.instance.getWorld().mainPlayer.getGameMode().getBlockBreakingModifier() * (item!=null?item.getItem().getHardnessModifier(world, x, y, block):1F));
             }
         } else {
             isBreaking = false;
