@@ -16,6 +16,7 @@ public class BlockChest extends BlockBase {
         chestHeight = height;
         chestWidth = width;
         setHardness(0.9F);
+        setMaterial(Material.WOOD);
     }
     
     public int getSize() {

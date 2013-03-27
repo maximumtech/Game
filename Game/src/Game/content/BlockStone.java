@@ -13,6 +13,7 @@ public class BlockStone extends BlockGenReplaceable {
     public BlockStone(short id) {
         super(id);
         setHardness(0.05F);
+        setMaterial(Material.STONE);
     }
     
 }

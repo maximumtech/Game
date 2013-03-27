@@ -14,7 +14,7 @@ public class BlockBase extends ItemBase {
 
     public float blockHardness = 1f;
     public static BlockBase[] blocksList = new BlockBase[Short.MAX_VALUE];
-    public static final BlockBase stone = (BlockBase) new BlockStone((short) 1).setImage(ImageHandler.getRenderStack("blockStone")).setName("Stone");
+    public static final BlockBase stone = (BlockBase) new BlockStone((short) 1).setTier(0).setImage(ImageHandler.getRenderStack("blockStone")).setName("Stone");
     public static final BlockBase dirt = (BlockBase) new BlockDirt((short) 2).setImage(ImageHandler.getRenderStack("blockDirt")).setName("Dirt");
     public static final BlockBase grass = (BlockBase) new BlockGrass((short) 3).setImage(ImageHandler.getRenderStack("blockGrass")).setName("Grass");
     public static final BlockBase chest = (BlockBase) new BlockChest((short) 4, 10, 4).setImage(ImageHandler.getRenderStack("blockChest")).setName("Chest");
@@ -24,12 +24,12 @@ public class BlockBase extends ItemBase {
     public static final BlockBase redflower = (BlockBase) new BlockFlower((short) 8).setImage(ImageHandler.getRenderStack("blockRedFlower")).setName("Red Flower");
     public static final BlockBase mushroom = (BlockBase) new BlockFlower((short) 9).setImage(ImageHandler.getRenderStack("blockMushroom")).setName("Mushroom");
     public static final BlockBase tallgrass = (BlockBase) new BlockFlower((short) 10).setImage(ImageHandler.getRenderStack("blockTallGrass")).setName("Tall Grass");
-    public static final BlockBase coalore = (BlockBase) new BlockStone((short) 11).setImage(ImageHandler.getRenderStack("blockCoalOre")).setName("Coal Ore");
-    public static final BlockBase copperore = (BlockBase) new BlockStone((short) 12).setImage(ImageHandler.getRenderStack("blockCopperOre")).setName("Copper Ore");
-    public static final BlockBase tinore = (BlockBase) new BlockStone((short) 13).setImage(ImageHandler.getRenderStack("blockTinOre")).setName("Tin Ore");
-    public static final BlockBase ironore = (BlockBase) new BlockStone((short) 14).setImage(ImageHandler.getRenderStack("blockIronOre")).setName("Iron Ore");
-    public static final BlockBase silverore = (BlockBase) new BlockStone((short) 15).setImage(ImageHandler.getRenderStack("blockSilverOre")).setName("Silver Ore");
-    public static final BlockBase goldore = (BlockBase) new BlockStone((short) 16).setImage(ImageHandler.getRenderStack("blockGoldOre")).setName("Gold Ore");
+    public static final BlockBase coalore = (BlockBase) new BlockStone((short) 11).setTier(1).setImage(ImageHandler.getRenderStack("blockCoalOre")).setName("Coal Ore");
+    public static final BlockBase copperore = (BlockBase) new BlockStone((short) 12).setTier(1).setImage(ImageHandler.getRenderStack("blockCopperOre")).setName("Copper Ore");
+    public static final BlockBase tinore = (BlockBase) new BlockStone((short) 13).setTier(2).setImage(ImageHandler.getRenderStack("blockTinOre")).setName("Tin Ore");
+    public static final BlockBase ironore = (BlockBase) new BlockStone((short) 14).setTier(3).setImage(ImageHandler.getRenderStack("blockIronOre")).setName("Iron Ore");
+    public static final BlockBase silverore = (BlockBase) new BlockStone((short) 15).setTier(4).setImage(ImageHandler.getRenderStack("blockSilverOre")).setName("Silver Ore");
+    public static final BlockBase goldore = (BlockBase) new BlockStone((short) 16).setTier(5).setImage(ImageHandler.getRenderStack("blockGoldOre")).setName("Gold Ore");
     public static final BlockBase sapling = (BlockBase) new BlockSapling((short) 17).setImage(ImageHandler.getRenderStack("blockSapling")).setName("Sapling");
     
     public static Random rand = new Random();
@@ -37,6 +37,17 @@ public class BlockBase extends ItemBase {
     public BlockBase(short id) {
         super(id, ItemType.BLOCK);
         blocksList[id] = this;
+    }
+    
+    private int tier = 0;
+    
+    public BlockBase setTier(int tier) {
+        this.tier = tier;
+        return this;
+    }
+    
+    public int getTier() {
+        return tier;
     }
     
     private boolean requiresRandomTick = false;
@@ -106,6 +117,17 @@ public class BlockBase extends ItemBase {
             world.spawnEntity(itm);
         }
         world.setBlock(x, y, (short) 0);
+    }
+    
+    private Material material;
+    
+    public BlockBase setMaterial(Material material) {
+        this.material = material;
+        return this;
+    }
+    
+    public Material getMaterial() {
+        return material;
     }
 
     public ItemStack[] getDroppedItem(World world, int x, int y, ItemStack item) {

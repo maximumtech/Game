@@ -13,6 +13,7 @@ public class BlockFlower extends BlockNonColliding {
     public BlockFlower(short id) {
         super(id);
         setHardness(20F);
+        setMaterial(Material.PLANT);
     }
 
     public boolean canBePlacedHere(World world, int x, int y) {

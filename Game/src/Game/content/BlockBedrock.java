@@ -11,6 +11,7 @@ public class BlockBedrock extends BlockBase {
     
     public BlockBedrock(short id){
         super(id);
+        setMaterial(Material.UNKNOWN);
     }
     
     public boolean isBreakable(World world, int x, int y) {

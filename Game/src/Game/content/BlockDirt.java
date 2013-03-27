@@ -10,6 +10,7 @@ public class BlockDirt extends BlockBase {
     
     public BlockDirt(short id) {
         super(id);
+        setMaterial(Material.DIRT);
     }
     
 }

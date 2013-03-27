@@ -13,6 +13,7 @@ public class BlockWood extends BlockNonColliding {
     public BlockWood(short id) {
         super(id);
         setHardness(0.2F);
+        setMaterial(Material.WOOD);
     }
     
     public boolean isBreakable(World world, int x, int y) {
