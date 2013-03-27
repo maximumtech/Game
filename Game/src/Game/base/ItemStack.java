@@ -17,6 +17,10 @@ public class ItemStack {
         this(item, 1);
     }
     
+    public boolean matches(ItemStack stack) {
+        return this.getItem() == stack.getItem() && this.getMeta() == stack.getMeta();
+    }
+    
     public void renderWorld(World world, int x, int y) {
         getItem().renderWorld(world, x, y, meta, data);
     }

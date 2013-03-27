@@ -9,7 +9,7 @@ import Game.render.RenderPlayer;
  *
  * @author maximumtech
  */
-public class EntityPlayer extends EntityLiving implements ICollector {
+public class EntityPlayer extends EntityLiving {
     
     public String username = "";
     private GameMode mode;
@@ -21,19 +21,6 @@ public class EntityPlayer extends EntityLiving implements ICollector {
         this.username = name;
         renderer = new RenderPlayer(this);
         this.mode = GameMode.SURVIVAL;
-    }
-    
-    public boolean onCollect(ICollectable item) {
-        item.onCollected(this);
-        return true;
-    }
-    
-    public boolean canCollect(ICollectable item) {
-        return true;
-    }
-    
-    public boolean shouldRender() {
-        return world.mainPlayer!=this;
     }
     
     public void render(){
@@ -48,23 +35,5 @@ public class EntityPlayer extends EntityLiving implements ICollector {
     
     public void setGameMode(GameMode newMode) {
         this.mode = newMode;
-    }
-    
-    private boolean isFlying = false;
-    
-    public void setFlying(boolean flying) {
-        isFlying = flying;
-    }
-    
-    public boolean isFlying() {
-        return getGameMode().canFly() && isFlying;
-    }
-    
-    public boolean canFall() {
-        return !isFlying();
-    }
-    
-    public boolean canCollide() {
-        return !isFlying();
     }
 }

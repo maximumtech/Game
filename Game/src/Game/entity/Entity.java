@@ -211,6 +211,9 @@ public abstract class Entity {
     }
 
     public void onUpdate() {
+        if(!World.isLocal && this != world.mainPlayer) {
+            return;
+        }
         boolean onGround = isOnGround();
         if (!onGround && (!isJumping) && canFall()) {
             fallT++;

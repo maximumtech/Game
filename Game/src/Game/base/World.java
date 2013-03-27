@@ -2,6 +2,7 @@ package Game.base;
 
 import Game.entity.EntityPlayer;
 import Game.entity.Entity;
+import Game.entity.EntityPlayerSP;
 import Game.generation.WorldGenTerrain;
 import Game.misc.MathHelper;
 import java.util.ArrayList;
@@ -23,10 +24,11 @@ public class World {
     private short[] backtileids;
     private short[] backtilemetas;
     private TileEntityBase[] backtiledata;
-    public EntityPlayer mainPlayer;
+    public EntityPlayerSP mainPlayer;
     public ArrayList<Entity> entityList;
     private ArrayList<Entity> spawnEntityList;
     private ArrayList<Entity> despawnEntityList;
+    public static boolean isLocal = true;
 
     public World(int width, int height, int seaLevel, int blockSize) {
         GameBase.blockSize = blockSize;
@@ -61,7 +63,7 @@ public class World {
         spawnEntityList = new ArrayList<>();
         despawnEntityList = new ArrayList<>();
         generate();
-        EntityPlayer ep = new EntityPlayer(this, 160, getPixelFromCoordinate(seaLevel) + 160, "TempName");
+        EntityPlayerSP ep = new EntityPlayerSP(this, 160, getPixelFromCoordinate(seaLevel) + 160, "TempName");
         setMainPlayer(ep);
     }
 
@@ -142,7 +144,7 @@ public class World {
         return ent1;
     }
 
-    private void setMainPlayer(EntityPlayer player) {
+    private void setMainPlayer(EntityPlayerSP player) {
         this.mainPlayer = player;
         spawnEntity(player);
     }
