@@ -19,18 +19,22 @@ public class StructureGenTree extends StructureGenBase {
         boolean passedLast = false;
         for (int i = 0; leavesProg > 0 || i < height; i++) {
             int yy = y + i;
-            if(leavesProg == 0) {
+            if (leavesProg == 0) {
                 leavesProg = 1;
             }
-            if (i < height - 1) {
-                world.setBlock(x, yy, BlockBase.woodLog, (short)1);
+            BlockBase block1 = world.getBlock(x, yy);
+            if (i < height - 1 && (block1 == null || block1.canBeReplaced(world, x, y, BlockBase.woodLog))) {
+                world.setBlock(x, yy, BlockBase.woodLog, (short) 1);
             }
             if (i > height - 11 && leavesProg > 0) {
                 for (int o = x - leavesProg; o <= x + leavesProg; o++) {
-                    if (o != x) {
-                        world.setBlock(o, yy, BlockBase.leaves);
-                    }else if(i >= height - 1) {
-                        world.setBlock(o, yy, BlockBase.leaves, (short)1);
+                    BlockBase block2 = world.getBlock(o, yy);
+                    if (block2 == null || block2.canBeReplaced(world, x, y, BlockBase.woodLog)) {
+                        if (o != x) {
+                            world.setBlock(o, yy, BlockBase.leaves);
+                        } else if (i >= height - 1) {
+                            world.setBlock(o, yy, BlockBase.leaves, (short) 1);
+                        }
                     }
                 }
                 //if(leavesProg > 4) {
@@ -40,13 +44,13 @@ public class StructureGenTree extends StructureGenBase {
                 if (rand.nextInt(4) == 0 || passedLast) {
                     leavesProg--;
                     passedLast = false;
-                }else{
+                } else {
                     passedLast = true;
                 }
                 //}else{
                 //    leavesProg++;
                 //}
-            }else if(i == height - 11) {
+            } else if (i == height - 11) {
                 world.setBlock(x + 1, yy, BlockBase.leaves);
                 world.setBlock(x - 1, yy, BlockBase.leaves);
             }

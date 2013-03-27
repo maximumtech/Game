@@ -49,4 +49,11 @@ public class BlockWood extends BlockNonColliding {
         }
         super.onBlockBreak(world, x, y, it);
     }
+    
+    public boolean canBeReplaced(World world, int x, int y, BlockBase replacer) {
+        if(replacer == BlockBase.woodLog || replacer == BlockBase.leaves) {
+            return true;
+        }
+        return false;
+    }
 }

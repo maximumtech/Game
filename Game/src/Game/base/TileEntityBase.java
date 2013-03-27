@@ -2,6 +2,7 @@ package Game.base;
 
 import Game.interaction.ITickHandler;
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  *
@@ -11,7 +12,8 @@ public class TileEntityBase implements Serializable, ITickHandler {
 
     private int x;
     private int y;
-    private transient World world;
+    public transient World world;
+    public static Random rand = new Random();
 
     public TileEntityBase(World world, int x, int y) {
         this.world = world;

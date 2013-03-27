@@ -5,6 +5,7 @@ import Game.entity.Entity;
 import Game.generation.WorldGenTerrain;
 import Game.misc.MathHelper;
 import java.util.ArrayList;
+import java.util.Random;
 import org.lwjgl.opengl.Display;
 
 /**
@@ -236,7 +237,7 @@ public class World {
         return backtilemetas[(x * getWidth()) + y];
     }
 
-    public TileEntityBase getBacktileData(int x, int y) {
+    public TileEntityBase getBacktileTileEntity(int x, int y) {
         if (((x * getWidth()) + y) > (getWidth() * getWidth()) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
             return null;
         }
@@ -278,10 +279,10 @@ public class World {
 
     public void setBlock(int x, int y, short id, short meta, TileEntityBase data) {
         if (((x * getWidth()) + y) > ((getWidth() * getWidth())) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
-            System.out.println(x);
             return;
         }
         BlockBase block = BlockBase.blocksList[id];
+        block = block!=null?block.getBlockForPlacement(this, x, y):null;
         if (block == null || block.canBePlacedHere(this, x, y)) {
             ids[(x * width) + y] = id;
             metas[(x * width) + y] = meta;
@@ -307,6 +308,13 @@ public class World {
 
     public void setBlock(int x, int y, BlockBase block, short meta) {
         setBlock(x, y, block.getBlockID(), meta);
+    }
+    
+    public void setTileEntity(int x, int y, TileEntityBase data) {
+        if (((x * getWidth()) + y) > ((getWidth() * getWidth())) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
+            return;
+        }
+        this.data[(x * width) + y] = data;
     }
 
     public int[] getRelativePixelFromScreen(int x, int y) {
@@ -341,8 +349,18 @@ public class World {
             }
         }
     }
+    
+    public static Random rand = new Random();
 
     public void onUpdate() {
         updateEntities();
+        for(int x = 0;x<getWidth();x++) {
+            for (int y = 0; y < getHeight(); y++) {
+                BlockBase block = getBlock(x, y);
+                if(block!=null && block.requiresRandomTick() && rand.nextInt(block.getTickRate()) == 0) {
+                    block.tick(this, x, y);
+                } 
+            }
+        }
     }
 }

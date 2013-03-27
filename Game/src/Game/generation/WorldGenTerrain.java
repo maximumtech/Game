@@ -28,7 +28,7 @@ public class WorldGenTerrain extends WorldGenColumn {
     int hillTopSize = 0;
     private int undulatingLevel;
     public Random rand = new Random();
-    StructureGenTree treeGen;
+    public static StructureGenTree treeGen;
     int lastTree = 10;
     private ArrayList<StructureGenOre> ores = new ArrayList<>();
     

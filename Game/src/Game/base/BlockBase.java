@@ -30,12 +30,38 @@ public class BlockBase extends ItemBase {
     public static final BlockBase ironore = (BlockBase) new BlockStone((short) 14).setImage(ImageHandler.getRenderStack("blockIronOre")).setName("Iron Ore");
     public static final BlockBase silverore = (BlockBase) new BlockStone((short) 15).setImage(ImageHandler.getRenderStack("blockSilverOre")).setName("Silver Ore");
     public static final BlockBase goldore = (BlockBase) new BlockStone((short) 16).setImage(ImageHandler.getRenderStack("blockGoldOre")).setName("Gold Ore");
+    public static final BlockBase sapling = (BlockBase) new BlockSapling((short) 17).setImage(ImageHandler.getRenderStack("blockSapling")).setName("Sapling");
     
     public static Random rand = new Random();
     
     public BlockBase(short id) {
         super(id, ItemType.BLOCK);
         blocksList[id] = this;
+    }
+    
+    private boolean requiresRandomTick = false;
+    private int tickRate = 0;
+    
+    public boolean requiresRandomTick() {
+        return requiresRandomTick;
+    }
+    
+    public BlockBase getBlockForPlacement(World world, int x, int y) {
+        return this;
+    }
+    
+    public int getTickRate() {
+        return tickRate;
+    }
+    
+    public void tick(World world, int x, int y) {
+        
+    }
+    
+    public BlockBase setRandomTick(int tick) {
+        requiresRandomTick = true;
+        tickRate = tick;
+        return this;
     }
     
     public boolean canBePlacedHere(World world, int x, int y) {
