@@ -23,12 +23,14 @@ public class StructureGenTree extends StructureGenBase {
                 leavesProg = 1;
             }
             if (i < height - 1) {
-                world.setBlock(x, yy, BlockBase.woodLog);
+                world.setBlock(x, yy, BlockBase.woodLog, (short)1);
             }
             if (i > height - 11 && leavesProg > 0) {
                 for (int o = x - leavesProg; o <= x + leavesProg; o++) {
-                    if (o != x || i >= height - 1) {
+                    if (o != x) {
                         world.setBlock(o, yy, BlockBase.leaves);
+                    }else if(i >= height - 1) {
+                        world.setBlock(o, yy, BlockBase.leaves, (short)1);
                     }
                 }
                 //if(leavesProg > 4) {

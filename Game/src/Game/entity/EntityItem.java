@@ -4,7 +4,6 @@ import Game.base.GameBase;
 import Game.base.ItemStack;
 import Game.base.World;
 import Game.misc.MathHelper;
-import Game.render.gui.ScreenWorld;
 
 /**
  *
@@ -16,33 +15,19 @@ public class EntityItem extends Entity implements ICollectable {
     public int floatTick = 15;
     public boolean downFloat = false;
 
-    public EntityItem(World world) {
-        super(world);
-        sizeX = GameBase.blockSize;
-        sizeY = GameBase.blockSize;
-    }
-
     public void onCollected(ICollector collector) {
         this.setDead();
     }
 
     public EntityItem(World world, int x, int y) {
         super(world, x, y);
+        sizeX = GameBase.blockSize;
+        sizeY = GameBase.blockSize;
     }
 
     public EntityItem(World world, int x, int y, ItemStack item) {
         this(world, x, y);
         storedItem = item;
-    }
-
-    public boolean canFall() {
-        return false;
-    }
-
-    public void gravitateToEntity(Entity entity) {
-        int[] motion = MathHelper.getDirectMotionTo(this, entity, 4);
-        this.motionX = motion[0];
-        this.motionY = motion[1];
     }
 
     public void onUpdate() {
@@ -59,44 +44,25 @@ public class EntityItem extends Entity implements ICollectable {
             iter++;
         }
         if (p != null) {
-            if (p.getX() > this.getX()) {
-                this.motionX = 3;//Math.min(3, p.getX() - this.getX());
-            } else if (p.getX() < this.getX()) {
-                this.motionX = -3;//Math.max(-3, p.getX() - this.getX());
+            if (p.getMidX() > getMidX()) {
+                this.motionX = Math.min(3, p.getMidX() - this.getMidX());
+            } else if (p.getMidX() < this.getMidX()) {
+                this.motionX = Math.min(-3, this.getMidX() - p.getMidX());
             } else {
                 this.motionX = 0;
             }
             if (p.getY() > this.getY()) {
-                this.motionY = 3;//Math.min(3, p.getY() - this.getY());
+                this.motionY = Math.min(3, p.getMidY() - this.getMidY());
             } else if (p.getY() < this.getY()) {
-                this.motionY = -3;//Math.max(-3, p.getY() - this.getY());
+                this.motionY = Math.min(-3, this.getMidY() - p.getMidY());
             } else {
                 this.motionY = 0;
             }
             if (MathHelper.getDistance(getMidX(), getMidY(), p.getMidX(), p.getY()) < 32) {
                 pi.onCollect(this);
             }
-        } else {
-            if (this.floatTick > 16) {
-                this.downFloat = true;
-            } else if (this.floatTick < 0) {
-                this.downFloat = false;
-            }
-            if (this.downFloat) {
-                this.floatTick -= 1;
-                if (this.floatTick % 3 == 0) {
-                    this.motionY = -1;
-                } else {
-                    this.motionY = 0;
-                }
-            } else {
-                this.floatTick += 1;
-                if (this.floatTick % 3 == 0) {
-                    this.motionY = 1;
-                } else {
-                    this.motionY = 0;
-                }
-            }
+        } else if(isOnGround()) {
+            
         }
         super.onUpdate();
     }

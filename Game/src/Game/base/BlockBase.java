@@ -24,6 +24,9 @@ public class BlockBase extends ItemBase {
     public static final BlockBase redflower = (BlockBase) new BlockFlower((short) 8).setImage(ImageHandler.getRenderStack("blockRedFlower")).setName("Red Flower");
     public static final BlockBase mushroom = (BlockBase) new BlockFlower((short) 9).setImage(ImageHandler.getRenderStack("blockMushroom")).setName("Mushroom");
     public static final BlockBase tallgrass = (BlockBase) new BlockFlower((short) 10).setImage(ImageHandler.getRenderStack("blockTallGrass")).setName("Tall Grass");
+    public static final BlockBase coalore = (BlockBase) new BlockGenReplaceable((short) 11).setImage(ImageHandler.getRenderStack("blockCoalOre")).setName("Coal Ore");
+    public static final BlockBase copperore = (BlockBase) new BlockGenReplaceable((short) 12).setImage(ImageHandler.getRenderStack("blockCopperOre")).setName("Copper Ore");
+    public static final BlockBase ironore = (BlockBase) new BlockGenReplaceable((short) 13).setImage(ImageHandler.getRenderStack("blockIronOre")).setName("Iron Ore");
     
     public static Random rand = new Random();
     

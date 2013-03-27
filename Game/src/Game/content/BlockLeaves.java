@@ -7,7 +7,7 @@ import Game.base.World;
  *
  * @author Mirw9
  */
-public class BlockLeaves extends BlockNonColliding{
+public class BlockLeaves extends BlockWood{
     
     public BlockLeaves(short id){
         super(id);

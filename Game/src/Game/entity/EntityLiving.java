@@ -40,6 +40,9 @@ public abstract class EntityLiving extends Entity {
 
     protected void setHealth(int hp) {
         health = Math.max(0, Math.min(hp, getMaxHealth()));
+        if(isDead()) {
+            setDead();
+        }
     }
 
     public boolean attackEntityFrom(int damage, DamageSource source) {
