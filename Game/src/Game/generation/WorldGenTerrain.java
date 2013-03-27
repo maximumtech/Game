@@ -15,7 +15,12 @@ public class WorldGenTerrain extends WorldGenColumn {
         super(world);
         undulatingLevel = world.getSeaLevel();
         treeGen = new StructureGenTree(world);
-        ores.add(new StructureGenOre(world, BlockBase.coalore, 6, world.getSeaLevel(), world.getSeaLevel(), 2));
+        ores.add(new StructureGenOre(world, BlockBase.coalore, 8, world.getSeaLevel() / 10, world.getSeaLevel(), 3));
+        ores.add(new StructureGenOre(world, BlockBase.copperore, 6, world.getSeaLevel() / 20, world.getSeaLevel(), 2));
+        ores.add(new StructureGenOre(world, BlockBase.tinore, 6, world.getSeaLevel() / 20, world.getSeaLevel(), 2));
+        ores.add(new StructureGenOre(world, BlockBase.ironore, 12, world.getSeaLevel() / 40, world.getSeaLevel() / 10 * 8, 5));
+        ores.add(new StructureGenOre(world, BlockBase.silverore, 18, world.getSeaLevel() / 50, world.getSeaLevel() / 10 * 5, 8));
+        ores.add(new StructureGenOre(world, BlockBase.goldore, 6, world.getSeaLevel() / 70, world.getSeaLevel() / 10 * 5, 2));
     }
     boolean isHill = false;
     boolean goingDownHill = false;
@@ -86,7 +91,7 @@ public class WorldGenTerrain extends WorldGenColumn {
                 }
             }else if (y == level) {
                 world.setBlock(x, y, BlockBase.grass);
-            } else if (y < level && y > level - (world.getSeaLevel() / 3)) {
+            } else if (y < level && y > level - (world.getSeaLevel() / 4)) {
                 world.setBlock(x, y, BlockBase.dirt);
             } else if (y < level) {
                 world.setBlock(x, y, BlockBase.stone);
