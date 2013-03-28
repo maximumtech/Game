@@ -21,6 +21,10 @@ public abstract class ItemBase {
         return maxStackSize;
     }
 
+    public int getRawID() {
+        return itemID;
+    }
+
     public int getDamageVsEntity(EntityLiving ent) {
         return 1;
     }
@@ -28,7 +32,7 @@ public abstract class ItemBase {
     public float getHardnessModifier(World world, int x, int y, BlockBase block) {
         return 1F;
     }
-    
+
     public boolean attackEntity(EntityLiving ent) {
         ent.attackEntityFrom(getDamageVsEntity(ent), DamageSource.PLAYER);
         return true;
@@ -96,6 +100,7 @@ public abstract class ItemBase {
     }
 
     protected static enum ItemType {
+
         BLOCK,
         BACKTILE,
         ITEM;
