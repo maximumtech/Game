@@ -50,7 +50,7 @@ public class PlayerInventory implements IInventory {
     public ItemStack getHotbar(int num) {
         return getHotbar()[num];
     }
-    private int currentItem = 0;
+    private int currentItem = 9;
 
     public ItemStack setSelectedItem(int num) {
         int cur = num;
@@ -89,14 +89,15 @@ public class PlayerInventory implements IInventory {
             if (slot != null && is != null && is.matches(item)) {
                 int extra = slot.addItemAmount(item.getAmount());
                 if (extra <= 0) {
-                    return null;
+                    return slot.getStack();
                 } else {
                     amt = extra;
                 }
             }
         }
         item.setAmount(amt);
-        for (Slot slot : slots) {
+        for (int i = slots.size() - 1; i > 0; i--) {
+            Slot slot = slots.get(i);
             if (slot != null && slot.getStack() == null) {
                 slot.setItem(item);
                 return null;
@@ -116,11 +117,14 @@ public class PlayerInventory implements IInventory {
     }
 
     public ItemStack removeItemStack(ItemStack item) {
-        int amt = item.getAmount();
+        return removeItemStack(item, item.getAmount());
+    }
+
+    public ItemStack removeItemStack(ItemStack item, int amt) {
         for (Slot slot : slots) {
             ItemStack is = slot.getStack();
             if (slot != null && is != null && is.matches(item)) {
-                int extra = slot.removeItemAmount(item.getAmount());
+                int extra = slot.removeItemAmount(amt);
                 if (extra <= 0) {
                     return null;
                 } else {

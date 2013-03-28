@@ -82,6 +82,9 @@ public class ItemStack {
     }
 
     public int setAmount(int amt) {
+        if (amt <= 0) {
+            return -1000;
+        }
         int pamt = getAmount();
         stackSize = Math.max(1, Math.min(amt, getItem().getMaxStackSize()));
         return pamt - stackSize;
