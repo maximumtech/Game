@@ -45,6 +45,7 @@ public class WorldClickHandler implements IMouseHandler {
 
     public void clickRightDown(int x, int y) {
     }
+    private long lastPlace = 0L;
 
     public void clickRightHeld(int x, int y, long msDown) {
         if (world.mainPlayer.inventory.getSelectedItem() != null && world.mainPlayer.inventory.getSelectedItem().getItem() instanceof BlockBase) {
@@ -53,18 +54,19 @@ public class WorldClickHandler implements IMouseHandler {
             BlockBase replacer = (BlockBase) world.mainPlayer.inventory.getSelectedItem().getItem();
             BlockBase block = world.getBlock(xy[0], xy[1]);
             boolean canPlace = MathHelper.getDistance(GameBase.instance.getWorld().mainPlayer.getMidX(), GameBase.instance.getWorld().mainPlayer.getMidY(), xy2[0], xy2[1]) <= (double) GameBase.instance.getWorld().mainPlayer.getGameMode().getReachDistance();
-            if (block == null || block.canBeReplaced(world, xy[0], xy[1], replacer)) {
-                if (canPlace) {
+            if (block == null || block.canBeReplaced(world, xy[0], xy[1], replacer) && msDown > lastPlace + 50L) {
+                if (canPlace && world.setBlock(xy[0], xy[1], replacer)) {
                     if (block != null) {
                         block.onBlockBreak(world, xy[0], xy[1], world.mainPlayer.inventory.getSelectedItem());
                     }
-                    world.setBlock(xy[0], xy[1], replacer);
                     world.mainPlayer.inventory.removeItemStack(world.mainPlayer.inventory.getSelectedItem(), 1);
+                    lastPlace = msDown;
                 }
             }
         }
     }
 
     public void clickRightUp(int x, int y, long msDown) {
+        lastPlace = 0L;
     }
 }

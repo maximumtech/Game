@@ -82,28 +82,27 @@ public class PlayerInventory implements IInventory {
         return getHotbar()[getSelectedSlot()];
     }
 
-    public ItemStack addItemStack(ItemStack item) {
-        int amt = item.getAmount();
+    public int addItemStack(ItemStack item) {
+        return addItemStack(item, item.getAmount());
+    }
+
+    public int addItemStack(ItemStack item, int amt) {
         for (Slot slot : slots) {
             ItemStack is = slot.getStack();
             if (slot != null && is != null && is.matches(item)) {
-                int extra = slot.addItemAmount(item.getAmount());
-                if (extra <= 0) {
-                    return slot.getStack();
-                } else {
-                    amt = extra;
-                }
+                amt = slot.addItemAmount(item.getAmount());
+                return amt;
             }
         }
-        item.setAmount(amt);
         for (int i = slots.size() - 1; i > 0; i--) {
             Slot slot = slots.get(i);
             if (slot != null && slot.getStack() == null) {
                 slot.setItem(item);
-                return null;
+                amt = 0;
+                return amt;
             }
         }
-        return item;
+        return amt;
     }
 
     public int hasItem(ItemStack item) {
@@ -116,24 +115,19 @@ public class PlayerInventory implements IInventory {
         return 0;
     }
 
-    public ItemStack removeItemStack(ItemStack item) {
+    public int removeItemStack(ItemStack item) {
         return removeItemStack(item, item.getAmount());
     }
 
-    public ItemStack removeItemStack(ItemStack item, int amt) {
+    public int removeItemStack(ItemStack item, int amt) {
         for (Slot slot : slots) {
             ItemStack is = slot.getStack();
             if (slot != null && is != null && is.matches(item)) {
-                int extra = slot.removeItemAmount(amt);
-                if (extra <= 0) {
-                    return null;
-                } else {
-                    amt = extra;
-                }
+                amt = slot.removeItemAmount(amt);
+                break;
             }
         }
-        item.setAmount(amt);
-        return item;
+        return amt;
     }
 
     public ItemStack getStackInSlot(int slot) {

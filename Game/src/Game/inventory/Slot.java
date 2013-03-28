@@ -36,8 +36,9 @@ public class Slot {
     public int removeItemAmount(int amt) {
         if (storedItem != null) {
             int dec = storedItem.decrement(amt);
-            if (dec == -1000) {
-                setItem(null);
+            if (storedItem.getAmount() == 0) {
+                storedItem = null;
+                return 0;
             }
             return dec;
         }

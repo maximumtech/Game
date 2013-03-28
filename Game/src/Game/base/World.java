@@ -278,44 +278,47 @@ public class World {
         neighborUpdate(x, y - 1);
     }
 
-    public void setBlock(int x, int y, short id, short meta, TileEntityBase data) {
+    public boolean setBlock(int x, int y, short id, short meta, TileEntityBase data) {
         if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
-            return;
+            return false;
         }
         BlockBase block = BlockBase.blocksList[id];
         block = block != null ? block.getBlockForPlacement(this, x, y) : null;
-        if (block == null || block.canBePlacedHere(this, x, y)) {
+        if ((block == null || block.canBePlacedHere(this, x, y)) && !((block != null ? block.equals(getBlock(x, y)) : getBlock(x, y) == null && block == null) && getBlockMeta(x, y) == meta)) {
             ids[(y * getWidth()) + x] = id;
             metas[(y * getWidth()) + x] = meta;
             this.data[(y * getWidth()) + x] = data;
             if (block != null) {
                 block.onPlace(this, x, y);
             }
+            updateBlockAndNeighbors(x, y);
+            return true;
         }
-        updateBlockAndNeighbors(x, y);
+        return false;
     }
 
-    public void setBlock(int x, int y, short id, short meta) {
-        setBlock(x, y, id, meta, null);
+    public boolean setBlock(int x, int y, short id, short meta) {
+        return setBlock(x, y, id, meta, null);
     }
 
-    public void setBlock(int x, int y, short id) {
-        setBlock(x, y, id, (short) 0);
+    public boolean setBlock(int x, int y, short id) {
+        return setBlock(x, y, id, (short) 0);
     }
 
-    public void setBlock(int x, int y, BlockBase block) {
-        setBlock(x, y, block.getBlockID());
+    public boolean setBlock(int x, int y, BlockBase block) {
+        return setBlock(x, y, block.getBlockID());
     }
 
-    public void setBlock(int x, int y, BlockBase block, short meta) {
-        setBlock(x, y, block.getBlockID(), meta);
+    public boolean setBlock(int x, int y, BlockBase block, short meta) {
+        return setBlock(x, y, block.getBlockID(), meta);
     }
 
-    public void setTileEntity(int x, int y, TileEntityBase data) {
+    public boolean setTileEntity(int x, int y, TileEntityBase data) {
         if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
-            return;
+            return false;
         }
         this.data[(x * width) + y] = data;
+        return true;
     }
 
     public int[] getRelativePixelFromScreen(int x, int y) {

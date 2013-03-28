@@ -1,0 +1,5 @@
+If you have a NoSuchMethod error, do the following to fix:
+If Game/dist/Game.jar exists, delete it.
+If Game/build/classes exists, delete it.
+
+This is a recurring problem when changing the headers of methods.

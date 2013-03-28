@@ -26,11 +26,11 @@ public class ItemStack {
     }
 
     public void renderWorld(World world, int x, int y) {
-        getItem().renderWorld(world, x, y);
+        getItem().renderWorld(world, x, y, this);
     }
 
     public void renderGUI(int x, int y, int width, int height) {
-        getItem().renderGUI(x, y, width, height, meta, data);
+        getItem().renderGUI(x, y, width, height, this);
         //fontRenderer.drawString("" + stackSize, x, y);
         //fontRenderer.drawString("" + getItem().getName(), x, y + GameBase.blockSize);
     }
@@ -78,15 +78,12 @@ public class ItemStack {
     }
 
     public int getAmount() {
-        return Math.max(1, Math.min(stackSize, getItem().getMaxStackSize()));
+        return Math.max(0, Math.min(stackSize, getItem().getMaxStackSize()));
     }
 
     public int setAmount(int amt) {
-        if (amt <= 0) {
-            return -1000;
-        }
         int pamt = getAmount();
-        stackSize = Math.max(1, Math.min(amt, getItem().getMaxStackSize()));
+        stackSize = Math.max(0, Math.min(amt, getItem().getMaxStackSize()));
         return pamt - stackSize;
     }
 

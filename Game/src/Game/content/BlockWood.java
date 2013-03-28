@@ -3,17 +3,22 @@ package Game.content;
 import Game.base.BlockBase;
 import Game.base.ItemStack;
 import Game.base.World;
+import Game.misc.Side;
 
 /**
  *
  * @author maximumtech
  */
-public class BlockWood extends BlockNonColliding {
+public class BlockWood extends BlockBase {
 
     public BlockWood(short id) {
         super(id);
         setHardness(0.2F);
         setMaterial(Material.WOOD);
+    }
+
+    public boolean canCollide(World world, int x, int y, Side side) {
+        return world.getBlockMeta(x, y) == (short) 0;
     }
 
     public boolean isBreakable(World world, int x, int y) {

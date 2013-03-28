@@ -19,8 +19,8 @@ public class EntityPlayerSP extends EntityPlayer implements ICollector {
 
     public boolean onCollect(ICollectable item) {
         if (item instanceof EntityItem) {
-            ItemStack is = inventory.addItemStack(((EntityItem) item).storedItem);
-            if (is != null) {
+            int is = inventory.addItemStack(((EntityItem) item).storedItem);
+            if (is <= 0) {
                 item.onCollected(this);
             }
         }
