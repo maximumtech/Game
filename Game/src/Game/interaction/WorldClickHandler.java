@@ -48,9 +48,9 @@ public class WorldClickHandler implements IMouseHandler {
     private long lastPlace = 0L;
 
     public void clickRightHeld(int x, int y, long msDown) {
+        int[] xy = world.getRelativeCoordinateFromScreen(x, y);
+        int[] xy2 = world.getRelativePixelFromScreen(x, y);
         if (world.mainPlayer.inventory.getSelectedItem() != null && world.mainPlayer.inventory.getSelectedItem().getItem() instanceof BlockBase) {
-            int[] xy = world.getRelativeCoordinateFromScreen(x, y);
-            int[] xy2 = world.getRelativePixelFromScreen(x, y);
             BlockBase replacer = (BlockBase) world.mainPlayer.inventory.getSelectedItem().getItem();
             BlockBase block = world.getBlock(xy[0], xy[1]);
             boolean canPlace = MathHelper.getDistance(GameBase.instance.getWorld().mainPlayer.getMidX(), GameBase.instance.getWorld().mainPlayer.getMidY(), xy2[0], xy2[1]) <= (double) GameBase.instance.getWorld().mainPlayer.getGameMode().getReachDistance();

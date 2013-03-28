@@ -90,14 +90,20 @@ public class PlayerInventory implements IInventory {
         for (Slot slot : slots) {
             ItemStack is = slot.getStack();
             if (slot != null && is != null && is.matches(item)) {
-                amt = slot.addItemAmount(item.getAmount());
-                return amt;
+                amt = slot.addItemAmount(amt);
+                if (amt < 0) {
+                    return 0;
+                } else {
+                    amt += 1;
+                    break;
+                }
             }
         }
         for (int i = slots.size() - 1; i > 0; i--) {
             Slot slot = slots.get(i);
             if (slot != null && slot.getStack() == null) {
                 slot.setItem(item);
+                slot.setItemAmount(amt);
                 amt = 0;
                 return amt;
             }
