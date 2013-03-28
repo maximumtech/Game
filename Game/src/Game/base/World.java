@@ -30,7 +30,6 @@ public class World {
     public static boolean isLocal = true;
 
     public World(int width, int height, int seaLevel, int blockSize) {
-        System.out.println(this.getClass().getProtectionDomain().getCodeSource().getLocation());
         GameBase.blockSize = blockSize;
         this.width = width;
         this.height = height;

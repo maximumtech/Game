@@ -57,6 +57,8 @@ public class ImageHandler {
                                     rs = new RenderStack();
                                 } else if (type.equals("animation")) {
                                     rs = new AnimatedRenderStack();
+                                } else if (type.equals("random")) {
+                                    rs = new RenderStackRandom();
                                 } else {
                                     //??
                                 }
@@ -101,6 +103,7 @@ public class ImageHandler {
             drawImage2D(image, x, y, z, width, height, Color.white);
         }
     }
+
     public static void drawImage2D(Image image, int x, int y, int z, int width, int height, Color filler) {
         if (image != null) {
             GL11.glPushMatrix();

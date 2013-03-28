@@ -31,58 +31,54 @@ public class BlockBase extends ItemBase {
     public static final BlockBase silverore = (BlockBase) new BlockStone((short) 15).setTier(4).setImage(ImageHandler.getRenderStack("blockSilverOre")).setName("Silver Ore");
     public static final BlockBase goldore = (BlockBase) new BlockStone((short) 16).setTier(5).setImage(ImageHandler.getRenderStack("blockGoldOre")).setName("Gold Ore");
     public static final BlockBase sapling = (BlockBase) new BlockSapling((short) 17).setImage(ImageHandler.getRenderStack("blockSapling")).setName("Sapling");
-    
     public static Random rand = new Random();
-    
+
     public BlockBase(short id) {
         super(id, ItemType.BLOCK);
         blocksList[id] = this;
     }
-    
     private int tier = 0;
-    
+
     public BlockBase setTier(int tier) {
         this.tier = tier;
         return this;
     }
-    
+
     public int getTier() {
         return tier;
     }
-    
     private boolean requiresRandomTick = false;
     private int tickRate = 0;
-    
+
     public boolean requiresRandomTick() {
         return requiresRandomTick;
     }
-    
+
     public BlockBase getBlockForPlacement(World world, int x, int y) {
         return this;
     }
-    
+
     public int getTickRate() {
         return tickRate;
     }
-    
+
     public void tick(World world, int x, int y) {
-        
     }
-    
+
     public BlockBase setRandomTick(int tick) {
         requiresRandomTick = true;
         tickRate = tick;
         return this;
     }
-    
+
     public boolean canBePlacedHere(World world, int x, int y) {
         return true;
     }
-    
+
     public boolean isBreakable(World world, int x, int y) {
         return true;
     }
-    
+
     public BlockBase setHardness(float hardness) {
         this.blockHardness = hardness;
         return this;
@@ -111,6 +107,9 @@ public class BlockBase extends ItemBase {
     public void onBlockBreak(World world, int x, int y, ItemStack it) {
         ItemStack[] items = getDroppedItem(world, x, y, it);
         for (ItemStack item : items) {
+            if (item == null) {
+                continue;
+            }
             EntityItem itm = new EntityItem(world, world.getPixelFromCoordinate(x), world.getPixelFromCoordinate(y), item);
             itm.motionX += 2 - rand.nextInt(5);
             itm.motionY += rand.nextInt(5);
@@ -118,20 +117,19 @@ public class BlockBase extends ItemBase {
         }
         world.setBlock(x, y, (short) 0);
     }
-    
     private Material material;
-    
+
     public BlockBase setMaterial(Material material) {
         this.material = material;
         return this;
     }
-    
+
     public Material getMaterial() {
         return material;
     }
 
     public ItemStack[] getDroppedItem(World world, int x, int y, ItemStack item) {
-        return new ItemStack[]{new ItemStack((ItemBase)this)};
+        return new ItemStack[]{new ItemStack((ItemBase) this)};
     }
 
     public void onRightClick(World world, int x, int y, ItemStack is) {
@@ -139,14 +137,13 @@ public class BlockBase extends ItemBase {
         int yy = world.getCoordinateFromPixel(y);
         onPlace(world, xx, yy);
     }
-    
+
     public void onPlace(World world, int x, int y) {
     }
-    
+
     public void onStartBreaking(World world, int x, int y, ItemStack item) {
-        
     }
-    
+
     public boolean canBeReplaced(World world, int x, int y, BlockBase replacer) {
         return false;
     }

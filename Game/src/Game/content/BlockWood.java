@@ -15,12 +15,12 @@ public class BlockWood extends BlockNonColliding {
         setHardness(0.2F);
         setMaterial(Material.WOOD);
     }
-    
+
     public boolean isBreakable(World world, int x, int y) {
         short meta = world.getBlockMeta(x, y);
-        if(meta == 1) {
+        if (meta == 1) {
             BlockBase block = world.getBlock(x, y - 1);
-            if(block instanceof BlockWood) {
+            if (block instanceof BlockWood) {
                 return false;
             }
         }
@@ -35,14 +35,14 @@ public class BlockWood extends BlockNonColliding {
             }
             for (int xx = x + 1; xx < x + 10; xx++) {
                 if (world.getBlock(xx, y) == BlockBase.leaves) {
-                    world.setBlock(xx, y, (short) 0);
+                    BlockBase.leaves.onBlockBreak(world, xx, y, it);
                 } else {
                     break;
                 }
             }
             for (int xx = x - 1; xx > x - 10; xx--) {
                 if (world.getBlock(xx, y) == BlockBase.leaves) {
-                    world.setBlock(xx, y, (short) 0);
+                    BlockBase.leaves.onBlockBreak(world, xx, y, it);
                 } else {
                     break;
                 }
@@ -50,9 +50,9 @@ public class BlockWood extends BlockNonColliding {
         }
         super.onBlockBreak(world, x, y, it);
     }
-    
+
     public boolean canBeReplaced(World world, int x, int y, BlockBase replacer) {
-        if(replacer == BlockBase.woodLog || replacer == BlockBase.leaves) {
+        if (replacer == BlockBase.woodLog || replacer == BlockBase.leaves) {
             return true;
         }
         return false;
