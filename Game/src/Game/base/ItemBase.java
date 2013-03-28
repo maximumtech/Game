@@ -76,16 +76,8 @@ public abstract class ItemBase {
         getImage().render(x + 2, y + 2, 1, GameBase.blockSize - 2, GameBase.blockSize - 2);
     }
 
-    public void renderGUI(int x, int y) {
-        getImage().render(x + 2, y + 2, 1, GameBase.blockSize - 2, GameBase.blockSize - 2);
-    }
-
-    public void renderWorld(World world, int x, int y, short meta, String data) {
-        getImage().render(x + 2, y + 2, 1, GameBase.blockSize - 4, GameBase.blockSize - 4);
-    }
-
-    public void renderGUI(int x, int y, short meta, String data) {
-        getImage().render(x + 2, y + 2, 1, GameBase.blockSize - 4, GameBase.blockSize - 4);
+    public void renderGUI(int x, int y, int width, int height, short meta, String data) {
+        getImage().render(x, y, 4, width, height);
     }
 
     protected short getID(ItemType type) {

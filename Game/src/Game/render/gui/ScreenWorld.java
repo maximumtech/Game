@@ -6,6 +6,7 @@ import Game.base.BackTileBase;
 import Game.base.GameBase;
 import Game.entity.Entity;
 import Game.misc.BlockBreakingHandler;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -20,8 +21,19 @@ public class ScreenWorld extends Screen {
         this.world = world;
     }
 
+    public void translateToPlayer() {
+        int wid = Display.getWidth() / 2;
+        int hei = Display.getHeight() / 2;
+        GL11.glTranslatef(-world.mainPlayer.getX() + wid - (world.mainPlayer.sizeX / 2), -world.mainPlayer.getY() + hei - (world.mainPlayer.sizeY / 2), 0);
+    }
+
     public void render() {
         super.render();
+        world.mainPlayer.inventory.render(true);
+        int wid = Display.getWidth() / 2;
+        int hei = Display.getHeight() / 2;
+        world.mainPlayer.renderer.render(wid - (world.mainPlayer.sizeX / 2), hei - (world.mainPlayer.sizeY / 2));
+        translateToPlayer();
         if (world != null && world.mainPlayer != null) {
             for (int x = Math.max(0, world.mainPlayer.getBlockX() - world.getRenderWidth()); x < Math.min(world.getWidth(), world.mainPlayer.getBlockX() + world.getRenderWidth()); x++) {
                 for (int y = Math.max(0, world.mainPlayer.getBlockY() - world.getRenderHeight()); y < Math.min(world.getHeight(), world.mainPlayer.getBlockY() + world.getRenderHeight()); y++) {

@@ -26,13 +26,13 @@ public class ItemStack {
     }
 
     public void renderWorld(World world, int x, int y) {
-        getItem().renderWorld(world, x, y, meta, data);
+        getItem().renderWorld(world, x, y);
     }
 
-    public void renderGUI(int x, int y) {
-        getItem().renderGUI(x, y, meta, data);
-        fontRenderer.drawString("" + stackSize, x, y);
-        fontRenderer.drawString("" + getItem().getName(), x, y + GameBase.blockSize);
+    public void renderGUI(int x, int y, int width, int height) {
+        getItem().renderGUI(x, y, width, height, meta, data);
+        //fontRenderer.drawString("" + stackSize, x, y);
+        //fontRenderer.drawString("" + getItem().getName(), x, y + GameBase.blockSize);
     }
 
     public ItemStack(ItemBase item, int amt) {

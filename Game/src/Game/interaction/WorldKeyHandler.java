@@ -3,14 +3,15 @@ package Game.interaction;
 import Game.base.GameBase;
 import Game.base.World;
 import Game.entity.player.GameMode;
+import Game.render.gui.ScreenWorld;
 
 /**
  *
  * @author maximumtech
  */
-public class MovementHandler implements IKeyboardHandler, ITickHandler {
+public class WorldKeyHandler implements IKeyboardHandler, ITickHandler {
 
-    public MovementHandler() {
+    public WorldKeyHandler() {
         KeyboardHandler.instance.registerHandler(this);
         TickHandler.instance.registerTickHandler(this);
     }
@@ -40,6 +41,11 @@ public class MovementHandler implements IKeyboardHandler, ITickHandler {
                         playerFlyTick = 0;
                         world.mainPlayer.setFlying(false);
                     }
+                }
+            }
+            if (key.equals(KeyConfig.instance.getKeyFromName("inventory", "e"))) {
+                if (GameBase.renderScreen != null && GameBase.renderScreen instanceof ScreenWorld) {
+                    //((ScreenWorld) GameBase.renderScreen).toggleInventory();
                 }
             }
         }

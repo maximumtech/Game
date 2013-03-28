@@ -3,7 +3,7 @@ package Game.base;
 import Game.interaction.WorldClickHandler;
 import Game.interaction.KeyboardHandler;
 import Game.interaction.MouseHandler;
-import Game.interaction.MovementHandler;
+import Game.interaction.WorldKeyHandler;
 import Game.misc.BlockBreakingHandler;
 import Game.render.FontRenderer;
 import org.lwjgl.LWJGLException;
@@ -24,7 +24,7 @@ public class GameBase {
     public static int blockSize = 16;
     public static int reachDistance = 8;
     public static FontRenderer fontRenderer;
-    
+
     public static void main(String[] args) {
         new GameBase(args);
     }
@@ -54,13 +54,15 @@ public class GameBase {
         //GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDepthFunc(GL11.GL_LEQUAL);
         GL11.glDepthMask(true);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
         System.out.println("OpenGL Started, Tick Handling Initializing");
         new TickHandler();
         System.out.println("Tick Handler Initialized, Starting Render Loop");
         World world = new World(600, 1000, 500, 16);
         fontRenderer = new FontRenderer(12);
         renderScreen = new ScreenWorld(world);
-        new MovementHandler();
+        new WorldKeyHandler();
         new WorldClickHandler(world);
         new BlockBreakingHandler(world);
         ItemStack.fontRenderer = new FontRenderer(4);
@@ -88,26 +90,8 @@ public class GameBase {
     private void render() {
         if (renderScreen != null) {
             GL11.glPushMatrix();
-            if (renderScreen instanceof ScreenWorld) {
-                World world = ((ScreenWorld) renderScreen).world;
-                if (world != null && world.mainPlayer != null) {
-                    int wid = Display.getWidth() / 2;
-                    int hei = Display.getHeight() / 2;
-                    world.mainPlayer.renderer.render(wid - (world.mainPlayer.sizeX / 2), hei - (world.mainPlayer.sizeY / 2));
-                    translateToPlayer();
-                }
-            }
             renderScreen.render();
             GL11.glPopMatrix();
-        }
-    }
-
-    public void translateToPlayer() {
-        if (renderScreen instanceof ScreenWorld) {
-            World world = ((ScreenWorld) renderScreen).world;
-            int wid = Display.getWidth() / 2;
-            int hei = Display.getHeight() / 2;
-            GL11.glTranslatef(-world.mainPlayer.getX() + wid - (world.mainPlayer.sizeX / 2), -world.mainPlayer.getY() + hei - (world.mainPlayer.sizeY / 2), 0);
         }
     }
 

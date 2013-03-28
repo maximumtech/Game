@@ -1,8 +1,11 @@
 package Game.inventory;
 
+import Game.base.BlockBase;
 import Game.base.ItemStack;
 import Game.entity.EntityPlayerSP;
+import Game.render.ImageHandler;
 import java.util.ArrayList;
+import org.lwjgl.opengl.Display;
 
 /**
  *
@@ -25,11 +28,23 @@ public class PlayerInventory implements IInventory {
         }
     }
 
-    public void render() {
+    public void render(boolean hotbarOnly) {
+        if (hotbarOnly) {
+            ImageHandler.drawImage2D(ImageHandler.getImage("gui/inventory/inv"), Display.getWidth() / 2 - 208, 0, 3, 424, Display.getHeight() / 12, 256, 256, 256, 255);
+            int pos = 0;
+            for (ItemStack item : getHotbar()) {
+                if (item != null) {
+                    item.renderGUI(pos * 40 + 8 + Display.getWidth() / 4, Display.getHeight() / 24 - 16, 32, 32);
+                }
+                if (pos == getSelectedSlot()) {
+                }
+                pos++;
+            }
+        }
     }
 
     public ItemStack[] getHotbar() {
-        return new ItemStack[]{getStackInSlot(0, getHeight()), getStackInSlot(1, getHeight()), getStackInSlot(2, getHeight()), getStackInSlot(3, getHeight()), getStackInSlot(4, getHeight()), getStackInSlot(5, getHeight()), getStackInSlot(6, getHeight()), getStackInSlot(7, getHeight()), getStackInSlot(8, getHeight()), getStackInSlot(9, getHeight())};
+        return new ItemStack[]{getStackInSlot(0, getHeight() - 1), getStackInSlot(1, getHeight() - 1), getStackInSlot(2, getHeight() - 1), getStackInSlot(3, getHeight() - 1), getStackInSlot(4, getHeight() - 1), getStackInSlot(5, getHeight() - 1), getStackInSlot(6, getHeight() - 1), getStackInSlot(7, getHeight() - 1), getStackInSlot(8, getHeight() - 1), getStackInSlot(9, getHeight() - 1)};
     }
 
     public ItemStack getHotbar(int num) {
@@ -122,7 +137,7 @@ public class PlayerInventory implements IInventory {
     }
 
     public ItemStack getStackInSlot(int x, int y) {
-        return slots.get((x * getWidth()) + y).getStack();
+        return slots.get((y * getWidth()) + x).getStack();
     }
 
     public boolean hasStackInSlot(int slot) {
@@ -138,7 +153,7 @@ public class PlayerInventory implements IInventory {
     }
 
     public Slot getSlot(int x, int y) {
-        return slots.get((x * getWidth()) + y);
+        return slots.get((y * getWidth()) + x);
     }
 
     public int getWidth() {

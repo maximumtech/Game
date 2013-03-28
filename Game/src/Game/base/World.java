@@ -34,27 +34,27 @@ public class World {
         this.width = width;
         this.height = height;
         this.seaLevel = seaLevel;
-        ids = new short[(width * width) + height];
+        ids = new short[(height * width) + width];
         for (int i = 0; i < ids.length; i++) {
             ids[i] = 0;
         }
-        metas = new short[(width * width) + height];
+        metas = new short[(height * width) + width];
         for (int i = 0; i < metas.length; i++) {
             metas[i] = 0;
         }
-        data = new TileEntityBase[(width * width) + height];
+        data = new TileEntityBase[(height * width) + width];
         for (int i = 0; i < data.length; i++) {
             data[i] = null;
         }
-        backtileids = new short[(width * width) + height];
+        backtileids = new short[(height * width) + width];
         for (int i = 0; i < backtileids.length; i++) {
             backtileids[i] = 0;
         }
-        backtilemetas = new short[(width * width) + height];
+        backtilemetas = new short[(height * width) + width];
         for (int i = 0; i < backtilemetas.length; i++) {
             backtilemetas[i] = 0;
         }
-        backtiledata = new TileEntityBase[(width * width) + height];
+        backtiledata = new TileEntityBase[(height * width) + width];
         for (int i = 0; i < backtiledata.length; i++) {
             backtiledata[i] = null;
         }
@@ -197,59 +197,59 @@ public class World {
     }
 
     public short getBlockID(int x, int y) {
-        if (((x * getWidth()) + y) > (getWidth() * getWidth()) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
+        if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return 0;
         }
-        return ids[(x * getWidth()) + y];
+        return ids[(y * getWidth()) + x];
     }
 
     public short getBlockMeta(int x, int y) {
-        if (((x * getWidth()) + y) > (getWidth() * getWidth()) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
+        if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return 0;
         }
-        return metas[(x * getWidth()) + y];
+        return metas[(y * getWidth()) + x];
     }
 
     public TileEntityBase getBlockTileEntity(int x, int y) {
-        if (((x * getWidth()) + y) > (getWidth() * getWidth()) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
+        if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return null;
         }
-        return data[(x * getWidth()) + y];
+        return data[(y * getWidth()) + x];
     }
 
     public BlockBase getBlock(int x, int y) {
-        if (((x * getWidth()) + y) > (getWidth() * getWidth()) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
+        if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return null;
         }
-        return BlockBase.blocksList[ids[(x * getWidth()) + y]];
+        return BlockBase.blocksList[ids[(y * getWidth()) + x]];
     }
 
     public short getBacktileID(int x, int y) {
-        if (((x * getWidth()) + y) > (getWidth() * getWidth()) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
+        if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return 0;
         }
-        return backtileids[(x * getWidth()) + y];
+        return backtileids[(y * getWidth()) + x];
     }
 
     public short getBacktileMeta(int x, int y) {
-        if (((x * getWidth()) + y) > (getWidth() * getWidth()) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
+        if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return 0;
         }
-        return backtilemetas[(x * getWidth()) + y];
+        return backtilemetas[(y * getWidth()) + x];
     }
 
     public TileEntityBase getBacktileTileEntity(int x, int y) {
-        if (((x * getWidth()) + y) > (getWidth() * getWidth()) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
+        if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return null;
         }
-        return backtiledata[(x * getWidth()) + y];
+        return backtiledata[(y * getWidth()) + x];
     }
 
     public BackTileBase getBacktile(int x, int y) {
-        if (((x * getWidth()) + y) > (getWidth() * getWidth()) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
+        if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return null;
         }
-        return BackTileBase.backtileList[backtileids[(x * getWidth()) + y]];
+        return BackTileBase.backtileList[backtileids[(y * getWidth()) + x]];
     }
 
     public void updateBlock(int x, int y) {
@@ -279,15 +279,15 @@ public class World {
     }
 
     public void setBlock(int x, int y, short id, short meta, TileEntityBase data) {
-        if (((x * getWidth()) + y) > ((getWidth() * getWidth())) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
+        if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return;
         }
         BlockBase block = BlockBase.blocksList[id];
         block = block != null ? block.getBlockForPlacement(this, x, y) : null;
         if (block == null || block.canBePlacedHere(this, x, y)) {
-            ids[(x * width) + y] = id;
-            metas[(x * width) + y] = meta;
-            this.data[(x * width) + y] = data;
+            ids[(y * getWidth()) + x] = id;
+            metas[(y * getWidth()) + x] = meta;
+            this.data[(y * getWidth()) + x] = data;
             if (block != null) {
                 block.onPlace(this, x, y);
             }
@@ -312,7 +312,7 @@ public class World {
     }
 
     public void setTileEntity(int x, int y, TileEntityBase data) {
-        if (((x * getWidth()) + y) > ((getWidth() * getWidth())) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
+        if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return;
         }
         this.data[(x * width) + y] = data;

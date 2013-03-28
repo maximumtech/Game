@@ -14,7 +14,7 @@ public class BlockGrass extends BlockDirt {
     public BlockGrass(short id) {
         super(id);
         setHardness(0.8F);
-        setRandomTick(1100);
+        setRandomTick(10000);
     }
 
     public BlockBase getBlockForPlacement(World world, int x, int y) {
@@ -29,14 +29,15 @@ public class BlockGrass extends BlockDirt {
                 if (block == BlockBase.dirt) {
                     world.setBlock(xx, yy, BlockBase.grass, world.getBlockMeta(xx, yy));
                 }
-                if (block == null) {
-                    world.setBlock(xx, yy, BlockBase.tallgrass);
-                } else if (block == BlockBase.tallgrass && rand.nextInt(10) == 0) {
-                    world.setBlock(xx, yy, BlockBase.mushroom);
-                } else if (block == BlockBase.mushroom && rand.nextInt(100) == 0) {
-                    world.setBlock(xx, yy, BlockBase.sapling);
-                }
             }
+        }
+        BlockBase block = world.getBlock(x, y + 1);
+        if (block == null) {
+            world.setBlock(x, y + 1, BlockBase.tallgrass);
+        } else if (block == BlockBase.tallgrass && rand.nextInt(10) == 0) {
+            world.setBlock(x, y + 1, BlockBase.mushroom);
+        } else if (block == BlockBase.mushroom && rand.nextInt(100) == 0) {
+            world.setBlock(x, y + 1, BlockBase.sapling);
         }
     }
 

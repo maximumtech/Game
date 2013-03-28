@@ -100,14 +100,14 @@ public class ImageHandler {
 
     public static void drawImage2D(Image image, int x, int y, int z, int width, int height) {
         if (image != null) {
-            drawImage2D(image, x, y, z, width, height, Color.white);
+            drawImage2D(image, x, y, z, width, height, 256, 256, 256, 256);
         }
     }
 
-    public static void drawImage2D(Image image, int x, int y, int z, int width, int height, Color filler) {
+    public static void drawImage2D(Image image, int x, int y, int z, int width, int height, int r, int g, int b, int a) {
         if (image != null) {
             GL11.glPushMatrix();
-            filler.bind();
+            GL11.glColor4f(r / 256F, g / 256F, g / 256F, a / 256F);
             image.getTexture().bind();
             GL11.glTranslatef(0, 0, z);
             GL11.glBegin(GL11.GL_QUADS);

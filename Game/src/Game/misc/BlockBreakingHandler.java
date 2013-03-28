@@ -35,11 +35,11 @@ public class BlockBreakingHandler {
         isBreaking = true;
         this.item = item;
         BlockBase block = world.getBlock(x, y);
-        if(block!=null) {
+        if (block != null) {
             block.onStartBreaking(world, x, y, item);
         }
     }
-    
+
     public void resetBreaking() {
         currentBlockX = -1;
         currentBlockY = -1;
@@ -56,7 +56,7 @@ public class BlockBreakingHandler {
             }
             BlockBase block = world.getBlock(x, y);
             if (block != null) {
-                progress += ((block.blockHardness / 10) * GameBase.instance.getWorld().mainPlayer.getGameMode().getBlockBreakingModifier() * (item!=null?item.getItem().getHardnessModifier(world, x, y, block):1F));
+                progress += ((block.blockHardness / 10) * GameBase.instance.getWorld().mainPlayer.getGameMode().getBlockBreakingModifier() * (item != null ? item.getItem().getHardnessModifier(world, x, y, block) : 1F));
             }
         } else {
             isBreaking = false;
@@ -92,25 +92,25 @@ public class BlockBreakingHandler {
             int x = world.getPixelFromCoordinate(currentBlockX);
             int y = world.getPixelFromCoordinate(currentBlockY);
             if (progress < 0.1F) {
-                ImageHandler.drawImage2D(breaking.getImage(0), x, y, 1, GameBase.blockSize, GameBase.blockSize, Color.black);
+                ImageHandler.drawImage2D(breaking.getImage(0), x, y, 1, GameBase.blockSize, GameBase.blockSize, 0, 0, 0, 256);
             } else if (progress < 0.2F) {
-                ImageHandler.drawImage2D(breaking.getImage(1), x, y, 1, GameBase.blockSize, GameBase.blockSize, Color.black);
+                ImageHandler.drawImage2D(breaking.getImage(1), x, y, 1, GameBase.blockSize, GameBase.blockSize, 0, 0, 0, 256);
             } else if (progress < 0.3F) {
-                ImageHandler.drawImage2D(breaking.getImage(2), x, y, 1, GameBase.blockSize, GameBase.blockSize, Color.black);
+                ImageHandler.drawImage2D(breaking.getImage(2), x, y, 1, GameBase.blockSize, GameBase.blockSize, 0, 0, 0, 256);
             } else if (progress < 0.4F) {
-                ImageHandler.drawImage2D(breaking.getImage(3), x, y, 1, GameBase.blockSize, GameBase.blockSize, Color.black);
+                ImageHandler.drawImage2D(breaking.getImage(3), x, y, 1, GameBase.blockSize, GameBase.blockSize, 0, 0, 0, 256);
             } else if (progress < 0.5F) {
-                ImageHandler.drawImage2D(breaking.getImage(4), x, y, 1, GameBase.blockSize, GameBase.blockSize, Color.black);
+                ImageHandler.drawImage2D(breaking.getImage(4), x, y, 1, GameBase.blockSize, GameBase.blockSize, 0, 0, 0, 256);
             } else if (progress < 0.6F) {
-                ImageHandler.drawImage2D(breaking.getImage(5), x, y, 1, GameBase.blockSize, GameBase.blockSize, Color.black);
+                ImageHandler.drawImage2D(breaking.getImage(5), x, y, 1, GameBase.blockSize, GameBase.blockSize, 0, 0, 0, 256);
             } else if (progress < 0.7F) {
-                ImageHandler.drawImage2D(breaking.getImage(6), x, y, 1, GameBase.blockSize, GameBase.blockSize, Color.black);
+                ImageHandler.drawImage2D(breaking.getImage(6), x, y, 1, GameBase.blockSize, GameBase.blockSize, 0, 0, 0, 256);
             } else if (progress < 0.8F) {
-                ImageHandler.drawImage2D(breaking.getImage(7), x, y, 1, GameBase.blockSize, GameBase.blockSize, Color.black);
+                ImageHandler.drawImage2D(breaking.getImage(7), x, y, 1, GameBase.blockSize, GameBase.blockSize, 0, 0, 0, 256);
             } else if (progress < 0.9F) {
-                ImageHandler.drawImage2D(breaking.getImage(8), x, y, 1, GameBase.blockSize, GameBase.blockSize, Color.black);
+                ImageHandler.drawImage2D(breaking.getImage(8), x, y, 1, GameBase.blockSize, GameBase.blockSize, 0, 0, 0, 256);
             } else if (progress < 1F) {
-                ImageHandler.drawImage2D(breaking.getImage(9), x, y, 1, GameBase.blockSize, GameBase.blockSize, Color.black);
+                ImageHandler.drawImage2D(breaking.getImage(9), x, y, 1, GameBase.blockSize, GameBase.blockSize, 0, 0, 0, 256);
             }
         }
     }
