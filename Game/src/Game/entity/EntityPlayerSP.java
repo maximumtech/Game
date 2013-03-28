@@ -1,6 +1,5 @@
 package Game.entity;
 
-import Game.base.ItemStack;
 import Game.base.World;
 import Game.inventory.PlayerInventory;
 
