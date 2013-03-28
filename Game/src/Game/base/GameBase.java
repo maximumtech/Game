@@ -23,7 +23,24 @@ public class GameBase {
     public static Screen renderScreen;
     public static int blockSize = 16;
     public static int reachDistance = 8;
-    public static FontRenderer fontRenderer;
+    private static FontRenderer[] fontRenderer;
+
+    public static FontRenderer getFontRenderer(int size) {
+        if (fontRenderer[size] == null) {
+            fontRenderer[size] = new FontRenderer(size);
+        }
+        return fontRenderer[size];
+    }
+
+    public static FontRenderer getFontRendererForWidth(int beginSize, int maxSize, String string, int maxWidth) {
+        FontRenderer font = getFontRenderer(beginSize);
+        int size = beginSize + 1;
+        while (font.getStringWidth(string) < maxWidth && size < maxSize) {
+            font = getFontRenderer(size);
+            size++;
+        }
+        return font;
+    }
 
     public static void main(String[] args) {
         new GameBase(args);
@@ -60,7 +77,7 @@ public class GameBase {
         new TickHandler();
         System.out.println("Tick Handler Initialized, Starting Render Loop");
         World world = new World(600, 1000, 500, 16);
-        fontRenderer = new FontRenderer(12);
+        fontRenderer = new FontRenderer[100];
         renderScreen = new ScreenWorld(world);
         new WorldKeyHandler();
         new WorldClickHandler(world);

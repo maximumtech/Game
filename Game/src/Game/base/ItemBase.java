@@ -15,7 +15,7 @@ public abstract class ItemBase {
     public static ItemBase[] totalList = new ItemBase[Short.MAX_VALUE * 3];
     public static ItemBase[] itemsList = new ItemBase[Short.MAX_VALUE];
     private RenderStackBase image;
-    private int maxStackSize = 999;
+    private int maxStackSize = 250;
 
     public int getMaxStackSize() {
         return maxStackSize;

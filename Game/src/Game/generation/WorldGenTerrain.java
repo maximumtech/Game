@@ -31,13 +31,13 @@ public class WorldGenTerrain extends WorldGenColumn {
     public static StructureGenTree treeGen;
     int lastTree = 10;
     private ArrayList<StructureGenOre> ores = new ArrayList<>();
-    
+
     public void generate() {
         super.generate();
-        for(int x = 0;x < world.getWidth() / 100;x++) {
+        for (int x = 0; x < world.getWidth() / 100; x++) {
             int minX = x * 100;
-            for(StructureGenOre ore : ores) {
-                for(int num = 0;num < ore.getAmountPer();num++) {
+            for (StructureGenOre ore : ores) {
+                for (int num = 0; num < ore.getAmountPer(); num++) {
                     ore.generate(minX + rand.nextInt(100), 1 + rand.nextInt(ore.getMaxHeight() - 1));
                 }
             }
@@ -47,7 +47,7 @@ public class WorldGenTerrain extends WorldGenColumn {
     public void generateColumn(int x) {
         lastTree--;
         boolean isNewHill = rand.nextInt(50) == 0 && !isHill;
-        boolean spawnTree = rand.nextInt(10) == 0 && lastTree <= 0;
+        boolean spawnTree = rand.nextInt(10) == 0 && lastTree <= 0 && x > 10 && x < world.getWidth() - 10;
         boolean spawnFlower = rand.nextInt(15) == 0;
         boolean spawnGrass = rand.nextInt(3) == 0;
         boolean spawnMushroom = rand.nextInt(18) == 0;
@@ -61,7 +61,7 @@ public class WorldGenTerrain extends WorldGenColumn {
         }
         int level = undulatingLevel;
         if (isHill) {
-            if (hillSize > hillTopSize + level) {
+            if (hillSize > hillTopSize && !goingDownHill) {
                 goingDownHill = true;
             }
             if (goingDownHill && hillSize <= 0) {
@@ -79,7 +79,7 @@ public class WorldGenTerrain extends WorldGenColumn {
             }
         }
         for (int y = 0; y <= world.getHeight(); y++) {
-            if(y==level+1) {
+            if (y == level + 1) {
                 if (spawnTree) {
                     treeGen.generate(x, y);
                 } else if (spawnMushroom) {
@@ -89,7 +89,7 @@ public class WorldGenTerrain extends WorldGenColumn {
                 } else if (spawnGrass) {
                     world.setBlock(x, y, BlockBase.tallgrass);
                 }
-            }else if (y == level) {
+            } else if (y == level) {
                 world.setBlock(x, y, BlockBase.grass);
             } else if (y < level && y > level - (world.getSeaLevel() / 4)) {
                 world.setBlock(x, y, BlockBase.dirt);
