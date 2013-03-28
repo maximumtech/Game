@@ -1,5 +1,6 @@
 package Game.render;
 
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.font.effects.ColorEffect;
@@ -7,6 +8,10 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ *
+ * @author maximumtech
+ */
 public class FontRenderer {
 
     private UnicodeFont uniFont;
@@ -25,7 +30,7 @@ public class FontRenderer {
             uniFont.loadGlyphs();
         } catch (SlickException e) {
             e.printStackTrace();
-        };
+        }
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
@@ -34,19 +39,24 @@ public class FontRenderer {
         return toreturn;
     }
 
-    public void drawStringWithColor(String str, int x, int y, Color color) {
+    public void drawStringWithColor(String str, int x, int y, int z, Color color) {
         glPushMatrix();
+        GL11.glTranslatef(0, 0, z);
+        GL11.glMatrixMode(GL11.GL_PROJECTION);
+        GL11.glLoadIdentity();
+        GL11.glOrtho(0, 800, 600, 0, -10, 10);
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        uniFont.drawString(Float.parseFloat(x + ""), Float.parseFloat(y + ""), str, color);
+        uniFont.drawString(x, Display.getHeight() - y, str, color);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glMatrixMode(GL11.GL_PROJECTION);
+        GL11.glLoadIdentity();
+        GL11.glOrtho(0, 800, 0, 600, -10, 10);
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
         glPopMatrix();
     }
 
-    public void drawString(String str, int x, int y) {
-        glPushMatrix();
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        uniFont.drawString(x, y, str);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        glPopMatrix();
+    public void drawString(String str, int x, int y, int z) {
+        drawStringWithColor(str, x, y, z, Color.white);
     }
 }

@@ -1,6 +1,7 @@
 package Game.base;
 
 import Game.render.FontRenderer;
+import org.lwjgl.opengl.GL11;
 
 /**
  *
@@ -12,7 +13,6 @@ public class ItemStack {
     private short meta = 0;
     private String data = "";
     private int stackSize = 1;
-    public static FontRenderer fontRenderer;
 
     public ItemStack(ItemBase item) {
         this(item, 1);
@@ -31,8 +31,11 @@ public class ItemStack {
 
     public void renderGUI(int x, int y, int width, int height) {
         getItem().renderGUI(x, y, width, height, this);
-        //fontRenderer.drawString("" + stackSize, x, y);
-        //fontRenderer.drawString("" + getItem().getName(), x, y + GameBase.blockSize);
+        GL11.glPushMatrix();
+        GL11.glTranslatef(0, 0, 4F);
+        GameBase.fontRenderer.drawString("" + stackSize, x, y + 12, 4);
+        GameBase.fontRenderer.drawString(getItem().getName(), x, y + height, 4);
+        GL11.glPopMatrix();
     }
 
     public ItemStack(ItemBase item, int amt) {

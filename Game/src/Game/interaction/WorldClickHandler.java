@@ -55,12 +55,14 @@ public class WorldClickHandler implements IMouseHandler {
             BlockBase block = world.getBlock(xy[0], xy[1]);
             boolean canPlace = MathHelper.getDistance(GameBase.instance.getWorld().mainPlayer.getMidX(), GameBase.instance.getWorld().mainPlayer.getMidY(), xy2[0], xy2[1]) <= (double) GameBase.instance.getWorld().mainPlayer.getGameMode().getReachDistance();
             if (block == null || block.canBeReplaced(world, xy[0], xy[1], replacer) && msDown > lastPlace + 50L) {
-                if (canPlace && world.setBlock(xy[0], xy[1], replacer)) {
+                if (canPlace) {
                     if (block != null) {
                         block.onBlockBreak(world, xy[0], xy[1], world.mainPlayer.inventory.getSelectedItem());
                     }
-                    world.mainPlayer.inventory.removeItemStack(world.mainPlayer.inventory.getSelectedItem(), 1);
-                    lastPlace = msDown;
+                    if (world.setBlock(xy[0], xy[1], replacer)) {
+                        world.mainPlayer.inventory.removeItemStack(world.mainPlayer.inventory.getSelectedItem(), 1);
+                        lastPlace = msDown;
+                    }
                 }
             }
         }

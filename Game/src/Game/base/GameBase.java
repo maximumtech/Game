@@ -65,7 +65,6 @@ public class GameBase {
         new WorldKeyHandler();
         new WorldClickHandler(world);
         new BlockBreakingHandler(world);
-        ItemStack.fontRenderer = new FontRenderer(4);
         while (!closeRequested()) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
             if (Display.wasResized()) {
