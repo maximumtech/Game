@@ -3,7 +3,5 @@ private.xml
 .netbeans_update_resources
 *.class
 built-jar.properties
-/Game/build/
 private.properties
 Thumbs.db
-/Game/dist/

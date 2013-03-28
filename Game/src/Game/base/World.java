@@ -1,6 +1,5 @@
 package Game.base;
 
-import Game.entity.EntityPlayer;
 import Game.entity.Entity;
 import Game.entity.EntityPlayerSP;
 import Game.generation.WorldGenTerrain;
@@ -31,6 +30,7 @@ public class World {
     public static boolean isLocal = true;
 
     public World(int width, int height, int seaLevel, int blockSize) {
+        System.out.println(this.getClass().getProtectionDomain().getCodeSource().getLocation());
         GameBase.blockSize = blockSize;
         this.width = width;
         this.height = height;
@@ -284,7 +284,7 @@ public class World {
             return;
         }
         BlockBase block = BlockBase.blocksList[id];
-        block = block!=null?block.getBlockForPlacement(this, x, y):null;
+        block = block != null ? block.getBlockForPlacement(this, x, y) : null;
         if (block == null || block.canBePlacedHere(this, x, y)) {
             ids[(x * width) + y] = id;
             metas[(x * width) + y] = meta;
@@ -311,7 +311,7 @@ public class World {
     public void setBlock(int x, int y, BlockBase block, short meta) {
         setBlock(x, y, block.getBlockID(), meta);
     }
-    
+
     public void setTileEntity(int x, int y, TileEntityBase data) {
         if (((x * getWidth()) + y) > ((getWidth() * getWidth())) + getHeight() - 1 || ((x * getWidth()) + y) < 0) {
             return;
@@ -351,17 +351,16 @@ public class World {
             }
         }
     }
-    
     public static Random rand = new Random();
 
     public void onUpdate() {
         updateEntities();
-        for(int x = 0;x<getWidth();x++) {
+        for (int x = 0; x < getWidth(); x++) {
             for (int y = 0; y < getHeight(); y++) {
                 BlockBase block = getBlock(x, y);
-                if(block!=null && block.requiresRandomTick() && (rand.nextInt(block.getTickRate()) == 0)) {
+                if (block != null && block.requiresRandomTick() && (rand.nextInt(block.getTickRate()) == 0)) {
                     block.tick(this, x, y);
-                } 
+                }
             }
         }
     }

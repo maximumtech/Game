@@ -1,7 +1,7 @@
 package Game.inventory;
 
 import Game.base.ItemStack;
-import Game.entity.EntityPlayer;
+import Game.entity.EntityPlayerSP;
 import java.util.ArrayList;
 
 /**
@@ -12,11 +12,11 @@ public class PlayerInventory implements IInventory {
     
     private int width = 10;
     private int height = 5;
-    public EntityPlayer player;
+    public EntityPlayerSP player;
     
     private ArrayList<Slot> slots = new ArrayList<>();
     
-    public PlayerInventory(EntityPlayer player, int height) {
+    public PlayerInventory(EntityPlayerSP player, int height) {
         this.player = player;
         this.height = height;
         for(int x = 0;x<getWidth();x++) {
