@@ -37,6 +37,7 @@ public class PlayerInventory implements IInventory {
                     item.renderGUI(pos * 40 + 8 + Display.getWidth() / 4, Display.getHeight() / 24 - 16, 32, 32);
                 }
                 if (pos == getSelectedSlot()) {
+                    ImageHandler.drawImage2D(ImageHandler.getImage("gui/inventory/slot"), pos * 40 + 4 + Display.getWidth() / 4, Display.getHeight() / 24 - 20, 3, 40, 40, 256, 256, 256, 255);
                 }
                 pos++;
             }
@@ -54,7 +55,7 @@ public class PlayerInventory implements IInventory {
 
     public ItemStack setSelectedItem(int num) {
         int cur = num;
-        while (cur > getWidth()) {
+        while (cur >= getWidth()) {
             cur -= getWidth();
         }
         while (cur < 0) {

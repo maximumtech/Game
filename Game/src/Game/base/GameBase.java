@@ -32,6 +32,12 @@ public class GameBase {
         return fontRenderer[size];
     }
 
+    public static void loadFontSizes(int min, int max) {
+        for (int i = min; i < max; i++) {
+            getFontRenderer(i);
+        }
+    }
+
     public static FontRenderer getFontRendererForWidth(int beginSize, int maxSize, String string, int maxWidth) {
         FontRenderer font = getFontRenderer(beginSize);
         int size = beginSize + 1;
@@ -73,11 +79,12 @@ public class GameBase {
         GL11.glDepthMask(true);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+        fontRenderer = new FontRenderer[100];
+        loadFontSizes(6, 12);
         System.out.println("OpenGL Started, Tick Handling Initializing");
         new TickHandler();
         System.out.println("Tick Handler Initialized, Starting Render Loop");
         World world = new World(600, 1000, 500, 16);
-        fontRenderer = new FontRenderer[100];
         renderScreen = new ScreenWorld(world);
         new WorldKeyHandler();
         new WorldClickHandler(world);
