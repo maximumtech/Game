@@ -9,7 +9,8 @@ import Game.entity.EntityLiving;
  */
 public class RenderLiving extends RenderEntity {
 
-    private Image still = ImageHandler.getImage("blockGrass/blockGrass1");
+    //private Image still = ImageHandler.getImage("blockGrass/blockGrass1");
+    private Image still = ImageHandler.getImage("blockChest/blockChest");
     //TODO: add animation f/ player
 
     public RenderLiving(EntityLiving entity) {
