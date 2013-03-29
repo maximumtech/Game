@@ -111,6 +111,14 @@ public class PlayerInventory implements IInventory {
         return amt;
     }
 
+    public void incSelItem() {
+        setSelectedItem(getSelectedSlot() + 1);
+    }
+
+    public void decSelItem() {
+        setSelectedItem(getSelectedSlot() - 1);
+    }
+
     public int hasItem(ItemStack item) {
         for (Slot slot : slots) {
             ItemStack is = slot.getStack();

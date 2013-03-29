@@ -5,6 +5,7 @@ package Game.interaction;
  * @author maximumtech
  */
 public interface IMouseHandler {
+
     public void clickLeftDown(int x, int y);
 
     public void clickLeftHeld(int x, int y, long msDown);
@@ -16,4 +17,8 @@ public interface IMouseHandler {
     public void clickRightHeld(int x, int y, long msDown);
 
     public void clickRightUp(int x, int y, long msDown);
+
+    public void scrollDown(int x, int y);
+
+    public void scrollUp(int x, int y);
 }

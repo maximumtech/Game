@@ -71,4 +71,12 @@ public class WorldClickHandler implements IMouseHandler {
     public void clickRightUp(int x, int y, long msDown) {
         lastPlace = 0L;
     }
+
+    public void scrollDown(int x, int y) {
+        world.mainPlayer.inventory.incSelItem();
+    }
+
+    public void scrollUp(int x, int y) {
+        world.mainPlayer.inventory.decSelItem();
+    }
 }

@@ -48,6 +48,16 @@ public class MouseHandler {
                     clickRightUp(Mouse.getX(), Mouse.getY(), rightms);
                 }
             }
+            int wheel = Mouse.getDWheel() / 120;
+            if (wheel > 0) {
+                for (int i = 0; i < wheel; i++) {
+                    scrollUp(Mouse.getX(), Mouse.getY());
+                }
+            } else if (wheel < 0) {
+                for (int i = 0; i < -wheel; i++) {
+                    scrollDown(Mouse.getX(), Mouse.getY());
+                }
+            }
         } catch (IllegalStateException e) {
         }
     }
@@ -85,6 +95,18 @@ public class MouseHandler {
     public void clickRightUp(int x, int y, long msDown) {
         for (IMouseHandler handler : handlers) {
             handler.clickRightUp(x, y, msDown);
+        }
+    }
+
+    public void scrollDown(int x, int y) {
+        for (IMouseHandler handler : handlers) {
+            handler.scrollDown(x, y);
+        }
+    }
+
+    public void scrollUp(int x, int y) {
+        for (IMouseHandler handler : handlers) {
+            handler.scrollUp(x, y);
         }
     }
 }
