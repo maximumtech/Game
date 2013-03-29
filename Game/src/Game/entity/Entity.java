@@ -108,7 +108,7 @@ public abstract class Entity {
         if (side == Side.TOP) {
             int top = world.getCoordinateFromPixel(maxY);
             for (int cX = minBlockX; cX < maxBlockX; cX++) {
-                if (top < 0 || cX < 0 || top > world.getHeight() || cX > world.getWidth()) {
+                if (top < 0 || cX < 0 || top >= world.getHeight() || cX >= world.getWidth()) {
                     return true;
                 }
                 BlockBase block = world.getBlock(cX, top);
@@ -124,7 +124,7 @@ public abstract class Entity {
         } else if (side == Side.BOTTOM) {
             int bottom = world.getCoordinateFromPixel(minY - 1);
             for (int cX = minBlockX; cX < maxBlockX; cX++) {
-                if (bottom < 0 || cX < 0 || bottom > world.getHeight() || cX > world.getWidth()) {
+                if (bottom < 0 || cX < 0 || bottom >= world.getHeight() || cX >= world.getWidth()) {
                     return true;
                 }
                 BlockBase block = world.getBlock(cX, bottom);
@@ -138,7 +138,7 @@ public abstract class Entity {
         } else if (side == Side.RIGHT) {
             int right = world.getCoordinateFromPixel(maxX);
             for (int cY = minBlockY; cY < maxBlockY; cY++) {
-                if (right < 0 || cY < 0 || cY > world.getHeight() || right > world.getWidth()) {
+                if (right < 0 || cY < 0 || cY >= world.getHeight() || right >= world.getWidth()) {
                     return true;
                 }
                 BlockBase block = world.getBlock(right, cY);
@@ -152,7 +152,7 @@ public abstract class Entity {
         } else if (side == Side.LEFT) {
             int left = world.getCoordinateFromPixel(minX - 1);
             for (int cY = minBlockY; cY < maxBlockY; cY++) {
-                if (left < 0 || cY < 0 || cY > world.getHeight() || left > world.getWidth()) {
+                if (left < 0 || cY < 0 || cY >= world.getHeight() || left >= world.getWidth()) {
                     return true;
                 }
                 BlockBase block = world.getBlock(left, cY);
@@ -211,7 +211,7 @@ public abstract class Entity {
     }
 
     public void onUpdate() {
-        if(!World.isLocal && this != world.mainPlayer) {
+        if (!World.isLocal && this != world.mainPlayer) {
             return;
         }
         boolean onGround = isOnGround();

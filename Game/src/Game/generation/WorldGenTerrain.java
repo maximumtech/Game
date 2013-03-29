@@ -24,6 +24,7 @@ public class WorldGenTerrain extends WorldGenColumn {
     }
     boolean isHill = false;
     boolean goingDownHill = false;
+    boolean roundHill;
     int hillSize = 0;
     int hillTopSize = 0;
     private int undulatingLevel;
@@ -46,8 +47,11 @@ public class WorldGenTerrain extends WorldGenColumn {
 
     public void generateColumn(int x) {
         lastTree--;
-        boolean isNewHill = rand.nextInt(50) == 0 && !isHill;
-        boolean spawnTree = rand.nextInt(10) == 0 && lastTree <= 0 && x > 10 && x < world.getWidth() - 10;
+        boolean isNewHill = rand.nextInt(400) == 0 && !isHill;
+        boolean spawnTree = rand.nextInt(20) == 0 && lastTree <= 0 && x > 10 && x < world.getWidth() - 10;
+        if (spawnTree && isHill && !roundHill) {
+            spawnTree = false;
+        }
         boolean spawnFlower = rand.nextInt(15) == 0;
         boolean spawnGrass = rand.nextInt(3) == 0;
         boolean spawnMushroom = rand.nextInt(18) == 0;
@@ -57,7 +61,9 @@ public class WorldGenTerrain extends WorldGenColumn {
         if (isNewHill) {
             goingDownHill = false;
             hillSize = 0;
-            hillTopSize = rand.nextInt(world.getSeaLevel() * 4 / 3);
+            roundHill = rand.nextInt(2) == 0;
+            hillTopSize = rand.nextInt((world.getHeight() - world.getSeaLevel()) / (roundHill ? 8 : 4));
+            isHill = true;
         }
         int level = undulatingLevel;
         if (isHill) {
@@ -69,11 +75,12 @@ public class WorldGenTerrain extends WorldGenColumn {
                 goingDownHill = false;
                 hillSize = 0;
                 hillTopSize = 0;
+                roundHill = false;
             } else {
                 if (goingDownHill) {
-                    hillSize -= rand.nextInt(4);
+                    hillSize -= rand.nextInt(roundHill ? 2 : 4);
                 } else {
-                    hillSize += rand.nextInt(4);
+                    hillSize += rand.nextInt(roundHill ? 2 : 4);
                 }
                 level += hillSize;
             }
