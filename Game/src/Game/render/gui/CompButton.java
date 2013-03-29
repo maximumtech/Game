@@ -12,9 +12,9 @@ import org.lwjgl.input.Mouse;
  */
 public class CompButton implements IMouseHandler, ScreenComponent {
 
-    private static Image def = ImageHandler.getImage("buttondef");
-    private static Image over = ImageHandler.getImage("buttonover");
-    private static Image held = ImageHandler.getImage("buttonover");
+    private static Image def = ImageHandler.getImage("gui/buttons/button");
+    private static Image over = ImageHandler.getImage("gui/buttons/buttonHover");
+    private static Image held = ImageHandler.getImage("gui/buttons/buttonClicked");
     Screen parentScreen;
     public String text;
     public int x;
