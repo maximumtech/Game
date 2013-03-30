@@ -159,7 +159,7 @@ public class GameBase {
      */
     public void calculateFPS() {
         long time = System.currentTimeMillis();
-        if (time >= lastfps - 1000L) {
+        if (time >= lastfps + 1000L) {
             lastfps = time;
             fps = fpsct;
             fpsct = 0;
