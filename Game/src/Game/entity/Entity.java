@@ -2,8 +2,8 @@ package Game.entity;
 
 import Game.base.BlockBase;
 import Game.base.World;
-import Game.base.CollisonBox;
 import Game.base.GameBase;
+import Game.misc.CollisonHelper;
 import Game.misc.Side;
 import Game.render.RenderEntity;
 
@@ -96,11 +96,10 @@ public abstract class Entity {
         if (!canCollide()) {
             return false;
         }
-        CollisonBox box = getCollisonBox(x, y);
-        int minX = box.minX;
-        int maxX = box.maxX;
-        int minY = box.minY;
-        int maxY = box.maxY;
+        int minX = getX();
+        int maxX = getMaxX();
+        int minY = getY();
+        int maxY = getMaxY();
         int minBlockX = world.getCoordinateFromPixel(minX);
         int maxBlockX = world.getCoordinateFromPixel(maxX);
         int minBlockY = world.getCoordinateFromPixel(minY);
@@ -113,8 +112,9 @@ public abstract class Entity {
                 }
                 BlockBase block = world.getBlock(cX, top);
                 if (block != null && block.canCollide(world, cX, top, Side.BOTTOM)) {
-                    CollisonBox box2 = block.getCollisonBox(world, cX, top);
-                    if (box.intersects(box2)) {
+                    int bx = world.getPixelFromCoordinate(cX);
+                    int by = world.getPixelFromCoordinate(top);
+                    if (CollisonHelper.intersects(this, bx, by, bx + block.getCollisonWidth(world, cX, top), by + block.getCollisonHeight(world, x, y))) {
                         isJumping = false;
                         jumpTick = 0;
                         return true;
@@ -129,8 +129,9 @@ public abstract class Entity {
                 }
                 BlockBase block = world.getBlock(cX, bottom);
                 if (block != null && block.canCollide(world, cX, bottom, Side.TOP)) {
-                    CollisonBox box2 = block.getCollisonBox(world, cX, bottom);
-                    if (box.intersects(box2)) {
+                    int bx = world.getPixelFromCoordinate(cX);
+                    int by = world.getPixelFromCoordinate(bottom);
+                    if (CollisonHelper.intersects(this, bx, by, bx + block.getCollisonWidth(world, cX, bottom), by + block.getCollisonHeight(world, cX, bottom))) {
                         return true;
                     }
                 }
@@ -143,8 +144,9 @@ public abstract class Entity {
                 }
                 BlockBase block = world.getBlock(right, cY);
                 if (block != null && block.canCollide(world, right, cY, Side.LEFT)) {
-                    CollisonBox box2 = block.getCollisonBox(world, right, cY);
-                    if (box.intersects(box2)) {
+                    int bx = world.getPixelFromCoordinate(right);
+                    int by = world.getPixelFromCoordinate(cY);
+                    if (CollisonHelper.intersects(this, bx, by, bx + block.getCollisonWidth(world, right, cY), by + block.getCollisonHeight(world, right, cY))) {
                         return true;
                     }
                 }
@@ -157,8 +159,9 @@ public abstract class Entity {
                 }
                 BlockBase block = world.getBlock(left, cY);
                 if (block != null && block.canCollide(world, left, cY, Side.RIGHT)) {
-                    CollisonBox box2 = block.getCollisonBox(world, left, cY);
-                    if (box.intersects(box2)) {
+                    int bx = world.getPixelFromCoordinate(left);
+                    int by = world.getPixelFromCoordinate(cY);
+                    if (CollisonHelper.intersects(this, bx, by, bx + block.getCollisonWidth(world, left, cY), by + block.getCollisonHeight(world, left, cY))) {
                         return true;
                     }
                 }
@@ -258,25 +261,15 @@ public abstract class Entity {
             motionY = 0;
         }
         synchronized (world.entityList) {
-            CollisonBox box = getCollisonBox();
             for (Entity ent : world.entityList) {
                 synchronized (ent) {
                     if (ent != this) {
-                        CollisonBox box2 = ent.getCollisonBox();
-                        if (box.intersects(box2)) {
+                        if (CollisonHelper.intersects(ent, this)) {
                             this.onCollide(ent);
                         }
                     }
                 }
             }
         }
-    }
-
-    public CollisonBox getCollisonBox() {
-        return new CollisonBox(x, y, x + sizeX, y + sizeY);
-    }
-
-    public CollisonBox getCollisonBox(int x, int y) {
-        return new CollisonBox(x, y, x + sizeX, y + sizeY);
     }
 }

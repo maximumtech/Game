@@ -71,8 +71,8 @@ public class World {
         synchronized (entityList) {
             for (Entity ent2 : entityList) {
                 synchronized (ent2) {
-                    boolean isClass = entityType != null;
-                    if (!isClass) {
+                    boolean isClass = false;
+                    if (entityType != null && entityType.length > 0) {
                         for (Class<?> clas : entityType) {
                             for (Class<?> clas2 : ent2.getClass().getInterfaces()) {
                                 if (clas.equals(clas2)) {
@@ -86,8 +86,10 @@ public class World {
                                 }
                             }
                         }
+                    } else {
+                        isClass = true;
                     }
-                    if (entityType != null ? isClass : true) {
+                    if (isClass) {
                         double ent1Dist = ent1 == null ? 0D : MathHelper.getDistance(ent1.getMidX(), ent1.getMidY(), x, y);
                         double ent2Dist = MathHelper.getDistance(ent2.getMidX(), ent2.getMidY(), x, y);
                         if (ent2Dist >= ent1Dist && ent2Dist <= dist) {

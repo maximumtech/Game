@@ -96,6 +96,10 @@ public class BlockBase extends ItemBase {
         return true;
     }
 
+    public boolean canCollide(World world, int x, int y) {
+        return canCollide(world, x, y, Side.TOP);
+    }
+
     public boolean isSolid(World world, int x, int y, Side side) {
         return true;
     }
@@ -148,10 +152,12 @@ public class BlockBase extends ItemBase {
         return false;
     }
 
-    public CollisonBox getCollisonBox(World world, int x, int y) {
-        int xx = world.getPixelFromCoordinate(x);
-        int yy = world.getPixelFromCoordinate(y);
-        return new CollisonBox(xx, yy, xx + GameBase.blockSize, yy + GameBase.blockSize);
+    public int getCollisonWidth(World world, int x, int y) {
+        return 16;
+    }
+
+    public int getCollisonHeight(World world, int x, int y) {
+        return 16;
     }
 
     public void onNeighborUpdate(World world, int x, int y) {

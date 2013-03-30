@@ -25,11 +25,7 @@ public class GameBase {
     public static int blockSize = 16;
     public static int reachDistance = 8;
     private static FontRenderer[] fontRenderer;
-    private long timeDelta;
-    private long timeLastLoop;
-    private long timeLastFPS;
-    private int fps;
-    private int fpsCurrent;
+    private Timer timer;
 
     public static void print(String str) {
         System.out.println(outPrefix + str);
@@ -93,7 +89,7 @@ public class GameBase {
         fontRenderer = new FontRenderer[100];
         loadFontSizes(6, 12);
         print("OpenGL Started, Tick Handling Initializing");
-        new TickHandler();
+        timer = new Timer(20F);
         print("Tick Handler Initialized, Starting Render Loop");
         World world = new World(600, 1000, 500, 16);
         renderScreen = new ScreenWorld(world);
@@ -105,8 +101,9 @@ public class GameBase {
             if (Display.wasResized()) {
                 GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
             }
+            timer.update();
             render();
-            this.calculateFPS();
+            calculateFPS();
             Display.update();
             Display.sync(30);
         }
@@ -123,6 +120,9 @@ public class GameBase {
     }
 
     private void render() {
+        for (int i = 0; i < timer.ticksElapsed; i++) {
+            runTick();
+        }
         if (renderScreen != null) {
             GL11.glPushMatrix();
             renderScreen.render();
@@ -131,6 +131,7 @@ public class GameBase {
     }
 
     protected void runTick() {
+        calculateTPS();
         MouseHandler.instance.onUpdate();
         KeyboardHandler.instance.onUpdate();
         Game.interaction.TickHandler.instance.tick();
@@ -154,15 +155,20 @@ public class GameBase {
         }
         return closing;
     }
+    private long timeDeltaFPS;
+    private long timeLastLoopFPS;
+    private long timeLastFPS;
+    private int fps;
+    private int fpsCurrent;
 
     /**
      * Calculate the current FPS.
      */
     public void calculateFPS() {
 
-        this.timeDelta = Time.MILLISECONDS.getCurrent() - this.timeLastLoop;
-        this.timeLastLoop = Time.MILLISECONDS.getCurrent();
-        this.timeLastFPS += this.timeDelta;
+        this.timeDeltaFPS = Time.MILLISECONDS.getCurrent() - this.timeLastLoopFPS;
+        this.timeLastLoopFPS = Time.MILLISECONDS.getCurrent();
+        this.timeLastFPS += this.timeDeltaFPS;
         this.fps++;
 
         if (this.timeLastFPS >= 1000) {
@@ -171,11 +177,30 @@ public class GameBase {
             this.fps = 0;
         }
     }
+    private long timeDeltaTPS;
+    private long timeLastLoopTPS;
+    private long timeLastTPS;
+    private int tps;
+    private int tpsCurrent;
 
-    /**
-     * Returns the FPS
-     */
+    public void calculateTPS() {
+        this.timeDeltaTPS = Time.MILLISECONDS.getCurrent() - this.timeLastLoopTPS;
+        this.timeLastLoopTPS = Time.MILLISECONDS.getCurrent();
+        this.timeLastTPS += this.timeDeltaTPS;
+        this.tps++;
+
+        if (this.timeLastTPS >= 1000) {
+            this.tpsCurrent = this.tps;
+            this.timeLastTPS = 0;
+            this.tps = 0;
+        }
+    }
+
     public int getFPS() {
         return fpsCurrent;
+    }
+
+    public int getTPS() {
+        return tpsCurrent;
     }
 }

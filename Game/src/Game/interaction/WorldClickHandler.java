@@ -2,9 +2,10 @@ package Game.interaction;
 
 import Game.base.BlockBase;
 import Game.base.GameBase;
-import Game.base.ItemStack;
 import Game.base.World;
+import Game.entity.Entity;
 import Game.misc.BlockBreakingHandler;
+import Game.misc.CollisonHelper;
 import Game.misc.MathHelper;
 
 /**
@@ -53,9 +54,14 @@ public class WorldClickHandler implements IMouseHandler {
         if (world.mainPlayer.inventory.getSelectedItem() != null && world.mainPlayer.inventory.getSelectedItem().getItem() instanceof BlockBase) {
             BlockBase replacer = (BlockBase) world.mainPlayer.inventory.getSelectedItem().getItem();
             BlockBase block = world.getBlock(xy[0], xy[1]);
+            Entity nearestEntity = world.getNearestEntity(x, y, 80D, null);
             boolean canPlace = MathHelper.getDistance(GameBase.instance.getWorld().mainPlayer.getMidX(), GameBase.instance.getWorld().mainPlayer.getMidY(), xy2[0], xy2[1]) <= (double) GameBase.instance.getWorld().mainPlayer.getGameMode().getReachDistance();
-            if (block == null || block.canBeReplaced(world, xy[0], xy[1], replacer) && msDown > lastPlace + 50L) {
+            if ((block == null || block.canBeReplaced(world, xy[0], xy[1], replacer)) && msDown > lastPlace + 50L) {
                 if (canPlace) {
+                    boolean canCollide = replacer == null ? false : replacer.canCollide(world, xy[0], xy[1]);
+                    if (nearestEntity != null && canCollide) {
+                        return;
+                    }
                     if (block != null) {
                         block.onBlockBreak(world, xy[0], xy[1], world.mainPlayer.inventory.getSelectedItem());
                     }

@@ -42,6 +42,7 @@ public class ScreenWorld extends Screen {
             debug.add("X: " + world.mainPlayer.getBlockX());
             debug.add("Y: " + world.mainPlayer.getBlockY());
             debug.add("FPS: " + GameBase.instance.getFPS());
+            debug.add("TPS: " + GameBase.instance.getTPS());
             for (int i = 0; i < debug.size(); i++) {
                 String str = debug.get(i);
                 pt12.drawString(str, 2, Display.getHeight() - 2 - i * 16, 4);
