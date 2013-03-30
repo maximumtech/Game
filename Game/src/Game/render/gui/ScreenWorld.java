@@ -6,6 +6,8 @@ import Game.base.BackTileBase;
 import Game.base.GameBase;
 import Game.entity.Entity;
 import Game.misc.BlockBreakingHandler;
+import Game.render.FontRenderer;
+import java.util.ArrayList;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
@@ -16,11 +18,9 @@ import org.lwjgl.opengl.GL11;
 public class ScreenWorld extends Screen {
 
     public World world;
-    private GuiDebug debug;
 
     public ScreenWorld(World world) {
         this.world = world;
-        this.debug = new GuiDebug();
     }
 
     public void translateToPlayer() {
@@ -28,6 +28,7 @@ public class ScreenWorld extends Screen {
         int hei = Display.getHeight() / 2;
         GL11.glTranslatef(-world.mainPlayer.getX() + wid - (world.mainPlayer.sizeX / 2), -world.mainPlayer.getY() + hei - (world.mainPlayer.sizeY / 2), 0);
     }
+    public boolean debug = true;
 
     public void render() {
         super.render();
@@ -35,7 +36,17 @@ public class ScreenWorld extends Screen {
         int wid = Display.getWidth() / 2;
         int hei = Display.getHeight() / 2;
         world.mainPlayer.renderer.render(wid - (world.mainPlayer.sizeX / 2), hei - (world.mainPlayer.sizeY / 2));
-        debug.render();
+        FontRenderer pt12 = GameBase.getFontRenderer(12);
+        if (debug) {
+            ArrayList<String> debug = new ArrayList<>();
+            debug.add("X: " + world.mainPlayer.getBlockX());
+            debug.add("Y: " + world.mainPlayer.getBlockY());
+            debug.add("FPS: " + GameBase.instance.getFPS());
+            for (int i = 0; i < debug.size(); i++) {
+                String str = debug.get(i);
+                pt12.drawString(str, 2, Display.getHeight() - 2 - i * 16, 4);
+            }
+        }
         translateToPlayer();
         if (world != null && world.mainPlayer != null) {
             for (int x = Math.max(0, world.mainPlayer.getBlockX() - world.getRenderWidth()); x < Math.min(world.getWidth(), world.mainPlayer.getBlockX() + world.getRenderWidth()); x++) {
