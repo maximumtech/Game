@@ -19,11 +19,17 @@ import Game.render.gui.ScreenWorld;
  */
 public class GameBase {
 
+    public final String GAME_PREFIX = "Game | ";
     public static GameBase instance;
     public static Screen renderScreen;
     public static int blockSize = 16;
     public static int reachDistance = 8;
     private static FontRenderer[] fontRenderer;
+    private long timeLastLoop;
+    private long timeLastFPS;
+    private int fps;
+    private int fpsCurrent;
+    private long timeDelta;
 
     public static FontRenderer getFontRenderer(int size) {
         if (fontRenderer[size] == null) {
@@ -53,19 +59,19 @@ public class GameBase {
     }
 
     public GameBase(String[] args) {
-        System.out.println("Game Copyright (C) 2013 Maxwell Bruce");
+        System.out.printf("%sGame Copyright (C) 2013 Maxwell Bruce\n", this.GAME_PREFIX);
         instance = this;
         try {
             Display.setDisplayMode(new DisplayMode(800, 600));
             Display.setTitle("Game");
             Display.setResizable(true);
             Display.create();
-            System.out.println("Display Created!");
+            System.out.printf("%sDisplay Created!\n", this.GAME_PREFIX);
         } catch (LWJGLException e) {
-            System.out.println("Failed to create display.");
+            System.out.printf("%sFailed to create display.\n", this.GAME_PREFIX);
             e.printStackTrace();
         }
-        System.out.println("Starting OpenGL");
+        System.out.printf("%sStarting OpenGL\n", this.GAME_PREFIX);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -82,9 +88,9 @@ public class GameBase {
         GL11.glCullFace(GL11.GL_BACK);
         fontRenderer = new FontRenderer[100];
         loadFontSizes(6, 12);
-        System.out.println("OpenGL Started, Tick Handling Initializing");
+        System.out.printf("%sOpenGL Started, Tick Handling Initializing\n", this.GAME_PREFIX);
         new TickHandler();
-        System.out.println("Tick Handler Initialized, Starting Render Loop");
+        System.out.printf("%sTick Handler Initialized, Starting Render Loop\n", this.GAME_PREFIX);
         World world = new World(600, 1000, 500, 16);
         renderScreen = new ScreenWorld(world);
         new WorldKeyHandler();
@@ -96,11 +102,14 @@ public class GameBase {
                 GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
             }
             render();
+            //Calculate the FPS post-render
+            this.calculateFPS();
+            //System.out.printf("%sCurrent FPS: %s\n", this.GAME_PREFIX, ""+this.getFPS());
             Display.update();
             Display.sync(30);
         }
         closeRequested = true;
-        System.out.println("Closing");
+        System.out.printf("%sClosing\n", this.GAME_PREFIX);
         Display.destroy();
     }
 
@@ -142,5 +151,25 @@ public class GameBase {
             e.printStackTrace();
         }
         return closing;
+    }
+
+    /** Calculate the current FPS. */
+    public void calculateFPS() {
+
+        this.timeDelta = Time.MILLISECONDS.getCurrent() - this.timeLastLoop;
+        this.timeLastLoop = Time.MILLISECONDS.getCurrent();
+        this.timeLastFPS += this.timeDelta;
+        this.fps++;
+
+        if (this.timeLastFPS >= 1000) {
+            this.fpsCurrent = this.fps;
+            this.timeLastFPS = 0;
+            this.fps = 0;
+        }
+    }
+
+    /** Returns the FPS */
+    public int getFPS() {
+        return fpsCurrent;
     }
 }

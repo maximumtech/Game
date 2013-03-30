@@ -48,6 +48,17 @@ public class WorldKeyHandler implements IKeyboardHandler, ITickHandler {
                     //((ScreenWorld) GameBase.renderScreen).toggleInventory();
                 }
             }
+            
+            //Not everyone uses a mouse all the time, some people play on laptops while on an airplane >.>
+            //So that's why I'm adding this. Feel free to bind each one to numbers though, but I feel this 
+            //to be sufficient for the time being -- that time being midnight.
+            if(key.equals(KeyConfig.instance.getKeyFromName("itemswitchup", "right"))) {
+                world.mainPlayer.inventory.incSelItem();
+            }
+            
+            if(key.equals(KeyConfig.instance.getKeyFromName("itemswitchdown", "left"))) {
+                world.mainPlayer.inventory.decSelItem();
+            }
         }
     }
     private int playerFlyTick = 0;

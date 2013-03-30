@@ -16,9 +16,11 @@ import org.lwjgl.opengl.GL11;
 public class ScreenWorld extends Screen {
 
     public World world;
+    private GuiDebug debug;
 
     public ScreenWorld(World world) {
         this.world = world;
+        this.debug = new GuiDebug();
     }
 
     public void translateToPlayer() {
@@ -33,6 +35,7 @@ public class ScreenWorld extends Screen {
         int wid = Display.getWidth() / 2;
         int hei = Display.getHeight() / 2;
         world.mainPlayer.renderer.render(wid - (world.mainPlayer.sizeX / 2), hei - (world.mainPlayer.sizeY / 2));
+        debug.render();
         translateToPlayer();
         if (world != null && world.mainPlayer != null) {
             for (int x = Math.max(0, world.mainPlayer.getBlockX() - world.getRenderWidth()); x < Math.min(world.getWidth(), world.mainPlayer.getBlockX() + world.getRenderWidth()); x++) {
