@@ -79,6 +79,7 @@ public class GameBase {
         GL11.glDepthMask(true);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+        GL11.glCullFace(GL11.GL_BACK);
         fontRenderer = new FontRenderer[100];
         loadFontSizes(6, 12);
         System.out.println("OpenGL Started, Tick Handling Initializing");
