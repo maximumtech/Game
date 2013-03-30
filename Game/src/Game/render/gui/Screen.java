@@ -1,12 +1,13 @@
 package Game.render.gui;
 
+import Game.base.backend.Backend;
 import java.util.ArrayList;
 
 /**
  *
  * @author maximumtech
  */
-public abstract class Screen {
+public abstract class Screen implements Backend {
     
     protected ArrayList<ScreenComponent> components = new ArrayList<>();
     

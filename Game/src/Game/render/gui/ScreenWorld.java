@@ -38,13 +38,9 @@ public class ScreenWorld extends Screen {
         world.mainPlayer.renderer.render(wid - (world.mainPlayer.sizeX / 2), hei - (world.mainPlayer.sizeY / 2));
         FontRenderer pt12 = GameBase.getFontRenderer(12);
         if (debug) {
-            ArrayList<String> debug = new ArrayList<>();
-            debug.add("X: " + world.mainPlayer.getBlockX());
-            debug.add("Y: " + world.mainPlayer.getBlockY());
-            debug.add("FPS: " + GameBase.instance.getFPS());
-            debug.add("TPS: " + GameBase.instance.getTPS());
-            for (int i = 0; i < debug.size(); i++) {
-                String str = debug.get(i);
+            this.singlePlayerDebug.updateDebug();
+            for (int i = 0; i < this.singlePlayerDebug.getOutput().size(); i++) {
+                String str = this.singlePlayerDebug.getOutput().get(i);
                 pt12.drawString(str, 2, Display.getHeight() - 2 - i * 16, 4);
             }
         }

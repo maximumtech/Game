@@ -1,5 +1,6 @@
 package Game.base;
 
+import Game.base.backend.Backend;
 import Game.interaction.WorldClickHandler;
 import Game.interaction.KeyboardHandler;
 import Game.interaction.MouseHandler;
@@ -17,7 +18,7 @@ import Game.render.gui.ScreenWorld;
  *
  * @author maximumtech
  */
-public class GameBase {
+public class GameBase implements Backend {
 
     private static final String outPrefix = "Game : ";
     public static GameBase instance;
