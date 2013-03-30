@@ -25,6 +25,11 @@ public class GameBase {
     public static int blockSize = 16;
     public static int reachDistance = 8;
     private static FontRenderer[] fontRenderer;
+    private long timeDelta;
+    private long timeLastLoop;
+    private long timeLastFPS;
+    private int fps;
+    private int fpsCurrent;
 
     public static void print(String str) {
         System.out.println(outPrefix + str);
@@ -100,7 +105,6 @@ public class GameBase {
             if (Display.wasResized()) {
                 GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
             }
-            fpsct++;
             render();
             this.calculateFPS();
             Display.update();
@@ -150,19 +154,21 @@ public class GameBase {
         }
         return closing;
     }
-    private long lastfps = 0L;
-    private int fpsct = 0;
-    private int fps = 0;
 
     /**
      * Calculate the current FPS.
      */
     public void calculateFPS() {
-        long time = System.currentTimeMillis();
-        if (time >= lastfps + 1000L) {
-            lastfps = time;
-            fps = fpsct;
-            fpsct = 0;
+
+        this.timeDelta = Time.MILLISECONDS.getCurrent() - this.timeLastLoop;
+        this.timeLastLoop = Time.MILLISECONDS.getCurrent();
+        this.timeLastFPS += this.timeDelta;
+        this.fps++;
+
+        if (this.timeLastFPS >= 1000) {
+            this.fpsCurrent = this.fps;
+            this.timeLastFPS = 0;
+            this.fps = 0;
         }
     }
 
@@ -170,6 +176,6 @@ public class GameBase {
      * Returns the FPS
      */
     public int getFPS() {
-        return fps;
+        return fpsCurrent;
     }
 }
