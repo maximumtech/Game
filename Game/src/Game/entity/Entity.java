@@ -102,7 +102,7 @@ public abstract class Entity {
     }
 
     public int getWidth() {
-        return sizeY;
+        return sizeX;
     }
 
     public boolean isColliding(int x, int y, Side side) {

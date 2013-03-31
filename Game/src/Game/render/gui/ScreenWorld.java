@@ -25,7 +25,7 @@ public class ScreenWorld extends Screen {
     public void translateToPlayer() {
         int wid = Display.getWidth() / 2;
         int hei = Display.getHeight() / 2;
-        GL11.glTranslatef(world.mainPlayer.getMidX() - wid, world.mainPlayer.getMidY() - hei, 0);
+        GL11.glTranslatef(-world.mainPlayer.getX() + wid - (world.mainPlayer.getWidth() / 2), -world.mainPlayer.getY() + hei - (world.mainPlayer.getHeight() / 2), 0);
     }
     public boolean debug = true;
 
