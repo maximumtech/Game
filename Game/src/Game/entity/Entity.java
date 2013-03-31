@@ -140,7 +140,7 @@ public abstract class Entity {
             }
         } else if (side == Side.BOTTOM) {
             int bottom = world.getCoordinateFromPixel(minY - 1);
-            for (int cX = minBlockX; cX < maxBlockX; cX++) {
+            for (int cX = minBlockX; cX < maxBlockX + 1; cX++) {
                 if (bottom < 0 || cX < 0 || bottom >= world.getHeight() || cX >= world.getWidth()) {
                     return true;
                 }
@@ -148,7 +148,7 @@ public abstract class Entity {
                 if (block != null && block.canCollide(world, cX, bottom, Side.TOP)) {
                     int bx = world.getPixelFromCoordinate(cX);
                     int by = world.getPixelFromCoordinate(bottom);
-                    if (CollisonHelper.intersects(this, bx, by, bx + block.getCollisonWidth(world, cX, bottom), by + block.getCollisonHeight(world, cX, bottom))) {
+                    if (CollisonHelper.intersects(this, bx + 1, by, bx + block.getCollisonWidth(world, cX, bottom), by + block.getCollisonHeight(world, cX, bottom))) {
                         onCollide(block, cX, bottom, side);
                         return true;
                     }
