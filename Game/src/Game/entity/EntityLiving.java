@@ -1,5 +1,6 @@
 package Game.entity;
 
+import Game.base.GameBase;
 import Game.base.World;
 import Game.misc.DamageSource;
 
@@ -40,7 +41,7 @@ public abstract class EntityLiving extends Entity {
 
     protected void setHealth(int hp) {
         health = Math.max(0, Math.min(hp, getMaxHealth()));
-        if(isDead()) {
+        if (isDead()) {
             setDead();
         }
     }
@@ -63,13 +64,12 @@ public abstract class EntityLiving extends Entity {
     }
 
     public void fall(int dist) {
-        if (dist > 80) {
-            attackEntityFrom(Math.max(0, (dist - 80) / 4), DamageSource.FALL);
+        if (dist > GameBase.blockSize * 6) {
+            attackEntityFrom(Math.max(0, (dist - GameBase.blockSize * 6) / 4), DamageSource.FALL);
         }
     }
 
     public void onLivingUpdate() {
-        
     }
 
     public void onUpdate() {

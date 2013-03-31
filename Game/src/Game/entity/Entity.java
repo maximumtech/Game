@@ -240,7 +240,7 @@ public abstract class Entity {
         boolean onGround = isOnGround();
         if (!onGround && (!isJumping) && canFall()) {
             fallT++;
-            motionY -= Math.min(GameBase.blockSize * 8, Math.max(10, fallT));
+            motionY -= Math.min(GameBase.blockSize * 8, Math.max(GameBase.blockSize, fallT));
             wasOnGround = true;
         } else if (isJumping && canFall()) {
             if (jumpTick == 0) {

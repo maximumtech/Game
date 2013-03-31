@@ -27,18 +27,13 @@ public class WorldKeyHandler implements IKeyboardHandler, ITickHandler {
                 }
             }
             if (key.equals(KeyConfig.instance.getKeyFromName("jump", "w"))) {
-                if (world.mainPlayer.getGameMode().canFly() && !world.mainPlayer.isFlying()) {
-                    if (playerFlyTick == 0) {
-                        playerFlyTick = 7;
-                    } else {
-                        playerFlyTick = 0;
+                if (playerFlyTick <= 0) {
+                    playerFlyTick = 7;
+                } else {
+                    playerFlyTick = 0;
+                    if (world.mainPlayer.getGameMode().canFly() && !world.mainPlayer.isFlying()) {
                         world.mainPlayer.setFlying(true);
-                    }
-                } else if (world.mainPlayer.isFlying()) {
-                    if (playerFlyTick == 0) {
-                        playerFlyTick = 7;
                     } else {
-                        playerFlyTick = 0;
                         world.mainPlayer.setFlying(false);
                     }
                 }
@@ -48,15 +43,15 @@ public class WorldKeyHandler implements IKeyboardHandler, ITickHandler {
                     //((ScreenWorld) GameBase.renderScreen).toggleInventory();
                 }
             }
-            
+
             //Not everyone uses a mouse all the time, some people play on laptops while on an airplane >.>
-            //So that's why I'm adding this. Feel free to bind each one to numbers though, but I feel this 
+            //So that's why I'm adding this. Feel free to bind each one to numbers though, but I feel this
             //to be sufficient for the time being -- that time being midnight.
-            if(key.equals(KeyConfig.instance.getKeyFromName("itemswitchup", "right"))) {
+            if (key.equals(KeyConfig.instance.getKeyFromName("itemswitchup", "right"))) {
                 world.mainPlayer.inventory.incSelItem();
             }
-            
-            if(key.equals(KeyConfig.instance.getKeyFromName("itemswitchdown", "left"))) {
+
+            if (key.equals(KeyConfig.instance.getKeyFromName("itemswitchdown", "left"))) {
                 world.mainPlayer.inventory.decSelItem();
             }
         }
@@ -80,10 +75,10 @@ public class WorldKeyHandler implements IKeyboardHandler, ITickHandler {
                 }
             }
             if (key.equals(KeyConfig.instance.getKeyFromName("left", "a"))) {
-                world.mainPlayer.motionX -= GameBase.blockSize / 2;
+                world.mainPlayer.motionX -= GameBase.blockSize / 3;
             }
             if (key.equals(KeyConfig.instance.getKeyFromName("right", "d"))) {
-                world.mainPlayer.motionX += GameBase.blockSize / 2;
+                world.mainPlayer.motionX += GameBase.blockSize / 3;
             }
             if (key.equals(KeyConfig.instance.getKeyFromName("down", "s"))) {
                 if (world.mainPlayer.isFlying()) {
