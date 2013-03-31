@@ -4,6 +4,8 @@ import Game.base.GameBase;
 import Game.base.World;
 import Game.entity.player.GameMode;
 import Game.render.RenderPlayer;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 
 /**
  *
@@ -24,7 +26,12 @@ public class EntityPlayer extends EntityLiving {
     }
 
     public void render() {
-        GameBase.getFontRenderer(12).drawString(username, getMidX() - GameBase.getFontRenderer(12).getStringWidth(username) / 2, getMaxY() + 30, 4);
+        GL11.glPushMatrix();
+        GL11.glTranslatef(0, 0, 4F);
+        GameBase.getFontRenderer(12).drawString(this.username, 
+                (Display.getWidth()/2) - (GameBase.getFontRenderer(12).getStringWidth(this.username)/2) ,
+                (Display.getHeight()/2) + 12, 4);
+        GL11.glPopMatrix();
         super.render();
     }
 

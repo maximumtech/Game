@@ -91,6 +91,10 @@ public abstract class Entity {
     public boolean canCollide() {
         return true;
     }
+    
+    public int getHeight() {
+        return (int)(this.getMaxY() - (this.getMidY() * 2));
+    }
 
     public boolean isColliding(int x, int y, Side side) {
         if (!canCollide()) {

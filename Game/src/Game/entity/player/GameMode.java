@@ -8,16 +8,22 @@ import Game.base.GameBase;
  */
 public enum GameMode {
 
-    SURVIVAL(1f, false, GameBase.blockSize * 7),
-    CREATIVE(1000f, true, GameBase.blockSize * 100);
+    SURVIVAL("Survival", 1f, false, GameBase.blockSize * 7),
+    CREATIVE("Creative", 1000f, true, GameBase.blockSize * 100);
     private float hardnessMod;
     private int reachDistance;
     private boolean canFly;
+    private String title;
 
-    private GameMode(float hardness, boolean allowedFlight, int reachDistance) {
+    private GameMode(String t, float hardness, boolean allowedFlight, int reachDistance) {
         this.hardnessMod = hardness;
         this.canFly = allowedFlight;
         this.reachDistance = reachDistance;
+        this.title = t;
+    }
+    
+    public String getTitle() {
+        return this.title;
     }
 
     public float getBlockBreakingModifier() {

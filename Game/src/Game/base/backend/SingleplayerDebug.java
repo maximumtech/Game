@@ -22,6 +22,8 @@ public class SingleplayerDebug extends Debug {
         this.getOutput().add("FPS: " + GameBase.instance.getFPS());
         this.getOutput().add("X: " + this.thePlayer.getBlockX());
         this.getOutput().add("Y: " + this.thePlayer.getBlockY());
+        this.getOutput().add("GameMode: " + this.thePlayer.getGameMode().getTitle());
+        this.getOutput().add("Health: " + this.thePlayer.getHealth()/2);
     }
     
 }
