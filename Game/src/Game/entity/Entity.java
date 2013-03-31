@@ -17,8 +17,8 @@ public abstract class Entity {
     public World world;
     private int x = 0;
     private int y = 0;
-    public int sizeX = 0;
-    public int sizeY = 0;
+    private int sizeX = 0;
+    private int sizeY = 0;
     public RenderEntity renderer = null;
     public int motionX;
     public int motionY;
@@ -27,6 +27,11 @@ public abstract class Entity {
         this.world = world;
         motionX = 0;
         motionY = 0;
+    }
+
+    public void setDimensions(int width, int height) {
+        this.sizeY = height;
+        this.sizeX = width;
     }
 
     public boolean canMove() {
@@ -57,19 +62,19 @@ public abstract class Entity {
     }
 
     public int getMaxX() {
-        return x + sizeX;
+        return getX() + getWidth();
     }
 
     public int getMaxY() {
-        return y + sizeY;
+        return getY() + getHeight();
     }
 
     public int getMidX() {
-        return x + sizeX / 2;
+        return getX() + getWidth() / 2;
     }
 
     public int getMidY() {
-        return y + sizeY / 2;
+        return getY() + getHeight() / 2;
     }
 
     public int getBlockX() {
@@ -91,9 +96,13 @@ public abstract class Entity {
     public boolean canCollide() {
         return true;
     }
-    
+
     public int getHeight() {
-        return (int)(this.getMaxY() - (this.getMidY() * 2));
+        return sizeY;
+    }
+
+    public int getWidth() {
+        return sizeY;
     }
 
     public boolean isColliding(int x, int y, Side side) {

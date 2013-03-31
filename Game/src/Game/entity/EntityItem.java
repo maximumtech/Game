@@ -19,8 +19,7 @@ public class EntityItem extends Entity implements ICollectable {
 
     public EntityItem(World world, int x, int y) {
         super(world, x, y);
-        sizeX = GameBase.blockSize;
-        sizeY = GameBase.blockSize * (3 / 2);
+        setDimensions(GameBase.blockSize, GameBase.blockSize);
     }
 
     public EntityItem(World world, int x, int y, ItemStack item) {
@@ -31,14 +30,14 @@ public class EntityItem extends Entity implements ICollectable {
     public void onUpdate() {
         ICollector pi = (ICollector) world.getNearestEntity(this, 112D, new Class<?>[]{ICollector.class}, 0);
         int iter = 1;
-        Entity p = (Entity)pi;
-        boolean isGood = pi!=null?pi.canCollect(this):true;
-        while (pi!=null && !isGood) {
+        Entity p = (Entity) pi;
+        boolean isGood = pi != null ? pi.canCollect(this) : true;
+        while (pi != null && !isGood) {
             pi = (ICollector) world.getNearestEntity(this, 112D, new Class<?>[]{ICollector.class}, iter);
-            if(pi!=null && pi.canCollect(this)) {
+            if (pi != null && pi.canCollect(this)) {
                 isGood = true;
             }
-            p = (Entity)pi;
+            p = (Entity) pi;
             iter++;
         }
         if (p != null) {
