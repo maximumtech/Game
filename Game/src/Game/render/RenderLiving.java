@@ -18,6 +18,6 @@ public class RenderLiving extends RenderEntity {
     }
 
     public void render(int x, int y) {
-        ImageHandler.drawImage2D(still, x, y, 2, entity.sizeX, entity.sizeY);
+        ImageHandler.drawImage2D(still, x, y, 2, entity.getWidth(), entity.getHeight());
     }
 }
