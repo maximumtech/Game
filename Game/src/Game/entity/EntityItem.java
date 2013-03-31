@@ -22,10 +22,17 @@ public class EntityItem extends Entity implements ICollectable {
         setDimensions(GameBase.blockSize, GameBase.blockSize);
     }
 
+    public void onCollide(Entity ent) {
+        if (chasing != null && ent.equals(chasing)) {
+            chasing.onCollect(this);
+        }
+    }
+
     public EntityItem(World world, int x, int y, ItemStack item) {
         this(world, x, y);
         storedItem = item;
     }
+    private ICollector chasing = null;
 
     public void onUpdate() {
         ICollector pi = (ICollector) world.getNearestEntity(this, 112D, new Class<?>[]{ICollector.class}, 0);
@@ -53,9 +60,9 @@ public class EntityItem extends Entity implements ICollectable {
             } else {
                 this.motionY = 0;
             }
-            if (MathHelper.getDistance(getMidX(), getMidY(), p.getMidX(), p.getY()) < 32) {
-                pi.onCollect(this);
-            }
+            chasing = pi;
+        } else {
+            chasing = null;
         }
         super.onUpdate();
     }

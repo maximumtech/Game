@@ -160,6 +160,14 @@ public class BlockBase extends ItemBase {
         return 16;
     }
 
+    public int getCollisonOffsetX(World world, int x, int y) {
+        return 0;
+    }
+
+    public int getCollisonOffsetY(World world, int x, int y) {
+        return 0;
+    }
+
     public void onNeighborUpdate(World world, int x, int y) {
         onUpdate(world, x, y);
     }

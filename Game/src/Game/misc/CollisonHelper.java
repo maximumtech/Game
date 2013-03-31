@@ -9,7 +9,7 @@ import Game.entity.Entity;
 public class CollisonHelper {
 
     public static boolean intersects(int minX, int maxX, int minY, int maxY, int minX2, int maxX2, int minY2, int maxY2) {
-        return (maxX2 > minX && maxX > minX2) || (maxY2 > minY && maxY > minY2);
+        return (maxX2 > minX && maxX + 1 > minX2) && (maxY2 > minY - 1 && maxY > minY2);
     }
 
     public static boolean intersects(Entity ent1, Entity ent2) {

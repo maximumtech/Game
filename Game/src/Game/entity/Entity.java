@@ -47,6 +47,9 @@ public abstract class Entity {
     public void onCollide(Entity entity) {
     }
 
+    public void onCollide(BlockBase block, int x, int y, Side side) {
+    }
+
     public Entity(World world, int x, int y) {
         this(world);
         this.x = x;
@@ -125,11 +128,12 @@ public abstract class Entity {
                 }
                 BlockBase block = world.getBlock(cX, top);
                 if (block != null && block.canCollide(world, cX, top, Side.BOTTOM)) {
-                    int bx = world.getPixelFromCoordinate(cX);
-                    int by = world.getPixelFromCoordinate(top);
+                    int bx = world.getPixelFromCoordinate(cX) + block.getCollisonOffsetX(world, cX, top);
+                    int by = world.getPixelFromCoordinate(top) + block.getCollisonOffsetY(world, cX, top);
                     if (CollisonHelper.intersects(this, bx, by, bx + block.getCollisonWidth(world, cX, top), by + block.getCollisonHeight(world, x, y))) {
                         isJumping = false;
                         jumpTick = 0;
+                        onCollide(block, cX, top, side);
                         return true;
                     }
                 }
@@ -145,6 +149,7 @@ public abstract class Entity {
                     int bx = world.getPixelFromCoordinate(cX);
                     int by = world.getPixelFromCoordinate(bottom);
                     if (CollisonHelper.intersects(this, bx, by, bx + block.getCollisonWidth(world, cX, bottom), by + block.getCollisonHeight(world, cX, bottom))) {
+                        onCollide(block, cX, bottom, side);
                         return true;
                     }
                 }
@@ -160,6 +165,7 @@ public abstract class Entity {
                     int bx = world.getPixelFromCoordinate(right);
                     int by = world.getPixelFromCoordinate(cY);
                     if (CollisonHelper.intersects(this, bx, by, bx + block.getCollisonWidth(world, right, cY), by + block.getCollisonHeight(world, right, cY))) {
+                        onCollide(block, right, cY, side);
                         return true;
                     }
                 }
@@ -175,6 +181,7 @@ public abstract class Entity {
                     int bx = world.getPixelFromCoordinate(left);
                     int by = world.getPixelFromCoordinate(cY);
                     if (CollisonHelper.intersects(this, bx, by, bx + block.getCollisonWidth(world, left, cY), by + block.getCollisonHeight(world, left, cY))) {
+                        onCollide(block, cY, left, side);
                         return true;
                     }
                 }
