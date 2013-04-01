@@ -1,5 +1,6 @@
 package Game.render;
 
+import Game.base.GameBase;
 import org.newdawn.slick.Image;
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,14 +30,12 @@ public class RenderStackRandom implements RenderStackBase {
     }
 
     public void render(int x, int y, int z) {
-        int num = stack.size();
-        Image img = stack.get(new Random(x * y).nextInt(num));
+        Image img = stack.get((Math.max(x / GameBase.blockSize, 1) * Math.max(y / GameBase.blockSize, 1)) % stack.size());
         ImageHandler.drawImage2D(img, x, y, z);
     }
 
     public void render(int x, int y, int z, int width, int height) {
-        int num = stack.size();
-        Image img = stack.get(new Random(x * y).nextInt(num));
+        Image img = stack.get((Math.max(x / GameBase.blockSize, 1) * Math.max(y / GameBase.blockSize, 1)) % stack.size());
         ImageHandler.drawImage2D(img, x, y, z, width, height);
     }
 }
