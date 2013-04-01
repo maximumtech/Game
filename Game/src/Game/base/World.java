@@ -191,11 +191,11 @@ public class World {
     }
 
     public int getRenderHeight() {
-        return (Display.getHeight() / GameBase.blockSize) + 2;
+        return (GameBase.screenHeight / GameBase.blockSize) + 2;
     }
 
     public int getRenderWidth() {
-        return (Display.getWidth() / GameBase.blockSize) + 2;
+        return (GameBase.screenWidth / GameBase.blockSize) + 2;
     }
 
     public short getBlockID(int x, int y) {
@@ -324,8 +324,8 @@ public class World {
     }
 
     public int[] getRelativePixelFromScreen(int x, int y) {
-        int wid = Display.getWidth() / 2;
-        int hei = Display.getHeight() / 2;
+        int wid = GameBase.screenWidth / 2;
+        int hei = GameBase.screenHeight / 2;
         int xx = mainPlayer.getMidX() - wid + x;
         int yy = mainPlayer.getMidY() - hei + y;
         return new int[]{xx, yy};

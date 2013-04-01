@@ -1,6 +1,7 @@
 package Game.inventory;
 
 import Game.base.BlockBase;
+import Game.base.GameBase;
 import Game.base.ItemStack;
 import Game.entity.EntityPlayerSP;
 import Game.render.ImageHandler;
@@ -30,14 +31,14 @@ public class PlayerInventory implements IInventory {
 
     public void render(boolean hotbarOnly) {
         if (hotbarOnly) {
-            ImageHandler.drawImage2D(ImageHandler.getImage("gui/inventory/inv"), Display.getWidth() / 2 - 208, 0, 3, 424, Display.getHeight() / 12, 256, 256, 256, 255);
+            ImageHandler.drawImage2D(ImageHandler.getImage("gui/inventory/inv"), GameBase.screenWidth / 2 - 208, 0, 3, 424, GameBase.screenHeight / 12, 256, 256, 256, 255);
             int pos = 0;
             for (ItemStack item : getHotbar()) {
                 if (item != null) {
-                    item.renderGUI(pos * 40 + 8 + Display.getWidth() / 4, Display.getHeight() / 24 - 16, 32, 32);
+                    item.renderGUI(pos * 40 + 8 + GameBase.screenWidth / 4, GameBase.screenHeight / 24 - 16, 32, 32);
                 }
                 if (pos == getSelectedSlot()) {
-                    ImageHandler.drawImage2D(ImageHandler.getImage("gui/inventory/slot"), pos * 40 + 4 + Display.getWidth() / 4, Display.getHeight() / 24 - 20, 3, 40, 40, 256, 256, 256, 255);
+                    ImageHandler.drawImage2D(ImageHandler.getImage("gui/inventory/slot"), pos * 40 + 4 + GameBase.screenWidth / 4, GameBase.screenHeight / 24 - 20, 3, 40, 40, 256, 256, 256, 255);
                 }
                 pos++;
             }

@@ -23,8 +23,8 @@ public class ScreenWorld extends Screen {
     }
 
     public void translateToPlayer() {
-        int wid = Display.getWidth() / 2;
-        int hei = Display.getHeight() / 2;
+        int wid = GameBase.screenWidth / 2;
+        int hei = GameBase.screenHeight / 2;
         GL11.glTranslatef(-world.mainPlayer.getX() + wid - (world.mainPlayer.getWidth() / 2), -world.mainPlayer.getY() + hei - (world.mainPlayer.getHeight() / 2), 0);
     }
     public boolean debug = true;
@@ -43,7 +43,7 @@ public class ScreenWorld extends Screen {
                 pt12.drawString(str, 2, Display.getHeight() - 2 - i * 16, 4);
             }
         }
-        pt12.drawString(world.mainPlayer.username, (Display.getWidth() / 2) - (pt12.getStringWidth(world.mainPlayer.username) / 2), (Display.getHeight() / 2) + 48, 4);
+        pt12.drawString(world.mainPlayer.username, (GameBase.screenWidth / 2) - (pt12.getStringWidth(world.mainPlayer.username) / 2), (GameBase.screenHeight / 2) + 48, 4);
         translateToPlayer();
         if (world != null && world.mainPlayer != null) {
             for (int x = Math.max(0, world.mainPlayer.getBlockX() - world.getRenderWidth()); x < Math.min(world.getWidth(), world.mainPlayer.getBlockX() + world.getRenderWidth()); x++) {

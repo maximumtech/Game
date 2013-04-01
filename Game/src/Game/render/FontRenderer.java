@@ -1,5 +1,6 @@
 package Game.render;
 
+import Game.base.GameBase;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
@@ -44,14 +45,14 @@ public class FontRenderer {
         GL11.glTranslatef(0, 0, z);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
-        GL11.glOrtho(0, 800, 600, 0, -10, 10);
+        GL11.glOrtho(0, GameBase.screenWidth, GameBase.screenHeight, 0, -10, 10);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        uniFont.drawString(x, Display.getHeight() - y, str, color);
+        uniFont.drawString(x, GameBase.screenHeight - y, str, color);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
-        GL11.glOrtho(0, 800, 0, 600, -10, 10);
+        GL11.glOrtho(0, GameBase.screenWidth, 0, GameBase.screenHeight, -10, 10);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         glPopMatrix();
     }
