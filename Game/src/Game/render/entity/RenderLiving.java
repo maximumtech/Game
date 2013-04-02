@@ -1,7 +1,8 @@
-package Game.render;
+package Game.render.entity;
 
 import org.newdawn.slick.Image;
 import Game.entity.EntityLiving;
+import Game.render.ImageHandler;
 
 /**
  *

@@ -3,7 +3,7 @@ package Game.entity;
 import Game.base.GameBase;
 import Game.base.World;
 import Game.entity.player.GameMode;
-import Game.render.RenderPlayer;
+import Game.render.entity.RenderPlayer;
 
 /**
  *
@@ -16,7 +16,7 @@ public class EntityPlayer extends EntityLiving {
 
     public EntityPlayer(World world, int x, int y, String name) {
         super(world, x, y);
-        setDimensions(GameBase.blockSize * 2, GameBase.blockSize * 3);
+        setDimensions((int) (GameBase.blockSize * 1.7F), (int) (GameBase.blockSize * 2.8F));
         this.username = name;
         renderer = new RenderPlayer(this);
         this.mode = GameMode.SURVIVAL;

@@ -75,10 +75,10 @@ public class WorldKeyHandler implements IKeyboardHandler, ITickHandler {
                 }
             }
             if (key.equals(KeyConfig.instance.getKeyFromName("left", "a"))) {
-                world.mainPlayer.motionX -= GameBase.blockSize / 4;
+                world.mainPlayer.motionX -= (int) (GameBase.blockSize / 2.8F);
             }
             if (key.equals(KeyConfig.instance.getKeyFromName("right", "d"))) {
-                world.mainPlayer.motionX += GameBase.blockSize / 4;
+                world.mainPlayer.motionX += (int) (GameBase.blockSize / 2.8F);
             }
             if (key.equals(KeyConfig.instance.getKeyFromName("down", "s"))) {
                 if (world.mainPlayer.isFlying()) {

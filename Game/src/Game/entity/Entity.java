@@ -5,7 +5,7 @@ import Game.base.World;
 import Game.base.GameBase;
 import Game.misc.CollisonHelper;
 import Game.misc.Side;
-import Game.render.RenderEntity;
+import Game.render.entity.RenderEntity;
 
 /**
  *
@@ -112,12 +112,12 @@ public abstract class Entity {
         if (!canCollide()) {
             return false;
         }
-        int minX = getX();
-        int maxX = getMaxX();
-        int minY = getY();
-        int maxY = getMaxY();
+        int minX = x;
+        int maxX = x + sizeX;
+        int minY = y;
+        int maxY = y + sizeY;
         int minBlockX = world.getCoordinateFromPixel(minX);
-        int maxBlockX = world.getCoordinateFromPixel(maxX);
+        int maxBlockX = world.getCoordinateFromPixel(maxX) + 1;
         int minBlockY = world.getCoordinateFromPixel(minY);
         int maxBlockY = world.getCoordinateFromPixel(maxY);
         if (side == Side.TOP) {
@@ -130,7 +130,7 @@ public abstract class Entity {
                 if (block != null && block.canCollide(world, cX, top, Side.BOTTOM)) {
                     int bx = world.getPixelFromCoordinate(cX) + block.getCollisonOffsetX(world, cX, top);
                     int by = world.getPixelFromCoordinate(top) + block.getCollisonOffsetY(world, cX, top);
-                    if (CollisonHelper.intersects(this, bx, by, bx + block.getCollisonWidth(world, cX, top), by + block.getCollisonHeight(world, x, y))) {
+                    if (CollisonHelper.intersects(this, bx + 1, by, bx + block.getCollisonWidth(world, cX, top), by + block.getCollisonHeight(world, x, y))) {
                         isJumping = false;
                         jumpTick = 0;
                         onCollide(block, cX, top, side);
@@ -140,7 +140,7 @@ public abstract class Entity {
             }
         } else if (side == Side.BOTTOM) {
             int bottom = world.getCoordinateFromPixel(minY - 1);
-            for (int cX = minBlockX; cX < maxBlockX + 1; cX++) {
+            for (int cX = minBlockX; cX < maxBlockX; cX++) {
                 if (bottom < 0 || cX < 0 || bottom >= world.getHeight() || cX >= world.getWidth()) {
                     return true;
                 }
@@ -208,15 +208,7 @@ public abstract class Entity {
     }
 
     public boolean isOnGround() {
-        int y = world.getCoordinateFromPixel(getY() - 1);
-        boolean ground = false;
-        for (int x = world.getCoordinateFromPixel(getX()); x < world.getCoordinateFromPixel(getMaxX()); x++) {
-            BlockBase block = world.getBlock(x, y);
-            if (block != null && block.canCollide(world, x, y, Side.TOP)) {
-                ground = true;
-            }
-        }
-        return this.y == 0 ? true : ground;
+        return getY() == 0 || isColliding(getX(), getY(), Side.BOTTOM);
     }
 
     public void setPosition(int x, int y) {
@@ -263,11 +255,11 @@ public abstract class Entity {
         if (canMove()) {
             while (motionX > 0 && !isColliding(getX(), getY(), Side.RIGHT)) {
                 setPosition(getX() + 1, getY());
-                motionX--;
+                motionX -= !isOnGround() ? Math.min(3, motionX) : 1;
             }
             while (motionX < 0 && !isColliding(getX(), getY(), Side.LEFT)) {
                 setPosition(getX() - 1, getY());
-                motionX++;
+                motionX += !isOnGround() ? Math.min(3, -motionX) : 1;
             }
             while (motionY > 0 && !isColliding(getX(), getY(), Side.TOP)) {
                 setPosition(getX(), getY() + 1);

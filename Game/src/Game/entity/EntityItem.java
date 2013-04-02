@@ -3,7 +3,7 @@ package Game.entity;
 import Game.base.GameBase;
 import Game.base.ItemStack;
 import Game.base.World;
-import Game.misc.MathHelper;
+import Game.render.entity.RenderItem;
 
 /**
  *
@@ -19,6 +19,7 @@ public class EntityItem extends Entity implements ICollectable {
 
     public EntityItem(World world, int x, int y) {
         super(world, x, y);
+        renderer = new RenderItem(this);
         setDimensions(GameBase.blockSize, GameBase.blockSize);
     }
 
@@ -56,7 +57,7 @@ public class EntityItem extends Entity implements ICollectable {
                 this.motionX = 0;
             }
             if (p.getY() > this.getY()) {
-                this.motionY = Math.min(12, p.getMidY() - this.getMidY());
+                this.motionY = Math.min(16, p.getMidY() - this.getMidY());
             } else {
                 this.motionY = 0;
             }
@@ -65,9 +66,5 @@ public class EntityItem extends Entity implements ICollectable {
             chasing = null;
         }
         super.onUpdate();
-    }
-
-    public void render() {
-        storedItem.renderWorld(world, getX(), getY());
     }
 }
