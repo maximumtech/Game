@@ -229,37 +229,45 @@ public abstract class Entity {
         if (!World.isLocal && this != world.mainPlayer) {
             return;
         }
-        boolean onGround = isOnGround();
-        if (!onGround && (!isJumping) && canFall()) {
-            fallT++;
-            motionY -= Math.min(GameBase.blockSize * 8, Math.max(GameBase.blockSize, fallT));
-            wasOnGround = true;
-        } else if (isJumping && canFall()) {
-            if (jumpTick == 0) {
-                motionY = 10;
-            } else if (jumpTick > 0 && jumpTick < 20) {
-                motionY += 20 - jumpTick * 2;
-            } else if (jumpTick == 20) {
+        if (canMove()) {
+            boolean onGround = isOnGround();
+            if (!onGround && (!isJumping) && canFall()) {
+                fallT++;
+                motionY -= Math.min(GameBase.blockSize * 8, Math.max(GameBase.blockSize, fallT));
+                wasOnGround = true;
+            } else if (isJumping && canFall()) {
+                if (jumpTick == 0) {
+                    motionY = 10;
+                } else if (jumpTick > 0 && jumpTick < 20) {
+                    motionY += 20 - jumpTick * 2;
+                } else if (jumpTick == 20) {
+                    jumpTick = 0;
+                    isJumping = false;
+                }
+                jumpTick++;
+            } else {
+                if (wasOnGround) {
+                    fall(fallT);
+                }
+                fallT = 0;
                 jumpTick = 0;
                 isJumping = false;
             }
-            jumpTick++;
-        } else {
-            if (wasOnGround) {
-                fall(fallT);
-            }
-            fallT = 0;
-            jumpTick = 0;
-            isJumping = false;
-        }
-        if (canMove()) {
             while (motionX > 0 && !isColliding(getX(), getY(), Side.RIGHT)) {
                 setPosition(getX() + 1, getY());
-                motionX -= !isOnGround() ? Math.min(3, motionX) : 1;
+                motionX--;
+                if (motionY < 0 && !isColliding(getX(), getY(), Side.BOTTOM)) {
+                    setPosition(getX(), getY() - 1);
+                    motionY++;
+                }
             }
             while (motionX < 0 && !isColliding(getX(), getY(), Side.LEFT)) {
                 setPosition(getX() - 1, getY());
-                motionX += !isOnGround() ? Math.min(3, -motionX) : 1;
+                motionX++;
+                if (motionY < 0 && !isColliding(getX(), getY(), Side.BOTTOM)) {
+                    setPosition(getX(), getY() - 1);
+                    motionY++;
+                }
             }
             while (motionY > 0 && !isColliding(getX(), getY(), Side.TOP)) {
                 setPosition(getX(), getY() + 1);
