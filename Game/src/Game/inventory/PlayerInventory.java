@@ -33,6 +33,13 @@ public class PlayerInventory implements IInventory {
 
     public void render() {
         if (isOpen) {
+            for (Slot slot : slots) {
+                int x = slot.getSlotIndex() / getWidth();
+                int y = slot.getSlotIndex() % getWidth();
+                if (slot != null) {
+                    slot.render(GameBase.screenWidth / 2 - 204 + x * 40, y * 40 + (y > 0 ? 10 : 0), x == getSelectedSlot() && y == 0);
+                }
+            }
         } else {
             int pos = 0;
             for (Slot slot : getHotbar()) {
