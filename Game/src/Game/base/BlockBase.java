@@ -149,7 +149,7 @@ public class BlockBase extends ItemBase {
     }
 
     public boolean canBeReplaced(World world, int x, int y, BlockBase replacer) {
-        return false;
+        return replacer.getBlockID() != this.getBlockID();
     }
 
     public int getCollisonWidth(World world, int x, int y) {

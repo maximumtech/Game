@@ -39,7 +39,7 @@ public class PlayerInventory implements IInventory {
     }
 
     public Slot[] getHotbar() {
-        return new Slot[]{getSlot(0, getHeight() - 1), getSlot(1, getHeight() - 1), getSlot(2, getHeight() - 1), getSlot(3, getHeight() - 1), getSlot(4, getHeight() - 1), getSlot(5, getHeight() - 1), getSlot(6, getHeight() - 1), getSlot(7, getHeight() - 1), getSlot(8, getHeight() - 1), getSlot(9, getHeight() - 1)};
+        return new Slot[]{getSlot(0, 0), getSlot(1, 0), getSlot(2, 0), getSlot(3, 0), getSlot(4, 0), getSlot(5, 0), getSlot(6, 0), getSlot(7, 0), getSlot(8, 0), getSlot(9, 0)};
     }
 
     public Slot getHotbar(int num) {
@@ -94,8 +94,7 @@ public class PlayerInventory implements IInventory {
                 }
             }
         }
-        for (int i = slots.size() - 1; i > 0; i--) {
-            Slot slot = slots.get(i);
+        for (Slot slot : slots) {
             if (slot != null && slot.getStack() == null) {
                 slot.setItem(item);
                 slot.setItemAmount(amt);
