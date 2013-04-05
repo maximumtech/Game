@@ -1,12 +1,9 @@
 package Game.inventory;
 
-import Game.base.BlockBase;
 import Game.base.GameBase;
 import Game.base.ItemStack;
 import Game.entity.EntityPlayerSP;
-import Game.render.ImageHandler;
 import java.util.ArrayList;
-import org.lwjgl.opengl.Display;
 
 /**
  *
@@ -31,28 +28,24 @@ public class PlayerInventory implements IInventory {
 
     public void render(boolean hotbarOnly) {
         if (hotbarOnly) {
-            ImageHandler.drawImage2D(ImageHandler.getImage("gui/inventory/inv"), GameBase.screenWidth / 2 - 208, 0, 3, 424, GameBase.screenHeight / 12, 256, 256, 256, 255);
             int pos = 0;
-            for (ItemStack item : getHotbar()) {
-                if (item != null) {
-                    item.renderGUI(pos * 40 + 8 + GameBase.screenWidth / 4, GameBase.screenHeight / 24 - 16, 32, 32);
-                }
-                if (pos == getSelectedSlot()) {
-                    ImageHandler.drawImage2D(ImageHandler.getImage("gui/inventory/slot"), pos * 40 + 4 + GameBase.screenWidth / 4, GameBase.screenHeight / 24 - 20, 3, 40, 40, 256, 256, 256, 255);
+            for (Slot slot : getHotbar()) {
+                if (slot != null) {
+                    slot.render(GameBase.screenWidth / 2 - 204 + pos * 40, 0, pos == getSelectedSlot());
                 }
                 pos++;
             }
         }
     }
 
-    public ItemStack[] getHotbar() {
-        return new ItemStack[]{getStackInSlot(0, getHeight() - 1), getStackInSlot(1, getHeight() - 1), getStackInSlot(2, getHeight() - 1), getStackInSlot(3, getHeight() - 1), getStackInSlot(4, getHeight() - 1), getStackInSlot(5, getHeight() - 1), getStackInSlot(6, getHeight() - 1), getStackInSlot(7, getHeight() - 1), getStackInSlot(8, getHeight() - 1), getStackInSlot(9, getHeight() - 1)};
+    public Slot[] getHotbar() {
+        return new Slot[]{getSlot(0, getHeight() - 1), getSlot(1, getHeight() - 1), getSlot(2, getHeight() - 1), getSlot(3, getHeight() - 1), getSlot(4, getHeight() - 1), getSlot(5, getHeight() - 1), getSlot(6, getHeight() - 1), getSlot(7, getHeight() - 1), getSlot(8, getHeight() - 1), getSlot(9, getHeight() - 1)};
     }
 
-    public ItemStack getHotbar(int num) {
+    public Slot getHotbar(int num) {
         return getHotbar()[num];
     }
-    private int currentItem = 9;
+    private int currentItem = 0;
 
     public ItemStack setSelectedItem(int num) {
         int cur = num;
@@ -63,7 +56,7 @@ public class PlayerInventory implements IInventory {
             cur += getWidth();
         }
         currentItem = cur;
-        return getHotbar(cur);
+        return getHotbar(cur).getStack();
     }
 
     public int setSelectedItem(ItemStack item) {
@@ -81,7 +74,7 @@ public class PlayerInventory implements IInventory {
     }
 
     public ItemStack getSelectedItem() {
-        return getHotbar()[getSelectedSlot()];
+        return getHotbar()[getSelectedSlot()].getStack();
     }
 
     public int addItemStack(ItemStack item) {

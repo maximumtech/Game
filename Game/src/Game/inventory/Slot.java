@@ -1,6 +1,8 @@
 package Game.inventory;
 
+import Game.base.GameBase;
 import Game.base.ItemStack;
+import Game.render.ImageHandler;
 
 /**
  *
@@ -16,6 +18,17 @@ public class Slot {
         this.inventory = inv;
         this.slot = slot;
         this.storedItem = item;
+    }
+
+    public void render(int x, int y, boolean selected) {
+        if (selected) {
+            ImageHandler.drawImage2D(ImageHandler.getImage("gui/inventory/selslot"), x, y, 3, 40, 40);
+        } else {
+            ImageHandler.drawImage2D(ImageHandler.getImage("gui/inventory/slot"), x, y, 3, 40, 40);
+        }
+        if (storedItem != null) {
+            storedItem.renderGUI(x + 4, y + 4, 32, 32);
+        }
     }
 
     public IInventory getInventory() {
