@@ -31,7 +31,7 @@ public class ScreenWorld extends Screen {
 
     public void render() {
         super.render();
-        world.mainPlayer.inventory.render(true);
+        world.mainPlayer.inventory.render();
         int wid = Display.getWidth() / 2;
         int hei = Display.getHeight() / 2;
         world.mainPlayer.renderer.render(wid - (world.mainPlayer.getWidth() / 2), hei - (world.mainPlayer.getHeight() / 2));

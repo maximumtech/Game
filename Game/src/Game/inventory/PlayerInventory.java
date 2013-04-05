@@ -25,9 +25,15 @@ public class PlayerInventory implements IInventory {
             }
         }
     }
+    private boolean isOpen = false;
 
-    public void render(boolean hotbarOnly) {
-        if (hotbarOnly) {
+    public void toggleInventory() {
+        isOpen = !isOpen;
+    }
+
+    public void render() {
+        if (isOpen) {
+        } else {
             int pos = 0;
             for (Slot slot : getHotbar()) {
                 if (slot != null) {

@@ -40,7 +40,7 @@ public class WorldKeyHandler implements IKeyboardHandler, ITickHandler {
             }
             if (key.equals(KeyConfig.instance.getKeyFromName("inventory", "e"))) {
                 if (GameBase.renderScreen != null && GameBase.renderScreen instanceof ScreenWorld) {
-                    //((ScreenWorld) GameBase.renderScreen).toggleInventory();
+                    world.mainPlayer.inventory.toggleInventory();
                 }
             }
 
