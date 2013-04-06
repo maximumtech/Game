@@ -20,12 +20,24 @@ public class Slot {
         this.storedItem = item;
     }
 
-    public void render(int x, int y, boolean selected) {
-        if (selected) {
-            ImageHandler.drawImage2D(ImageHandler.getImage("gui/inventory/selslot"), x, y, 3, 40, 40);
-        } else {
-            ImageHandler.drawImage2D(ImageHandler.getImage("gui/inventory/slot"), x, y, 3, 40, 40);
+    public static enum SlotColor {
+
+        RED("red"),
+        BLUE("blue"),
+        YELLOW("yellow");
+        private String name = "";
+
+        public String getName() {
+            return name;
         }
+
+        private SlotColor(String name) {
+            this.name = name;
+        }
+    }
+
+    public void render(int x, int y, SlotColor color) {
+        ImageHandler.drawImage2D(ImageHandler.getImage("gui/inventory/slot" + color.getName()), x, y, 3, 40, 40);
         if (storedItem != null) {
             storedItem.renderGUI(x + 4, y + 4, 32, 32);
         }
