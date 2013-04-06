@@ -46,7 +46,6 @@ public class WorldClickHandler implements IMouseHandler {
 
     public void clickRightDown(int x, int y) {
     }
-    private long lastPlace = 0L;
 
     public void clickRightHeld(int x, int y, long msDown) {
         int[] xy = world.getRelativeCoordinateFromScreen(x, y);
@@ -56,7 +55,7 @@ public class WorldClickHandler implements IMouseHandler {
             BlockBase block = world.getBlock(xy[0], xy[1]);
             Entity nearestEntity = world.getNearestEntity(x, y, 80D, null);
             boolean canPlace = MathHelper.getDistance(GameBase.instance.getWorld().mainPlayer.getMidX(), GameBase.instance.getWorld().mainPlayer.getMidY(), xy2[0], xy2[1]) <= (double) GameBase.instance.getWorld().mainPlayer.getGameMode().getReachDistance();
-            if ((block == null || block.canBeReplaced(world, xy[0], xy[1], replacer)) && msDown > lastPlace + 50L) {
+            if ((block == null || block.canBeReplaced(world, xy[0], xy[1], replacer))) {
                 if (canPlace) {
                     boolean canCollide = replacer == null ? false : replacer.canCollide(world, xy[0], xy[1]);
                     if (nearestEntity != null && canCollide) {
@@ -67,7 +66,6 @@ public class WorldClickHandler implements IMouseHandler {
                     }
                     if (world.setBlock(xy[0], xy[1], replacer)) {
                         world.mainPlayer.inventory.removeItemStack(world.mainPlayer.inventory.getSelectedItem(), 1);
-                        lastPlace = msDown;
                     }
                 }
             }
@@ -75,7 +73,6 @@ public class WorldClickHandler implements IMouseHandler {
     }
 
     public void clickRightUp(int x, int y, long msDown) {
-        lastPlace = 0L;
     }
 
     public void scrollDown(int x, int y) {

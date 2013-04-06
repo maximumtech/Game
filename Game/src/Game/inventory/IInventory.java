@@ -33,4 +33,6 @@ public interface IInventory {
     public int getHeight();
 
     public int getSize();
+
+    public int hasItem(ItemStack item);
 }

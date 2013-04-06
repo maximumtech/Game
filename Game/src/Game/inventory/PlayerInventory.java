@@ -3,27 +3,18 @@ package Game.inventory;
 import Game.base.GameBase;
 import Game.base.ItemStack;
 import Game.entity.EntityPlayerSP;
-import java.util.ArrayList;
 
 /**
  *
  * @author maximumtech
  */
-public class PlayerInventory implements IInventory {
+public class PlayerInventory extends BasicInventory {
 
-    private int width = 10;
-    private int height = 5;
     public EntityPlayerSP player;
-    private ArrayList<Slot> slots = new ArrayList<>();
 
     public PlayerInventory(EntityPlayerSP player, int height) {
+        super(10, height);
         this.player = player;
-        this.height = height;
-        for (int x = 0; x < getWidth(); x++) {
-            for (int y = 0; y < getHeight(); y++) {
-                slots.add(new Slot(this, (x * getWidth()) + y, null));
-            }
-        }
     }
     private boolean isOpen = false;
 
@@ -90,100 +81,11 @@ public class PlayerInventory implements IInventory {
         return getHotbar()[getSelectedSlot()].getStack();
     }
 
-    public int addItemStack(ItemStack item) {
-        return addItemStack(item, item.getAmount());
-    }
-
-    public int addItemStack(ItemStack item, int amt) {
-        for (Slot slot : slots) {
-            ItemStack is = slot.getStack();
-            if (slot != null && is != null && is.matches(item)) {
-                amt = slot.addItemAmount(amt);
-                if (amt < 0) {
-                    return 0;
-                } else {
-                    amt += 1;
-                    break;
-                }
-            }
-        }
-        for (Slot slot : slots) {
-            if (slot != null && slot.getStack() == null) {
-                slot.setItem(item);
-                slot.setItemAmount(amt);
-                amt = 0;
-                return amt;
-            }
-        }
-        return amt;
-    }
-
     public void incSelItem() {
         setSelectedItem(getSelectedSlot() + 1);
     }
 
     public void decSelItem() {
         setSelectedItem(getSelectedSlot() - 1);
-    }
-
-    public int hasItem(ItemStack item) {
-        for (Slot slot : slots) {
-            ItemStack is = slot.getStack();
-            if (slot != null && is != null && is.matches(item)) {
-                return slot.getStack().getAmount();
-            }
-        }
-        return 0;
-    }
-
-    public int removeItemStack(ItemStack item) {
-        return removeItemStack(item, item.getAmount());
-    }
-
-    public int removeItemStack(ItemStack item, int amt) {
-        for (Slot slot : slots) {
-            ItemStack is = slot.getStack();
-            if (slot != null && is != null && is.matches(item)) {
-                amt = slot.removeItemAmount(amt);
-                break;
-            }
-        }
-        return amt;
-    }
-
-    public ItemStack getStackInSlot(int slot) {
-        return slots.get(slot).getStack();
-    }
-
-    public ItemStack getStackInSlot(int x, int y) {
-        return slots.get((y * getWidth()) + x).getStack();
-    }
-
-    public boolean hasStackInSlot(int slot) {
-        return getStackInSlot(slot) != null;
-    }
-
-    public boolean hasStackInSlot(int x, int y) {
-        return getStackInSlot(x, y) != null;
-    }
-
-    public Slot getSlot(int slot) {
-        return slots.get(slot);
-    }
-
-    public Slot getSlot(int x, int y) {
-        return slots.get((y * getWidth()) + x);
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getSize() {
-        return getWidth() * getHeight();
     }
 }
