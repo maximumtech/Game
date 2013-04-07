@@ -149,7 +149,21 @@ public class BlockBase extends ItemBase {
     }
 
     public boolean canBeReplaced(World world, int x, int y, BlockBase replacer) {
-        return replacer.getBlockID() != this.getBlockID();
+        return false;
+    }
+
+    public short getMetaForPlacing(World world, int x, int y, ItemStack from) {
+        return 0;
+    }
+
+    public boolean isSameBlockForPlacing(World world, int x, int y, short tid, short tmeta, TileEntityBase tileentity) {
+        short id = world.getBlockID(x, y);
+        short meta = world.getBlockMeta(x, y);
+        return (id == tid && meta == tmeta);
+    }
+
+    public TileEntityBase getTileEntityForPlacing(World world, int x, int y, ItemStack from) {
+        return null;
     }
 
     public int getCollisonWidth(World world, int x, int y) {
