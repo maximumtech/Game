@@ -26,7 +26,13 @@ public class Slot {
             int mY = Mouse.getY();
             if (CollisonHelper.intersects(x, x + 40, y, y + 40, mX, mX, mY, mY)) {
                 if (itemInHand != null) {
-                    itemInHand = tryToAddItem(itemInHand);
+                    if (this.getStack() == null || this.getStack().matches(itemInHand)) {
+                        itemInHand = tryToAddItem(itemInHand);
+                    } else {
+                        ItemStack temp = this.getStack();
+                        this.setItem(itemInHand);
+                        itemInHand = temp;
+                    }
                 } else {
                     if (this.getStack() != null) {
                         itemInHand = this.getStack();
@@ -141,6 +147,10 @@ public class Slot {
 
     public int setItemAmount(int amt) {
         if (storedItem != null) {
+            if (amt <= 0) {
+                storedItem = null;
+                return 0;
+            }
             return storedItem.setAmount(amt);
         }
         return 0;
