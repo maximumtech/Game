@@ -14,7 +14,9 @@ public class EntityItem extends Entity implements ICollectable {
     public ItemStack storedItem = null;
 
     public void onCollected(ICollector collector) {
-        this.setDead();
+        if (storedItem == null || storedItem.getAmount() <= 0) {
+            this.setDead();
+        }
     }
 
     public EntityItem(World world, int x, int y) {

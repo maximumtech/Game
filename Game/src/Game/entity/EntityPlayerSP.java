@@ -20,8 +20,11 @@ public class EntityPlayerSP extends EntityPlayer implements ICollector {
         if (item instanceof EntityItem) {
             int is = inventory.addItemStack(((EntityItem) item).storedItem);
             if (is <= 0) {
-                item.onCollected(this);
+                ((EntityItem) item).storedItem = null;
+            } else {
+                ((EntityItem) item).storedItem.setAmount(is);
             }
+            item.onCollected(this);
         }
         return true;
     }

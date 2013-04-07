@@ -94,4 +94,50 @@ public class PlayerInventory extends BasicInventory {
     public void decSelItem() {
         setSelectedItem(getSelectedSlot() - 1);
     }
+
+    public int addItemStack(ItemStack item, int amt) {
+        int y = 0;
+        boolean cont = true;
+        for (int x = 0; cont; x++) {
+            if (x >= getWidth()) {
+                x = 0;
+                y++;
+            }
+            if (y >= getHeight()) {
+                cont = false;
+                continue;
+            }
+            Slot slot = getSlot(x, y);
+            if (slot != null && slot.getStack() != null && slot.getStack().matches(item)) {
+                amt = slot.addItemAmount(amt);
+                if (amt < 0) {
+                    return 0;
+                } else {
+                    cont = false;
+                }
+            }
+        }
+        y = 0;
+        cont = true;
+        for (int x = 0; cont; x++) {
+            if (x >= getWidth()) {
+                x = 0;
+                y++;
+            }
+            if (y >= getHeight()) {
+                cont = false;
+            }
+            Slot slot = getSlot(x, y);
+            if (slot != null && slot.getStack() == null) {
+                slot.setItem(item);
+                amt = slot.setItemAmount(amt);
+                if (amt < 0) {
+                    return 0;
+                } else {
+                    return amt;
+                }
+            }
+        }
+        return amt;
+    }
 }

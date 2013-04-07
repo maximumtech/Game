@@ -12,7 +12,7 @@ public class RenderItem extends RenderEntity {
         super(entity);
     }
 
-    public void render(int x, int y) {
+    public void render(int x, int y, int z) {
         EntityItem item = ((EntityItem) entity);
         if (item.storedItem != null) {
             item.storedItem.renderWorld(item.world, x, y);

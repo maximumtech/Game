@@ -49,7 +49,7 @@ public class ItemStack {
         getItem().renderGUI(x, y, width, height, this);
         GL11.glPushMatrix();
         GL11.glTranslatef(0, 0, z);
-        GameBase.getFontRenderer(12).drawString("" + stackSize, x, y + 12, 4);
+        GameBase.getFontRenderer(12).drawString("" + getAmount(), x, y + 12, 4);
         GameBase.getFontRendererForWidth(6, 12, getItem().getName(), width).drawString(getItem().getName(), x, y + height, 4);
         GL11.glPopMatrix();
     }

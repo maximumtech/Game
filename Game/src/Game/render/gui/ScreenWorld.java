@@ -86,7 +86,7 @@ public class ScreenWorld extends Screen {
         FontRenderer pt12 = GameBase.getFontRenderer(12);
         pt12.drawString(world.mainPlayer.username, (GameBase.screenWidth / 2) - (pt12.getStringWidth(world.mainPlayer.username) / 2), (GameBase.screenHeight / 2) + 48, 4);
         if (Slot.itemInHand != null) {
-            Slot.itemInHand.renderGUI(Mouse.getX(), Mouse.getY(), 0, 32, 32);
+            Slot.itemInHand.renderGUI(Mouse.getX() - 16, Mouse.getY() - 16, 0, 32, 32);
         }
         if (debug) {
             singlePlayerDebug.updateDebug();

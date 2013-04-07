@@ -56,10 +56,10 @@ public class WorldClickHandler implements IMouseHandler {
             BlockBase block = world.getBlock(xy[0], xy[1]);
             //Entity nearestEntity = world.getNearestEntity(x, y, 80D, null);
             boolean canPlace = MathHelper.getDistance(GameBase.instance.getWorld().mainPlayer.getMidX(), GameBase.instance.getWorld().mainPlayer.getMidY(), xy2[0], xy2[1]) <= (double) GameBase.instance.getWorld().mainPlayer.getGameMode().getReachDistance();
-            if ((block == null || block.canBeReplaced(world, xy[0], xy[1], replacer))) {
-                short tmeta = replacer.getMetaForPlacing(world, x, y, selItem);
-                TileEntityBase tent = replacer.getTileEntityForPlacing(world, x, y, selItem);
-                if (canPlace && block == null ? true : !block.isSameBlockForPlacing(world, x, y, replacer.getBlockID(), tmeta, tent)) {
+            short tmeta = replacer.getMetaForPlacing(world, x, y, selItem);
+            TileEntityBase tent = replacer.getTileEntityForPlacing(world, x, y, selItem);
+            if ((block == null || (block.canBeReplaced(world, xy[0], xy[1], replacer) && !block.isSameBlockForPlacing(world, x, y, replacer.getBlockID(), tmeta, tent)))) {
+                if (canPlace) {
                     //boolean canCollide = replacer == null ? false : replacer.canCollide(world, xy[0], xy[1]);
                     //if (nearestEntity != null && canCollide) {
                     //    return;

@@ -29,13 +29,11 @@ public class BasicInventory implements IInventory {
 
     public int addItemStack(ItemStack item, int amt) {
         for (Slot slot : slots) {
-            ItemStack is = slot.getStack();
-            if (slot != null && is != null && is.matches(item)) {
+            if (slot != null && slot.getStack() != null && slot.getStack().matches(item)) {
                 amt = slot.addItemAmount(amt);
                 if (amt < 0) {
                     return 0;
                 } else {
-                    amt += 1;
                     break;
                 }
             }
