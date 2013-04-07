@@ -258,12 +258,20 @@ public class World {
         if (block != null) {
             block.onUpdate(this, x, y);
         }
+        BackTileBase backtile = getBacktile(x, y);
+        if (backtile != null) {
+            backtile.onUpdate(this, x, y);
+        }
     }
 
     public void neighborUpdate(int x, int y) {
         BlockBase block = getBlock(x, y);
         if (block != null) {
             block.onNeighborUpdate(this, x, y);
+        }
+        BackTileBase backtile = getBacktile(x, y);
+        if (backtile != null) {
+            backtile.onNeighborUpdate(this, x, y);
         }
     }
 
@@ -285,7 +293,7 @@ public class World {
         }
         BlockBase block = BlockBase.blocksList[id];
         block = block != null ? block.getBlockForPlacement(this, x, y) : null;
-        if ((block == null || block.canBePlacedHere(this, x, y)) && !((block != null ? block.equals(getBlock(x, y)) : getBlock(x, y) == null && block == null) && getBlockMeta(x, y) == meta)) {
+        if ((block == null || block.canBePlacedHere(this, x, y))) {
             ids[(y * getWidth()) + x] = id;
             metas[(y * getWidth()) + x] = meta;
             this.data[(y * getWidth()) + x] = data;
@@ -314,11 +322,54 @@ public class World {
         return setBlock(x, y, block.getBlockID(), meta);
     }
 
-    public boolean setTileEntity(int x, int y, BlockEntityBase data) {
+    public boolean setBlockEntity(int x, int y, BlockEntityBase data) {
         if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return false;
         }
         this.data[(x * width) + y] = data;
+        return true;
+    }
+
+    public boolean setBacktile(int x, int y, short id, short meta, BacktileEntityBase data) {
+        if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
+            return false;
+        }
+        BackTileBase backtile = BackTileBase.backtileList[id];
+        backtile = backtile != null ? backtile.getBlockForPlacement(this, x, y) : null;
+        if ((backtile == null || backtile.canBePlacedHere(this, x, y))) {
+            backtileids[(y * getWidth()) + x] = id;
+            backtilemetas[(y * getWidth()) + x] = meta;
+            this.backtiledata[(y * getWidth()) + x] = data;
+            if (backtile != null) {
+                backtile.onPlace(this, x, y);
+            }
+            updateBlockAndNeighbors(x, y);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean setBacktile(int x, int y, short id, short meta) {
+        return setBacktile(x, y, id, meta, null);
+    }
+
+    public boolean setBacktile(int x, int y, short id) {
+        return setBacktile(x, y, id, (short) 0);
+    }
+
+    public boolean setBacktile(int x, int y, BlockBase block) {
+        return setBacktile(x, y, block.getBlockID());
+    }
+
+    public boolean setBacktile(int x, int y, BlockBase block, short meta) {
+        return setBacktile(x, y, block.getBlockID(), meta);
+    }
+
+    public boolean setBacktileEntity(int x, int y, BacktileEntityBase data) {
+        if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
+            return false;
+        }
+        this.backtiledata[(x * width) + y] = data;
         return true;
     }
 

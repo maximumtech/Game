@@ -1,12 +1,12 @@
 package Game.misc;
 
+import Game.base.BackTileBase;
 import Game.base.BlockBase;
 import Game.base.GameBase;
 import Game.base.ItemStack;
 import Game.base.World;
 import Game.render.ImageHandler;
 import Game.render.RenderStack;
-import org.newdawn.slick.Color;
 
 /**
  *
@@ -37,6 +37,11 @@ public class BlockBreakingHandler {
         BlockBase block = world.getBlock(x, y);
         if (block != null) {
             block.onStartBreaking(world, x, y, item);
+        } else {
+            BackTileBase backtile = world.getBacktile(x, y);
+            if (backtile != null) {
+                backtile.onStartBreaking(world, x, y, item);
+            }
         }
     }
 
@@ -45,7 +50,7 @@ public class BlockBreakingHandler {
         currentBlockY = -1;
         progress = 0F;
         isBreaking = false;
-        this.item = null;
+        item = null;
     }
 
     public void onContinuedBreaking(int x, int y, ItemStack item) {
@@ -56,7 +61,12 @@ public class BlockBreakingHandler {
             }
             BlockBase block = world.getBlock(x, y);
             if (block != null) {
-                progress += ((block.blockHardness / 10) * GameBase.instance.getWorld().mainPlayer.getGameMode().getBlockBreakingModifier() * (item != null ? item.getItem().getHardnessModifier(world, x, y, block) : 1F));
+                progress += ((block.hardness / 10) * GameBase.instance.getWorld().mainPlayer.getGameMode().getBlockBreakingModifier() * (item != null ? item.getItem().getHardnessModifier(world, x, y, block) : 1F));
+            } else {
+                BackTileBase backtile = world.getBacktile(x, y);
+                if (backtile != null) {
+                    progress += ((backtile.hardness / 10) * GameBase.instance.getWorld().mainPlayer.getGameMode().getBlockBreakingModifier() * (item != null ? item.getItem().getHardnessModifier(world, x, y, backtile) : 1F));
+                }
             }
         } else {
             isBreaking = false;
@@ -71,7 +81,12 @@ public class BlockBreakingHandler {
         if (currentBlockX == x && currentBlockY == y && this.item == item) {
             BlockBase block = world.getBlock(x, y);
             if (block != null) {
-                block.onBlockBreak(world, x, y, item);
+                block.onBreak(world, x, y, item);
+            } else {
+                BackTileBase backtile = world.getBacktile(x, y);
+                if (backtile != null) {
+                    backtile.onBreak(world, x, y, item);
+                }
             }
             isBreaking = false;
             progress = 0F;

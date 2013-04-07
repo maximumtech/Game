@@ -29,13 +29,12 @@ public class BlockFlower extends BlockNonColliding {
     }
 
     public void onUpdate(World world, int x, int y) {
-        if(!canBePlacedHere(world, x, y)) {
-            onBlockBreak(world, x, y, null);
+        if (!canBePlacedHere(world, x, y)) {
+            onBreak(world, x, y, null);
         }
     }
-    
+
     public boolean canBeReplaced(World world, int x, int y, BlockBase replacer) {
         return true;
     }
-    
 }

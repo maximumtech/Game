@@ -4,15 +4,14 @@ import Game.content.*;
 import Game.entity.EntityItem;
 import Game.misc.Side;
 import Game.render.ImageHandler;
-import java.util.Random;
 
 /**
  *
  * @author maximumtech
  */
-public class BlockBase extends ItemBase {
+public class BlockBase extends ItemBase implements IBreakable {
 
-    public float blockHardness = 1f;
+    public float hardness = 1f;
     public static BlockBase[] blocksList = new BlockBase[Short.MAX_VALUE];
     public static final BlockBase stone = (BlockBase) new BlockStone((short) 1).setTier(0).setImage(ImageHandler.getRenderStack("blockStone")).setName("Stone");
     public static final BlockBase dirt = (BlockBase) new BlockDirt((short) 2).setImage(ImageHandler.getRenderStack("blockDirt")).setName("Dirt");
@@ -31,7 +30,6 @@ public class BlockBase extends ItemBase {
     public static final BlockBase silverore = (BlockBase) new BlockStone((short) 15).setTier(4).setImage(ImageHandler.getRenderStack("blockSilverOre")).setName("Silver Ore");
     public static final BlockBase goldore = (BlockBase) new BlockStone((short) 16).setTier(5).setImage(ImageHandler.getRenderStack("blockGoldOre")).setName("Gold Ore");
     public static final BlockBase sapling = (BlockBase) new BlockSapling((short) 17).setImage(ImageHandler.getRenderStack("blockSapling")).setName("Sapling");
-    public static Random rand = new Random();
 
     public BlockBase(short id) {
         super(id, ItemType.BLOCK);
@@ -80,7 +78,7 @@ public class BlockBase extends ItemBase {
     }
 
     public BlockBase setHardness(float hardness) {
-        this.blockHardness = hardness;
+        this.hardness = hardness;
         return this;
     }
 
@@ -108,7 +106,7 @@ public class BlockBase extends ItemBase {
         return true;
     }
 
-    public void onBlockBreak(World world, int x, int y, ItemStack it) {
+    public void onBreak(World world, int x, int y, ItemStack it) {
         ItemStack[] items = getDroppedItem(world, x, y, it);
         for (ItemStack item : items) {
             if (item == null) {
@@ -162,7 +160,7 @@ public class BlockBase extends ItemBase {
         return (id == tid && meta == tmeta);
     }
 
-    public BlockEntityBase getTileEntityForPlacing(World world, int x, int y, ItemStack from) {
+    public BlockEntityBase getBlockEntityForPlacing(World world, int x, int y, ItemStack from) {
         return null;
     }
 
@@ -194,8 +192,6 @@ public class BlockBase extends ItemBase {
     }
 
     public boolean shouldRender() {
-        //check lighting
-        //check if on screen
         return true;
     }
 }

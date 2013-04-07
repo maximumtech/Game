@@ -3,6 +3,7 @@ package Game.base;
 import Game.entity.EntityLiving;
 import Game.misc.DamageSource;
 import Game.render.RenderStackBase;
+import java.util.Random;
 
 /**
  *
@@ -16,6 +17,7 @@ public abstract class ItemBase {
     public static ItemBase[] itemsList = new ItemBase[Short.MAX_VALUE];
     private RenderStackBase image;
     private int maxStackSize = 250;
+    public static Random rand = new Random();
 
     public int getMaxStackSize() {
         return maxStackSize;
@@ -29,7 +31,7 @@ public abstract class ItemBase {
         return 1;
     }
 
-    public float getHardnessModifier(World world, int x, int y, BlockBase block) {
+    public float getHardnessModifier(World world, int x, int y, IBreakable block) {
         return 1F;
     }
 

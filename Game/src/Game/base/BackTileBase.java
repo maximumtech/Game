@@ -1,56 +1,147 @@
 package Game.base;
 
+import Game.content.Material;
+import Game.entity.EntityItem;
+
 /**
  *
  * @author maximumtech
  */
-public class BackTileBase extends ItemBase {
+public class BackTileBase extends ItemBase implements IBreakable {
 
+    public float hardness = 1f;
     public static BackTileBase[] backtileList = new BackTileBase[Short.MAX_VALUE];
 
     public BackTileBase(short id) {
         super(id, ItemType.BACKTILE);
         backtileList[id] = this;
     }
-    
+    private int tier = 0;
+
+    public BackTileBase setTier(int tier) {
+        this.tier = tier;
+        return this;
+    }
+
+    public int getTier() {
+        return tier;
+    }
+    private boolean requiresRandomTick = false;
+    private int tickRate = 0;
+
+    public boolean requiresRandomTick() {
+        return requiresRandomTick;
+    }
+
+    public BackTileBase getBlockForPlacement(World world, int x, int y) {
+        return this;
+    }
+
+    public int getTickRate() {
+        return tickRate;
+    }
+
+    public void tick(World world, int x, int y) {
+    }
+
+    public BackTileBase setRandomTick(int tick) {
+        requiresRandomTick = true;
+        tickRate = tick;
+        return this;
+    }
+
+    public boolean canBePlacedHere(World world, int x, int y) {
+        return true;
+    }
+
+    public boolean isBreakable(World world, int x, int y) {
+        return true;
+    }
+
+    public BackTileBase setHardness(float hardness) {
+        this.hardness = hardness;
+        return this;
+    }
+
+    public short getBlockID() {
+        return getID(ItemType.BACKTILE);
+    }
+
     public void renderWorld(World world, int x, int y) {
-        getImage().render(x - 2, y - 2, -1, GameBase.blockSize + 2, GameBase.blockSize + 2);
+        getImage().render(x - 2, y - 2, -1, GameBase.blockSize + 4, GameBase.blockSize + 4);
     }
 
     public boolean isOpaque(World world, int x, int y) {
         return true;
     }
 
+    public void onBreak(World world, int x, int y, ItemStack it) {
+        ItemStack[] items = getDroppedItem(world, x, y, it);
+        for (ItemStack item : items) {
+            if (item == null) {
+                continue;
+            }
+            EntityItem itm = new EntityItem(world, world.getPixelFromCoordinate(x), world.getPixelFromCoordinate(y), item);
+            itm.motionX += 2 - rand.nextInt(5);
+            itm.motionY += rand.nextInt(5);
+            world.spawnEntity(itm);
+        }
+        world.setBlock(x, y, (short) 0);
+    }
+    private Material material;
+
+    public BackTileBase setMaterial(Material material) {
+        this.material = material;
+        return this;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public ItemStack[] getDroppedItem(World world, int x, int y, ItemStack item) {
+        return new ItemStack[]{new ItemStack((ItemBase) this)};
+    }
+
+    public void onRightClick(World world, int x, int y, ItemStack is) {
+    }
+
+    public void onPlace(World world, int x, int y) {
+    }
+
+    public void onStartBreaking(World world, int x, int y, ItemStack item) {
+    }
+
+    public boolean canBeReplaced(World world, int x, int y, BackTileBase replacer) {
+        return false;
+    }
+
+    public short getMetaForPlacing(World world, int x, int y, ItemStack from) {
+        return 0;
+    }
+
+    public boolean isSameBacktileForPlacing(World world, int x, int y, short tid, short tmeta, BacktileEntityBase tileentity) {
+        short id = world.getBacktileID(x, y);
+        short meta = world.getBacktileMeta(x, y);
+        return (id == tid && meta == tmeta);
+    }
+
+    public BacktileEntityBase getBacktileEntityForPlacing(World world, int x, int y, ItemStack from) {
+        return null;
+    }
+
     public void onNeighborUpdate(World world, int x, int y) {
+        onUpdate(world, x, y);
     }
 
     public void onUpdate(World world, int x, int y) {
     }
 
-    public boolean canPlaceBlockInAir(World world, int x, int y) {
-        return canPlaceBlockOnBlock(world, x, y);
+    public boolean isGenerationReplacable() {
+        return false;
     }
 
-    public boolean canPlaceBlockOnBlock(World world, int x, int y) {
-        return true;
-    }
-
-    public boolean canBeBrokenApartFromAir(World world, int x, int y) {
-        return canBeBroken(world, x, y);
-    }
-
-    public boolean canBeBroken(World world, int x, int y) {
-        return true;
-    }
-    
     public boolean shouldRender() {
-        //check lighting
-        //check if on screen
-        //check for blocks
         return true;
-    }
-
-
-    static {
     }
 }

@@ -32,27 +32,27 @@ public class BlockWood extends BlockBase {
         return true;
     }
 
-    public void onBlockBreak(World world, int x, int y, ItemStack it) {
+    public void onBreak(World world, int x, int y, ItemStack it) {
         if (world.getBlockMeta(x, y) == (short) 1) {
             BlockBase block = world.getBlock(x, y + 1);
             if (block != null && (block == BlockBase.woodLog || (block == BlockBase.leaves && world.getBlockMeta(x, y + 1) == (short) 1))) {
-                block.onBlockBreak(world, x, y + 1, it);
+                block.onBreak(world, x, y + 1, it);
             }
             for (int xx = x + 1; xx < x + 10; xx++) {
                 if (world.getBlock(xx, y) == BlockBase.leaves) {
-                    BlockBase.leaves.onBlockBreak(world, xx, y, it);
+                    BlockBase.leaves.onBreak(world, xx, y, it);
                 } else {
                     break;
                 }
             }
             for (int xx = x - 1; xx > x - 10; xx--) {
                 if (world.getBlock(xx, y) == BlockBase.leaves) {
-                    BlockBase.leaves.onBlockBreak(world, xx, y, it);
+                    BlockBase.leaves.onBreak(world, xx, y, it);
                 } else {
                     break;
                 }
             }
         }
-        super.onBlockBreak(world, x, y, it);
+        super.onBreak(world, x, y, it);
     }
 }
