@@ -31,7 +31,7 @@ public class PlayerInventory extends BasicInventory {
                     int xx = GameBase.screenWidth / 2 - 204 + x * 40;
                     int yy = y * 40 + (y > 0 ? 10 : 0);
                     slot.onRenderUpdate(xx, yy);
-                    slot.render(xx, yy, (x == getSelectedSlot() && y == 0) ? Slot.SlotColor.RED : Slot.SlotColor.BLUE);
+                    slot.render(xx, yy, 0, (x == getSelectedSlot() && y == 0) ? Slot.SlotColor.RED : Slot.SlotColor.BLUE);
                 }
             }
         } else {
@@ -41,7 +41,7 @@ public class PlayerInventory extends BasicInventory {
                     int xx = GameBase.screenWidth / 2 - 204 + pos * 40;
                     int yy = 0;
                     slot.onRenderUpdate(xx, yy);
-                    slot.render(xx, yy, pos == getSelectedSlot() ? Slot.SlotColor.RED : Slot.SlotColor.BLUE);
+                    slot.render(xx, yy, 0, pos == getSelectedSlot() ? Slot.SlotColor.RED : Slot.SlotColor.BLUE);
                 }
                 pos++;
             }

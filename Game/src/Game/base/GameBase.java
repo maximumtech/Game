@@ -80,14 +80,14 @@ public class GameBase implements Backend {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
-        GL11.glOrtho(0, 800, 0, 600, -10, 10);
+        GL11.glOrtho(0, 800, 0, 600, -100, 100);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
-        //GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDepthFunc(GL11.GL_LEQUAL);
         GL11.glDepthMask(true);
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
-        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+        //GL11.glEnable(GL11.GL_ALPHA_TEST);
+        //GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
         GL11.glCullFace(GL11.GL_BACK);
         fontRenderer = new FontRenderer[100];
         loadFontSizes(6, 12);
@@ -108,7 +108,7 @@ public class GameBase implements Backend {
                 GL11.glViewport(0, 0, screenWidth, screenHeight);
                 GL11.glMatrixMode(GL11.GL_PROJECTION);
                 GL11.glLoadIdentity();
-                GL11.glOrtho(0, screenWidth, 0, screenHeight, -10, 10);
+                GL11.glOrtho(0, screenWidth, 0, screenHeight, -100, 100);
                 GL11.glMatrixMode(GL11.GL_MODELVIEW);
             }
             timer.update();

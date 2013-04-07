@@ -1,10 +1,10 @@
 package Game.inventory;
 
-import Game.base.BlockBase;
 import Game.base.ItemStack;
 import Game.misc.CollisonHelper;
 import Game.render.ImageHandler;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 /**
  *
@@ -15,29 +15,53 @@ public class Slot {
     private ItemStack storedItem = null;
     private IInventory inventory;
     private int slot;
-    public static volatile boolean hasItemInHand = true;
-    public static volatile ItemStack itemInHand = new ItemStack(BlockBase.dirt);
-    private boolean mouseDown = false;
+    public static volatile ItemStack itemInHand = null;
+    private boolean mouseDownleft = false;
+    private boolean mouseDownright = false;
 
     public void onRenderUpdate(int x, int y) {
-        boolean isDown = Mouse.isButtonDown(0);
-        if (!mouseDown && isDown) {
+        boolean isDownLeft = Mouse.isButtonDown(0);
+        if (!mouseDownleft && isDownLeft) {
             int mX = Mouse.getX();
             int mY = Mouse.getY();
             if (CollisonHelper.intersects(x, x + 40, y, y + 40, mX, mX, mY, mY)) {
-                if (hasItemInHand) {
-                    hasItemInHand = false;
+                if (itemInHand != null) {
                     itemInHand = tryToAddItem(itemInHand);
                 } else {
                     if (this.getStack() != null) {
                         itemInHand = this.getStack();
-                        hasItemInHand = true;
                         this.setItem(null);
                     }
                 }
             }
         }
-        mouseDown = isDown;
+        mouseDownleft = isDownLeft;
+
+        boolean isDownRight = Mouse.isButtonDown(1);
+        if (!mouseDownright && isDownRight) {
+            int mX = Mouse.getX();
+            int mY = Mouse.getY();
+            if (CollisonHelper.intersects(x, x + 40, y, y + 40, mX, mX, mY, mY)) {
+                if (itemInHand != null) {
+                    ItemStack item = tryToAddItem(itemInHand.clone(1));
+                    int s = itemInHand.getAmount();
+                    if (item == null) {
+                        s--;
+                    }
+                    itemInHand.setAmount(s);
+                    if (s <= 0) {
+                        itemInHand = null;
+                    }
+                } else {
+                    if (this.getStack() != null) {
+                        int amt = this.getStack().getAmount() / 2;
+                        itemInHand = this.getStack().clone(amt);
+                        this.setItemAmount(this.getStack().getAmount() - amt);
+                    }
+                }
+            }
+        }
+        mouseDownright = isDownRight;
     }
 
     public ItemStack tryToAddItem(ItemStack stack) {
@@ -46,7 +70,7 @@ public class Slot {
         } else if (this.getStack() == null) {
             this.setItem(stack);
             size = 0;
-        } else if (this.getStack().matches(stack)) {
+        } else if (this.getStack().matches(stack) && stack.getAmount() > 0) {
             size = this.addItemAmount(stack.getAmount());
         }
         if (size <= 0) {
@@ -78,10 +102,10 @@ public class Slot {
         }
     }
 
-    public void render(int x, int y, SlotColor color) {
-        ImageHandler.drawImage2D(ImageHandler.getImage("gui/inventory/slot" + color.getName()), x, y, 3, 40, 40);
+    public void render(int x, int y, int z, SlotColor color) {
+        ImageHandler.drawImage2D(ImageHandler.getImage("gui/inventory/slot" + color.getName()), x, y, z, 40, 40, 255, 255, 255, 192);
         if (storedItem != null) {
-            storedItem.renderGUI(x + 4, y + 4, 32, 32);
+            storedItem.renderGUI(x + 4, y + 4, z, 32, 32);
         }
     }
 

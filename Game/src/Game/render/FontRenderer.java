@@ -45,14 +45,14 @@ public class FontRenderer {
         GL11.glTranslatef(0, 0, z);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
-        GL11.glOrtho(0, GameBase.screenWidth, GameBase.screenHeight, 0, -10, 10);
+        GL11.glOrtho(0, GameBase.screenWidth, GameBase.screenHeight, 0, -100, 100);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         uniFont.drawString(x, GameBase.screenHeight - y, str, color);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
-        GL11.glOrtho(0, GameBase.screenWidth, 0, GameBase.screenHeight, -10, 10);
+        GL11.glOrtho(0, GameBase.screenWidth, 0, GameBase.screenHeight, -100, 100);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         glPopMatrix();
     }

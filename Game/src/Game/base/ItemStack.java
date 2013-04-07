@@ -29,10 +29,26 @@ public class ItemStack {
         getItem().renderWorld(world, x, y, this);
     }
 
-    public void renderGUI(int x, int y, int width, int height) {
+    public ItemStack clone() {
+        ItemStack ret = new ItemStack(this.getItem());
+        ret.setAmount(this.getAmount());
+        ret.setMeta(this.getMeta());
+        ret.setData(this.getData());
+        return ret;
+    }
+
+    public ItemStack clone(int amt) {
+        ItemStack ret = new ItemStack(this.getItem());
+        ret.setAmount(amt);
+        ret.setMeta(this.getMeta());
+        ret.setData(this.getData());
+        return ret;
+    }
+
+    public void renderGUI(int x, int y, int z, int width, int height) {
         getItem().renderGUI(x, y, width, height, this);
         GL11.glPushMatrix();
-        GL11.glTranslatef(0, 0, 4F);
+        GL11.glTranslatef(0, 0, z);
         GameBase.getFontRenderer(12).drawString("" + stackSize, x, y + 12, 4);
         GameBase.getFontRendererForWidth(6, 12, getItem().getName(), width).drawString(getItem().getName(), x, y + height, 4);
         GL11.glPopMatrix();
