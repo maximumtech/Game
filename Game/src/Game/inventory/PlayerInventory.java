@@ -25,17 +25,23 @@ public class PlayerInventory extends BasicInventory {
     public void render() {
         if (isOpen) {
             for (Slot slot : slots) {
-                int x = slot.getSlotIndex() / getWidth();
-                int y = slot.getSlotIndex() % getWidth();
                 if (slot != null) {
-                    slot.render(GameBase.screenWidth / 2 - 204 + x * 40, y * 40 + (y > 0 ? 10 : 0), (x == getSelectedSlot() && y == 0) ? Slot.SlotColor.RED : Slot.SlotColor.BLUE);
+                    int x = slot.getSlotIndex() / getWidth();
+                    int y = slot.getSlotIndex() % getWidth();
+                    int xx = GameBase.screenWidth / 2 - 204 + x * 40;
+                    int yy = y * 40 + (y > 0 ? 10 : 0);
+                    slot.onRenderUpdate(xx, yy);
+                    slot.render(xx, yy, (x == getSelectedSlot() && y == 0) ? Slot.SlotColor.RED : Slot.SlotColor.BLUE);
                 }
             }
         } else {
             int pos = 0;
             for (Slot slot : getHotbar()) {
                 if (slot != null) {
-                    slot.render(GameBase.screenWidth / 2 - 204 + pos * 40, 0, pos == getSelectedSlot() ? Slot.SlotColor.RED : Slot.SlotColor.BLUE);
+                    int xx = GameBase.screenWidth / 2 - 204 + pos * 40;
+                    int yy = 0;
+                    slot.onRenderUpdate(xx, yy);
+                    slot.render(xx, yy, pos == getSelectedSlot() ? Slot.SlotColor.RED : Slot.SlotColor.BLUE);
                 }
                 pos++;
             }

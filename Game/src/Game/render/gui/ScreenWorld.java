@@ -5,8 +5,10 @@ import Game.base.BlockBase;
 import Game.base.BackTileBase;
 import Game.base.GameBase;
 import Game.entity.Entity;
+import Game.inventory.Slot;
 import Game.misc.BlockBreakingHandler;
 import Game.render.FontRenderer;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
@@ -36,6 +38,9 @@ public class ScreenWorld extends Screen {
         int hei = Display.getHeight() / 2;
         world.mainPlayer.renderer.render(wid - (world.mainPlayer.getWidth() / 2), hei - (world.mainPlayer.getHeight() / 2));
         FontRenderer pt12 = GameBase.getFontRenderer(12);
+        if (Slot.hasItemInHand) {
+            Slot.itemInHand.renderGUI(Mouse.getX(), Mouse.getY(), 32, 32);
+        }
         if (debug) {
             singlePlayerDebug.updateDebug();
             for (int i = 0; i < singlePlayerDebug.getOutput().size(); i++) {

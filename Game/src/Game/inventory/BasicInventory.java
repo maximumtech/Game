@@ -81,7 +81,7 @@ public class BasicInventory implements IInventory {
     }
 
     public ItemStack getStackInSlot(int x, int y) {
-        return slots.get((y * getWidth()) + x).getStack();
+        return slots.get((x * getHeight()) + y).getStack();
     }
 
     public boolean hasStackInSlot(int slot) {
@@ -97,7 +97,7 @@ public class BasicInventory implements IInventory {
     }
 
     public Slot getSlot(int x, int y) {
-        return slots.get((y * getWidth()) + x);
+        return slots.get((x * getHeight()) + y);
     }
 
     public int getWidth() {

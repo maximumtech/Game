@@ -1,8 +1,10 @@
 package Game.inventory;
 
-import Game.base.GameBase;
+import Game.base.BlockBase;
 import Game.base.ItemStack;
+import Game.misc.CollisonHelper;
 import Game.render.ImageHandler;
+import org.lwjgl.input.Mouse;
 
 /**
  *
@@ -13,6 +15,46 @@ public class Slot {
     private ItemStack storedItem = null;
     private IInventory inventory;
     private int slot;
+    public static volatile boolean hasItemInHand = true;
+    public static volatile ItemStack itemInHand = new ItemStack(BlockBase.dirt);
+    private boolean mouseDown = false;
+
+    public void onRenderUpdate(int x, int y) {
+        boolean isDown = Mouse.isButtonDown(0);
+        if (!mouseDown && isDown) {
+            int mX = Mouse.getX();
+            int mY = Mouse.getY();
+            if (CollisonHelper.intersects(x, x + 40, y, y + 40, mX, mX, mY, mY)) {
+                if (hasItemInHand) {
+                    hasItemInHand = false;
+                    itemInHand = tryToAddItem(itemInHand);
+                } else {
+                    if (this.getStack() != null) {
+                        itemInHand = this.getStack();
+                        hasItemInHand = true;
+                        this.setItem(null);
+                    }
+                }
+            }
+        }
+        mouseDown = isDown;
+    }
+
+    public ItemStack tryToAddItem(ItemStack stack) {
+        int size = stack.getAmount();
+        if (stack == null) {
+        } else if (this.getStack() == null) {
+            this.setItem(stack);
+            size = 0;
+        } else if (this.getStack().matches(stack)) {
+            size = this.addItemAmount(stack.getAmount());
+        }
+        if (size <= 0) {
+            return null;
+        }
+        stack.setAmount(size);
+        return stack;
+    }
 
     public Slot(IInventory inv, int slot, ItemStack item) {
         this.inventory = inv;
