@@ -55,6 +55,9 @@ public class Slot {
                 } else {
                     if (this.getStack() != null) {
                         int amt = this.getStack().getAmount() / 2;
+                        if (this.getStack().getAmount() <= 1) {
+                            amt = 1;
+                        }
                         itemInHand = this.getStack().clone(amt);
                         this.setItemAmount(this.getStack().getAmount() - amt);
                     }
