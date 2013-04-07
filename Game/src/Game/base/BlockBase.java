@@ -156,13 +156,13 @@ public class BlockBase extends ItemBase {
         return 0;
     }
 
-    public boolean isSameBlockForPlacing(World world, int x, int y, short tid, short tmeta, TileEntityBase tileentity) {
+    public boolean isSameBlockForPlacing(World world, int x, int y, short tid, short tmeta, BlockEntityBase tileentity) {
         short id = world.getBlockID(x, y);
         short meta = world.getBlockMeta(x, y);
         return (id == tid && meta == tmeta);
     }
 
-    public TileEntityBase getTileEntityForPlacing(World world, int x, int y, ItemStack from) {
+    public BlockEntityBase getTileEntityForPlacing(World world, int x, int y, ItemStack from) {
         return null;
     }
 

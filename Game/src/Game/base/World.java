@@ -6,7 +6,6 @@ import Game.generation.WorldGenTerrain;
 import Game.misc.MathHelper;
 import java.util.ArrayList;
 import java.util.Random;
-import org.lwjgl.opengl.Display;
 
 /**
  *
@@ -19,10 +18,10 @@ public class World {
     private int seaLevel;
     private short[] ids;
     private short[] metas;
-    private TileEntityBase[] data;
+    private BlockEntityBase[] data;
     private short[] backtileids;
     private short[] backtilemetas;
-    private TileEntityBase[] backtiledata;
+    private BacktileEntityBase[] backtiledata;
     public EntityPlayerSP mainPlayer;
     public ArrayList<Entity> entityList;
     private ArrayList<Entity> spawnEntityList;
@@ -42,7 +41,7 @@ public class World {
         for (int i = 0; i < metas.length; i++) {
             metas[i] = 0;
         }
-        data = new TileEntityBase[(height * width) + width];
+        data = new BlockEntityBase[(height * width) + width];
         for (int i = 0; i < data.length; i++) {
             data[i] = null;
         }
@@ -54,7 +53,7 @@ public class World {
         for (int i = 0; i < backtilemetas.length; i++) {
             backtilemetas[i] = 0;
         }
-        backtiledata = new TileEntityBase[(height * width) + width];
+        backtiledata = new BacktileEntityBase[(height * width) + width];
         for (int i = 0; i < backtiledata.length; i++) {
             backtiledata[i] = null;
         }
@@ -191,11 +190,11 @@ public class World {
     }
 
     public int getRenderHeight() {
-        return (GameBase.screenHeight / GameBase.blockSize) + 2;
+        return (GameBase.screenHeight / GameBase.blockSize) + 4;
     }
 
     public int getRenderWidth() {
-        return (GameBase.screenWidth / GameBase.blockSize) + 2;
+        return (GameBase.screenWidth / GameBase.blockSize) + 4;
     }
 
     public short getBlockID(int x, int y) {
@@ -212,7 +211,7 @@ public class World {
         return metas[(y * getWidth()) + x];
     }
 
-    public TileEntityBase getBlockTileEntity(int x, int y) {
+    public BlockEntityBase getBlockTileEntity(int x, int y) {
         if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return null;
         }
@@ -240,7 +239,7 @@ public class World {
         return backtilemetas[(y * getWidth()) + x];
     }
 
-    public TileEntityBase getBacktileTileEntity(int x, int y) {
+    public BacktileEntityBase getBacktileTileEntity(int x, int y) {
         if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return null;
         }
@@ -280,7 +279,7 @@ public class World {
         neighborUpdate(x, y - 1);
     }
 
-    public boolean setBlock(int x, int y, short id, short meta, TileEntityBase data) {
+    public boolean setBlock(int x, int y, short id, short meta, BlockEntityBase data) {
         if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return false;
         }
@@ -315,7 +314,7 @@ public class World {
         return setBlock(x, y, block.getBlockID(), meta);
     }
 
-    public boolean setTileEntity(int x, int y, TileEntityBase data) {
+    public boolean setTileEntity(int x, int y, BlockEntityBase data) {
         if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return false;
         }

@@ -54,8 +54,10 @@ public class ScreenWorld extends Screen {
         GL11.glPushMatrix();
         translateToPlayer();
         if (world != null && world.mainPlayer != null) {
-            for (int x = Math.max(0, world.mainPlayer.getBlockX() - world.getRenderWidth()); x < Math.min(world.getWidth(), world.mainPlayer.getBlockX() + world.getRenderWidth()); x++) {
-                for (int y = Math.max(0, world.mainPlayer.getBlockY() - world.getRenderHeight()); y < Math.min(world.getHeight(), world.mainPlayer.getBlockY() + world.getRenderHeight()); y++) {
+            int wid = world.getRenderWidth() / 2;
+            int hei = world.getRenderHeight() / 2;
+            for (int x = Math.max(0, world.mainPlayer.getBlockX() - wid); x < Math.min(world.getWidth(), world.mainPlayer.getBlockX() + wid); x++) {
+                for (int y = Math.max(0, world.mainPlayer.getBlockY() - hei); y < Math.min(world.getHeight(), world.mainPlayer.getBlockY() + hei); y++) {
                     BlockBase block = world.getBlock(x, y);
                     BackTileBase tile = world.getBacktile(x, y);
                     if (block != null) {
@@ -80,8 +82,8 @@ public class ScreenWorld extends Screen {
         GL11.glPushMatrix();
         GL11.glTranslatef(0, 0, 9);
         world.mainPlayer.inventory.render();
-        int wid = Display.getWidth() / 2;
-        int hei = Display.getHeight() / 2;
+        int wid = GameBase.screenWidth / 2;
+        int hei = GameBase.screenHeight / 2;
         world.mainPlayer.renderer.render(wid - (world.mainPlayer.getWidth() / 2), hei - (world.mainPlayer.getHeight() / 2), 3);
         FontRenderer pt12 = GameBase.getFontRenderer(12);
         pt12.drawString(world.mainPlayer.username, (GameBase.screenWidth / 2) - (pt12.getStringWidth(world.mainPlayer.username) / 2), (GameBase.screenHeight / 2) + 48, 4);
