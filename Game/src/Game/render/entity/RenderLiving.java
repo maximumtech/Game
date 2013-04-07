@@ -1,8 +1,7 @@
 package Game.render.entity;
 
-import org.newdawn.slick.Image;
 import Game.entity.EntityLiving;
-import Game.render.ImageHandler;
+import org.lwjgl.opengl.GL11;
 
 /**
  *
@@ -10,15 +9,25 @@ import Game.render.ImageHandler;
  */
 public class RenderLiving extends RenderEntity {
 
-    //private Image still = ImageHandler.getImage("blockGrass/blockGrass1");
-    private Image still = ImageHandler.getImage("blockChest/blockChest");
-    //TODO: add animation f/ player
-
     public RenderLiving(EntityLiving entity) {
         super(entity);
     }
 
-    public void render(int x, int y) {
-        ImageHandler.drawImage2D(still, x, y, 2, entity.getWidth(), entity.getHeight());
+    public void render(int x, int y, int z) {
+        GL11.glPushMatrix();
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glTranslatef(0, 0, z);
+        GL11.glLineWidth(1F);
+        GL11.glColor3f(1F, 1F, 1F);
+        GL11.glBegin(GL11.GL_LINE_STRIP);
+        GL11.glVertex2i(x, y);
+        GL11.glVertex2i(x + entity.getWidth(), y);
+        GL11.glVertex2i(x + entity.getWidth(), y + entity.getHeight());
+        GL11.glVertex2i(x, y + entity.getHeight());
+        GL11.glVertex2i(x, y);
+        GL11.glEnd();
+        GL11.glTranslatef(0, 0, -z);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glPopMatrix();
     }
 }

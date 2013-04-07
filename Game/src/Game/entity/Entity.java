@@ -40,7 +40,7 @@ public abstract class Entity {
 
     public void render() {
         if (renderer != null && shouldRender()) {
-            renderer.render(getX(), getY());
+            renderer.render(getX(), getY(), 2);
         }
     }
 

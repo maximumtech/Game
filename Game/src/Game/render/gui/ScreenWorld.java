@@ -36,7 +36,7 @@ public class ScreenWorld extends Screen {
         world.mainPlayer.inventory.render();
         int wid = Display.getWidth() / 2;
         int hei = Display.getHeight() / 2;
-        world.mainPlayer.renderer.render(wid - (world.mainPlayer.getWidth() / 2), hei - (world.mainPlayer.getHeight() / 2));
+        world.mainPlayer.renderer.render(wid - (world.mainPlayer.getWidth() / 2), hei - (world.mainPlayer.getHeight() / 2), 3);
         FontRenderer pt12 = GameBase.getFontRenderer(12);
         if (Slot.hasItemInHand) {
             Slot.itemInHand.renderGUI(Mouse.getX(), Mouse.getY(), 32, 32);
