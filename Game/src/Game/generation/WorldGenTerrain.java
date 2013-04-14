@@ -24,7 +24,8 @@ public class WorldGenTerrain extends WorldGenColumn {
     }
     boolean isHill = false;
     boolean goingDownHill = false;
-    boolean roundHill;
+    boolean roundHill = false;
+    boolean roundLast = false;
     int hillSize = 0;
     int hillTopSize = 0;
     private int undulatingLevel;
@@ -61,6 +62,7 @@ public class WorldGenTerrain extends WorldGenColumn {
         if (isNewHill) {
             goingDownHill = false;
             hillSize = 0;
+            roundLast = false;
             roundHill = rand.nextInt(2) == 0;
             hillTopSize = rand.nextInt((world.getHeight() - world.getSeaLevel()) / (roundHill ? 8 : 4));
             isHill = true;
@@ -77,10 +79,21 @@ public class WorldGenTerrain extends WorldGenColumn {
                 hillTopSize = 0;
                 roundHill = false;
             } else {
-                if (goingDownHill) {
-                    hillSize -= rand.nextInt(roundHill ? 2 : 4);
+                int amt = 0;
+                if (roundHill) {
+                    if (roundLast) {
+                        amt = 0;
+                    } else {
+                        amt = 1;
+                    }
+                    roundLast = !roundLast;
                 } else {
-                    hillSize += rand.nextInt(roundHill ? 2 : 4);
+                    amt = rand.nextInt(4);
+                }
+                if (goingDownHill) {
+                    hillSize -= amt;
+                } else {
+                    hillSize += amt;
                 }
                 level += hillSize;
             }
