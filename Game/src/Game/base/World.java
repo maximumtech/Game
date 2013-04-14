@@ -246,11 +246,11 @@ public class World {
         return backtiledata[(y * getWidth()) + x];
     }
 
-    public BackTileBase getBacktile(int x, int y) {
+    public BacktileBase getBacktile(int x, int y) {
         if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return null;
         }
-        return BackTileBase.backtileList[backtileids[(y * getWidth()) + x]];
+        return BacktileBase.backtileList[backtileids[(y * getWidth()) + x]];
     }
 
     public void updateBlock(int x, int y) {
@@ -258,7 +258,7 @@ public class World {
         if (block != null) {
             block.onUpdate(this, x, y);
         }
-        BackTileBase backtile = getBacktile(x, y);
+        BacktileBase backtile = getBacktile(x, y);
         if (backtile != null) {
             backtile.onUpdate(this, x, y);
         }
@@ -269,7 +269,7 @@ public class World {
         if (block != null) {
             block.onNeighborUpdate(this, x, y);
         }
-        BackTileBase backtile = getBacktile(x, y);
+        BacktileBase backtile = getBacktile(x, y);
         if (backtile != null) {
             backtile.onNeighborUpdate(this, x, y);
         }
@@ -334,7 +334,7 @@ public class World {
         if (((y * getWidth()) + x) > (getHeight() * getWidth()) + getWidth() - 1 || ((y * getWidth()) + x) < 0) {
             return false;
         }
-        BackTileBase backtile = BackTileBase.backtileList[id];
+        BacktileBase backtile = BacktileBase.backtileList[id];
         backtile = backtile != null ? backtile.getBlockForPlacement(this, x, y) : null;
         if ((backtile == null || backtile.canBePlacedHere(this, x, y))) {
             backtileids[(y * getWidth()) + x] = id;

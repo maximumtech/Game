@@ -1,13 +1,11 @@
 package Game.render;
 
-import Game.base.GameBase;
 import org.newdawn.slick.Image;
 import java.util.HashMap;
 import java.io.File;
 import java.util.Scanner;
 import java.util.ArrayList;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Color;
 
 /**
  *

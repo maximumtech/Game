@@ -65,7 +65,7 @@ public abstract class ItemBase {
         } else if (type == ItemType.BLOCK) {
             return BlockBase.blocksList[id];
         } else if (type == ItemType.BACKTILE) {
-            return BackTileBase.backtileList[id];
+            return BacktileBase.backtileList[id];
         }
         return null;
     }

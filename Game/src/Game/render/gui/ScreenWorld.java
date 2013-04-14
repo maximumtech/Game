@@ -2,7 +2,7 @@ package Game.render.gui;
 
 import Game.base.World;
 import Game.base.BlockBase;
-import Game.base.BackTileBase;
+import Game.base.BacktileBase;
 import Game.base.GameBase;
 import Game.entity.Entity;
 import Game.inventory.Slot;
@@ -59,12 +59,12 @@ public class ScreenWorld extends Screen {
             for (int x = Math.max(0, world.mainPlayer.getBlockX() - wid); x < Math.min(world.getWidth(), world.mainPlayer.getBlockX() + wid); x++) {
                 for (int y = Math.max(0, world.mainPlayer.getBlockY() - hei); y < Math.min(world.getHeight(), world.mainPlayer.getBlockY() + hei); y++) {
                     BlockBase block = world.getBlock(x, y);
-                    BackTileBase tile = world.getBacktile(x, y);
-                    if (block != null) {
-                        block.renderWorld(world, x * GameBase.blockSize, y * GameBase.blockSize);
-                    }
+                    BacktileBase tile = world.getBacktile(x, y);
                     if (tile != null) {
                         tile.renderWorld(world, x * GameBase.blockSize, y * GameBase.blockSize);
+                    }
+                    if (block != null) {
+                        block.renderWorld(world, x * GameBase.blockSize, y * GameBase.blockSize);
                     }
                 }
             }

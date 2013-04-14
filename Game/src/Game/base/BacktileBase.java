@@ -1,24 +1,27 @@
 package Game.base;
 
-import Game.content.Material;
+import Game.content.*;
 import Game.entity.EntityItem;
+import Game.render.ImageHandler;
 
 /**
  *
  * @author maximumtech
  */
-public class BackTileBase extends ItemBase implements IBreakable {
+public class BacktileBase extends ItemBase implements IBreakable {
 
     public float hardness = 1f;
-    public static BackTileBase[] backtileList = new BackTileBase[Short.MAX_VALUE];
+    public static BacktileBase[] backtileList = new BacktileBase[Short.MAX_VALUE];
+    public static BacktileBase stone = (BacktileBase) new BacktileUnderground((short) 1).setTier(0).setImage(ImageHandler.getRenderStack("backtileStone")).setName("Stone Wall");
+    public static BacktileBase dirt = (BacktileBase) new BacktileUnderground((short) 2).setTier(0).setImage(ImageHandler.getRenderStack("backtileDirt")).setName("Dirt Wall");
 
-    public BackTileBase(short id) {
+    public BacktileBase(short id) {
         super(id, ItemType.BACKTILE);
         backtileList[id] = this;
     }
     private int tier = 0;
 
-    public BackTileBase setTier(int tier) {
+    public BacktileBase setTier(int tier) {
         this.tier = tier;
         return this;
     }
@@ -33,7 +36,7 @@ public class BackTileBase extends ItemBase implements IBreakable {
         return requiresRandomTick;
     }
 
-    public BackTileBase getBlockForPlacement(World world, int x, int y) {
+    public BacktileBase getBlockForPlacement(World world, int x, int y) {
         return this;
     }
 
@@ -44,7 +47,7 @@ public class BackTileBase extends ItemBase implements IBreakable {
     public void tick(World world, int x, int y) {
     }
 
-    public BackTileBase setRandomTick(int tick) {
+    public BacktileBase setRandomTick(int tick) {
         requiresRandomTick = true;
         tickRate = tick;
         return this;
@@ -58,7 +61,7 @@ public class BackTileBase extends ItemBase implements IBreakable {
         return true;
     }
 
-    public BackTileBase setHardness(float hardness) {
+    public BacktileBase setHardness(float hardness) {
         this.hardness = hardness;
         return this;
     }
@@ -90,7 +93,7 @@ public class BackTileBase extends ItemBase implements IBreakable {
     }
     private Material material;
 
-    public BackTileBase setMaterial(Material material) {
+    public BacktileBase setMaterial(Material material) {
         this.material = material;
         return this;
     }
@@ -112,7 +115,7 @@ public class BackTileBase extends ItemBase implements IBreakable {
     public void onStartBreaking(World world, int x, int y, ItemStack item) {
     }
 
-    public boolean canBeReplaced(World world, int x, int y, BackTileBase replacer) {
+    public boolean canBeReplaced(World world, int x, int y, BacktileBase replacer) {
         return false;
     }
 

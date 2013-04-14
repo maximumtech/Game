@@ -154,7 +154,7 @@ public class BlockBase extends ItemBase implements IBreakable {
         return 0;
     }
 
-    public boolean isSameBlockForPlacing(World world, int x, int y, short tid, short tmeta, BlockEntityBase tileentity) {
+    public boolean isSameBlockForPlacing(World world, int x, int y, short tid, short tmeta, BlockEntityBase tent) {
         short id = world.getBlockID(x, y);
         short meta = world.getBlockMeta(x, y);
         return (id == tid && meta == tmeta);

@@ -58,7 +58,7 @@ public class WorldClickHandler implements IMouseHandler {
             boolean canPlace = MathHelper.getDistance(GameBase.instance.getWorld().mainPlayer.getMidX(), GameBase.instance.getWorld().mainPlayer.getMidY(), xy2[0], xy2[1]) <= (double) GameBase.instance.getWorld().mainPlayer.getGameMode().getReachDistance();
             short tmeta = replacer.getMetaForPlacing(world, x, y, selItem);
             BlockEntityBase tent = replacer.getBlockEntityForPlacing(world, x, y, selItem);
-            if ((block == null || (block.canBeReplaced(world, xy[0], xy[1], replacer) && !block.isSameBlockForPlacing(world, x, y, replacer.getBlockID(), tmeta, tent)))) {
+            if (block == null || (block.canBeReplaced(world, xy[0], xy[1], replacer) && !block.isSameBlockForPlacing(world, x, y, replacer.getBlockID(), tmeta, tent))) {
                 if (canPlace) {
                     //boolean canCollide = replacer == null ? false : replacer.canCollide(world, xy[0], xy[1]);
                     //if (nearestEntity != null && canCollide) {

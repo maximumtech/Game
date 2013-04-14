@@ -1,6 +1,6 @@
 package Game.misc;
 
-import Game.base.BackTileBase;
+import Game.base.BacktileBase;
 import Game.base.BlockBase;
 import Game.base.GameBase;
 import Game.base.ItemStack;
@@ -38,7 +38,7 @@ public class BlockBreakingHandler {
         if (block != null) {
             block.onStartBreaking(world, x, y, item);
         } else {
-            BackTileBase backtile = world.getBacktile(x, y);
+            BacktileBase backtile = world.getBacktile(x, y);
             if (backtile != null) {
                 backtile.onStartBreaking(world, x, y, item);
             }
@@ -63,7 +63,7 @@ public class BlockBreakingHandler {
             if (block != null) {
                 progress += ((block.hardness / 10) * GameBase.instance.getWorld().mainPlayer.getGameMode().getBlockBreakingModifier() * (item != null ? item.getItem().getHardnessModifier(world, x, y, block) : 1F));
             } else {
-                BackTileBase backtile = world.getBacktile(x, y);
+                BacktileBase backtile = world.getBacktile(x, y);
                 if (backtile != null) {
                     progress += ((backtile.hardness / 10) * GameBase.instance.getWorld().mainPlayer.getGameMode().getBlockBreakingModifier() * (item != null ? item.getItem().getHardnessModifier(world, x, y, backtile) : 1F));
                 }
@@ -83,7 +83,7 @@ public class BlockBreakingHandler {
             if (block != null) {
                 block.onBreak(world, x, y, item);
             } else {
-                BackTileBase backtile = world.getBacktile(x, y);
+                BacktileBase backtile = world.getBacktile(x, y);
                 if (backtile != null) {
                     backtile.onBreak(world, x, y, item);
                 }
