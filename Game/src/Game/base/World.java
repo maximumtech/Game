@@ -185,6 +185,14 @@ public class World {
         return (int) Math.floor((double) pix / (double) GameBase.blockSize);
     }
 
+    public int getMaxCoordinateFromPixel(int pix) {
+        double d = ((double) pix / (double) GameBase.blockSize);
+        int i = (int) Math.floor(d);
+        double rem = d - (double) i;
+        d += (1D - rem);
+        return (int) d;
+    }
+
     public int getPixelFromCoordinate(int coord) {
         return coord * GameBase.blockSize;
     }
@@ -335,7 +343,7 @@ public class World {
             return false;
         }
         BacktileBase backtile = BacktileBase.backtileList[id];
-        backtile = backtile != null ? backtile.getBlockForPlacement(this, x, y) : null;
+        backtile = backtile != null ? backtile.getBacktileForPlacement(this, x, y) : null;
         if ((backtile == null || backtile.canBePlacedHere(this, x, y))) {
             backtileids[(y * getWidth()) + x] = id;
             backtilemetas[(y * getWidth()) + x] = meta;
@@ -357,12 +365,12 @@ public class World {
         return setBacktile(x, y, id, (short) 0);
     }
 
-    public boolean setBacktile(int x, int y, BlockBase block) {
-        return setBacktile(x, y, block.getBlockID());
+    public boolean setBacktile(int x, int y, BacktileBase backtile) {
+        return setBacktile(x, y, backtile.getBacktileID());
     }
 
-    public boolean setBacktile(int x, int y, BlockBase block, short meta) {
-        return setBacktile(x, y, block.getBlockID(), meta);
+    public boolean setBacktile(int x, int y, BacktileBase backtile, short meta) {
+        return setBacktile(x, y, backtile.getBacktileID(), meta);
     }
 
     public boolean setBacktileEntity(int x, int y, BacktileEntityBase data) {

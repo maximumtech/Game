@@ -117,9 +117,9 @@ public abstract class Entity {
         int minY = y;
         int maxY = y + sizeY;
         int minBlockX = world.getCoordinateFromPixel(minX);
-        int maxBlockX = world.getCoordinateFromPixel(maxX) + 1;
+        int maxBlockX = world.getMaxCoordinateFromPixel(maxX);
         int minBlockY = world.getCoordinateFromPixel(minY);
-        int maxBlockY = world.getCoordinateFromPixel(maxY);
+        int maxBlockY = world.getMaxCoordinateFromPixel(maxY);
         if (side == Side.TOP) {
             int top = world.getCoordinateFromPixel(maxY);
             for (int cX = minBlockX; cX < maxBlockX; cX++) {

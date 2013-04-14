@@ -36,7 +36,7 @@ public class BacktileBase extends ItemBase implements IBreakable {
         return requiresRandomTick;
     }
 
-    public BacktileBase getBlockForPlacement(World world, int x, int y) {
+    public BacktileBase getBacktileForPlacement(World world, int x, int y) {
         return this;
     }
 
@@ -66,7 +66,7 @@ public class BacktileBase extends ItemBase implements IBreakable {
         return this;
     }
 
-    public short getBlockID() {
+    public short getBacktileID() {
         return getID(ItemType.BACKTILE);
     }
 

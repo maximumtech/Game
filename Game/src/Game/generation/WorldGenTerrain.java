@@ -1,5 +1,6 @@
 package Game.generation;
 
+import Game.base.BacktileBase;
 import Game.base.BlockBase;
 import Game.base.World;
 import java.util.ArrayList;
@@ -113,8 +114,12 @@ public class WorldGenTerrain extends WorldGenColumn {
                 world.setBlock(x, y, BlockBase.grass);
             } else if (y < level && y > level - (world.getSeaLevel() / 4)) {
                 world.setBlock(x, y, BlockBase.dirt);
+                if (y < level - 5) {
+                    world.setBacktile(x, y, BacktileBase.dirt);
+                }
             } else if (y < level) {
                 world.setBlock(x, y, BlockBase.stone);
+                world.setBacktile(x, y, BacktileBase.stone);
             }
             if (y == 0) {
                 world.setBlock(x, y, BlockBase.bedrock);
