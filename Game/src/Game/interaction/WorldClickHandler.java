@@ -4,6 +4,7 @@ import Game.base.BlockBase;
 import Game.base.GameBase;
 import Game.base.ItemStack;
 import Game.base.BlockEntityBase;
+import Game.base.IBreakable;
 import Game.base.World;
 import Game.misc.BlockBreakingHandler;
 import Game.misc.MathHelper;
@@ -27,13 +28,12 @@ public class WorldClickHandler implements IMouseHandler {
     public void clickLeftHeld(int x, int y, long msDown) {
         int[] xy = world.getRelativeCoordinateFromScreen(x, y);
         int[] xy2 = world.getRelativePixelFromScreen(x, y);
-        BlockBase block = world.getBlock(xy[0], xy[1]);
+        IBreakable block = world.getTopBreakablePixel(xy2[0], xy2[1]);
         boolean canBreak = MathHelper.getDistance(GameBase.instance.getWorld().mainPlayer.getMidX(), GameBase.instance.getWorld().mainPlayer.getMidY(), xy2[0], xy2[1]) <= (double) GameBase.instance.getWorld().mainPlayer.getGameMode().getReachDistance();
         if (block != null && block.isBreakable(world, xy[0], xy[1]) && BlockBreakingHandler.instance.isBreaking && canBreak) {
-            BlockBreakingHandler.instance.onContinuedBreaking(xy[0], xy[1], null);
+            BlockBreakingHandler.instance.onContinuedBreaking(xy2[0], xy2[1], world.mainPlayer.inventory.getSelectedItem());
         } else if (block != null && block.isBreakable(world, xy[0], xy[1]) && !BlockBreakingHandler.instance.isBreaking && canBreak) {
-            block.onStartBreaking(world, xy[0], xy[1], null);
-            BlockBreakingHandler.instance.beginBreaking(xy[0], xy[1], null);
+            BlockBreakingHandler.instance.beginBreaking(xy2[0], xy2[1], world.mainPlayer.inventory.getSelectedItem());
         } else if (BlockBreakingHandler.instance.isBreaking || !canBreak) {
             BlockBreakingHandler.instance.resetBreaking();
         }

@@ -10,7 +10,7 @@ import Game.render.ImageHandler;
  */
 public class BacktileBase extends ItemBase implements IBreakable {
 
-    public float hardness = 1f;
+    private float hardness = 1f;
     public static BacktileBase[] backtileList = new BacktileBase[Short.MAX_VALUE];
     public static BacktileBase stone = (BacktileBase) new BacktileUnderground((short) 1).setTier(0).setImage(ImageHandler.getRenderStack("backtileStone")).setName("Stone Wall");
     public static BacktileBase dirt = (BacktileBase) new BacktileUnderground((short) 2).setTier(0).setImage(ImageHandler.getRenderStack("backtileDirt")).setName("Dirt Wall");
@@ -20,6 +20,10 @@ public class BacktileBase extends ItemBase implements IBreakable {
         backtileList[id] = this;
     }
     private int tier = 0;
+
+    public float getHardness(World world, int x, int y) {
+        return hardness;
+    }
 
     public BacktileBase setTier(int tier) {
         this.tier = tier;
@@ -89,7 +93,7 @@ public class BacktileBase extends ItemBase implements IBreakable {
             itm.motionY += rand.nextInt(5);
             world.spawnEntity(itm);
         }
-        world.setBlock(x, y, (short) 0);
+        world.setBacktile(x, y, (short) 0);
     }
     private Material material;
 

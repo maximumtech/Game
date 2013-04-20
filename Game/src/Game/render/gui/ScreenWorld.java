@@ -56,8 +56,8 @@ public class ScreenWorld extends Screen {
         if (world != null && world.mainPlayer != null) {
             int wid = world.getRenderWidth() / 2;
             int hei = world.getRenderHeight() / 2;
-            for (int x = Math.max(0, world.mainPlayer.getBlockX() - wid); x < Math.min(world.getWidth(), world.mainPlayer.getBlockX() + wid); x++) {
-                for (int y = Math.max(0, world.mainPlayer.getBlockY() - hei); y < Math.min(world.getHeight(), world.mainPlayer.getBlockY() + hei); y++) {
+            for (int x = Math.max(0, world.mainPlayer.getMidBlockX() - wid); x < Math.min(world.getWidth(), world.mainPlayer.getMidBlockX() + wid); x++) {
+                for (int y = Math.max(0, world.mainPlayer.getMidBlockY() - hei); y < Math.min(world.getHeight(), world.mainPlayer.getMidBlockY() + hei); y++) {
                     BlockBase block = world.getBlock(x, y);
                     BacktileBase tile = world.getBacktile(x, y);
                     if (tile != null) {

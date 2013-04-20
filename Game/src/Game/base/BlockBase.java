@@ -11,7 +11,7 @@ import Game.render.ImageHandler;
  */
 public class BlockBase extends ItemBase implements IBreakable {
 
-    public float hardness = 1f;
+    private float hardness = 1f;
     public static BlockBase[] blocksList = new BlockBase[Short.MAX_VALUE];
     public static final BlockBase stone = (BlockBase) new BlockStone((short) 1).setTier(0).setImage(ImageHandler.getRenderStack("blockStone")).setName("Stone");
     public static final BlockBase dirt = (BlockBase) new BlockDirt((short) 2).setImage(ImageHandler.getRenderStack("blockDirt")).setName("Dirt");
@@ -80,6 +80,10 @@ public class BlockBase extends ItemBase implements IBreakable {
     public BlockBase setHardness(float hardness) {
         this.hardness = hardness;
         return this;
+    }
+
+    public float getHardness(World world, int x, int y) {
+        return hardness;
     }
 
     public short getBlockID() {

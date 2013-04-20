@@ -3,6 +3,7 @@ package Game.base;
 import Game.entity.Entity;
 import Game.entity.EntityPlayerSP;
 import Game.generation.WorldGenTerrain;
+import Game.misc.CollisonHelper;
 import Game.misc.MathHelper;
 import java.util.ArrayList;
 import java.util.Random;
@@ -231,6 +232,28 @@ public class World {
             return null;
         }
         return BlockBase.blocksList[ids[(y * getWidth()) + x]];
+    }
+
+    public IBreakable getTopBreakablePixel(int x, int y) {
+        int bx = getCoordinateFromPixel(x);
+        int by = getCoordinateFromPixel(y);
+        BlockBase block = getBlock(bx, by);
+        if (block != null && block.isBreakable(this, bx, by)) {
+            int basex = getPixelFromCoordinate(bx) + block.getCollisonOffsetX(this, bx, by);
+            int basey = getPixelFromCoordinate(by) + block.getCollisonOffsetY(this, bx, by);
+            if (CollisonHelper.intersects(x, x, y, y, basex, basex + block.getCollisonWidth(this, bx, by), basey, basey + block.getCollisonHeight(this, bx, by))) {
+                return block;
+            }
+        }
+        BacktileBase backtile = getBacktile(bx, by);
+        if (backtile != null && backtile.isBreakable(this, bx, by)) {
+            return backtile;
+        }
+        return null;
+    }
+
+    public IBreakable getTopBreakable(int x, int y) {
+        return getTopBreakablePixel(getPixelFromCoordinate(x), getPixelFromCoordinate(y));
     }
 
     public short getBacktileID(int x, int y) {

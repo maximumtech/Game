@@ -3,6 +3,7 @@ package Game.misc;
 import Game.base.BacktileBase;
 import Game.base.BlockBase;
 import Game.base.GameBase;
+import Game.base.IBreakable;
 import Game.base.ItemStack;
 import Game.base.World;
 import Game.render.ImageHandler;
@@ -26,22 +27,21 @@ public class BlockBreakingHandler {
     private int currentBlockY;
     public float progress = 0F;
     public boolean isBreaking = false;
+    private IBreakable iBreaking = null;
     private ItemStack item;
 
     public void beginBreaking(int x, int y, ItemStack item) {
-        currentBlockX = x;
-        currentBlockY = y;
         progress = 0F;
         isBreaking = true;
         this.item = item;
-        BlockBase block = world.getBlock(x, y);
+        IBreakable block = world.getTopBreakablePixel(x, y);
+        iBreaking = block;
+        int bx = world.getCoordinateFromPixel(x);
+        int by = world.getCoordinateFromPixel(y);
+        currentBlockX = bx;
+        currentBlockY = by;
         if (block != null) {
-            block.onStartBreaking(world, x, y, item);
-        } else {
-            BacktileBase backtile = world.getBacktile(x, y);
-            if (backtile != null) {
-                backtile.onStartBreaking(world, x, y, item);
-            }
+            block.onStartBreaking(world, bx, by, item);
         }
     }
 
@@ -51,49 +51,47 @@ public class BlockBreakingHandler {
         progress = 0F;
         isBreaking = false;
         item = null;
+        iBreaking = null;
     }
 
     public void onContinuedBreaking(int x, int y, ItemStack item) {
-        if (currentBlockX == x && currentBlockY == y && this.item == item) {
+        IBreakable block = world.getTopBreakablePixel(x, y);
+        int bx = world.getCoordinateFromPixel(x);
+        int by = world.getCoordinateFromPixel(y);
+        if (currentBlockX == bx && currentBlockY == by && (this.item != null ? this.item.matches(item) : true) && block.equals(iBreaking)) {
             if (progress >= 1F) {
                 onComplete(x, y, item);
                 return;
             }
-            BlockBase block = world.getBlock(x, y);
             if (block != null) {
-                progress += ((block.hardness / 10) * GameBase.instance.getWorld().mainPlayer.getGameMode().getBlockBreakingModifier() * (item != null ? item.getItem().getHardnessModifier(world, x, y, block) : 1F));
-            } else {
-                BacktileBase backtile = world.getBacktile(x, y);
-                if (backtile != null) {
-                    progress += ((backtile.hardness / 10) * GameBase.instance.getWorld().mainPlayer.getGameMode().getBlockBreakingModifier() * (item != null ? item.getItem().getHardnessModifier(world, x, y, backtile) : 1F));
-                }
+                progress += ((block.getHardness(world, bx, by) / 20) * GameBase.instance.getWorld().mainPlayer.getGameMode().getBlockBreakingModifier() * (item != null ? item.getItem().getHardnessModifier(world, bx, by, block) : 1F));
             }
         } else {
             isBreaking = false;
             progress = 0F;
             currentBlockX = -1;
             currentBlockY = -1;
+            iBreaking = null;
             this.item = null;
         }
     }
 
     public void onComplete(int x, int y, ItemStack item) {
-        if (currentBlockX == x && currentBlockY == y && this.item == item) {
-            BlockBase block = world.getBlock(x, y);
+        IBreakable block = world.getTopBreakablePixel(x, y);
+        int bx = world.getCoordinateFromPixel(x);
+        int by = world.getCoordinateFromPixel(y);
+        if (currentBlockX == bx && currentBlockY == by && (this.item != null ? this.item.matches(item) : true) && block.equals(iBreaking)) {
             if (block != null) {
-                block.onBreak(world, x, y, item);
-            } else {
-                BacktileBase backtile = world.getBacktile(x, y);
-                if (backtile != null) {
-                    backtile.onBreak(world, x, y, item);
-                }
+                block.onBreak(world, bx, by, item);
             }
             isBreaking = false;
+            iBreaking = null;
             progress = 0F;
             currentBlockX = -1;
             currentBlockY = -1;
             this.item = null;
         } else {
+            iBreaking = null;
             isBreaking = false;
             progress = 0F;
             currentBlockX = -1;

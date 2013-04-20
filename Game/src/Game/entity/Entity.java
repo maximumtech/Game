@@ -96,6 +96,14 @@ public abstract class Entity {
         return world.getCoordinateFromPixel(getMaxY());
     }
 
+    public int getMidBlockX() {
+        return world.getCoordinateFromPixel(getMidX());
+    }
+
+    public int getMidBlockY() {
+        return world.getCoordinateFromPixel(getMidY());
+    }
+
     public boolean canCollide() {
         return true;
     }
